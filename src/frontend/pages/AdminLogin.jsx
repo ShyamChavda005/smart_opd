@@ -4,7 +4,7 @@
 
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import './AdminLogin.css';
+import '../style/AdminLogin.css';
 
 
 // ---------- Admin Credentials ----------

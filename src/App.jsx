@@ -1,11 +1,13 @@
 // ============================================================
-//  App.js  –  Root Component with Routing
+//  App.jsx  –  Root Component with Routing
 // ============================================================
 
 import React from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
-import AdminLogin from './frontend/pages/AdminLogin/AdminLogin';
-import AdminDashboard from './frontend/pages/AdminDashboard/AdminDashboard';
+import AdminLogin from './frontend/pages/AdminLogin';
+import AdminDashboard from './frontend/pages/AdminDashboard';
+import Doctors from './frontend/pages/Doctors';
+import AddDoctor from './frontend/pages/AddDoctor';
 
 
 // ---------- Protected Route Helper ----------
@@ -35,9 +37,31 @@ function App() {
             </ProtectedRoute>
           }
         />
+
+        {/* Doctors Page (protected) */}
+        <Route
+          path="/admin/doctors"
+          element={
+            <ProtectedRoute>
+              <Doctors />
+            </ProtectedRoute>
+          }
+        />
+
+        {/* Add Doctor Page (protected) */}
+        <Route
+          path="/admin/add-doctor"
+          element={
+            <ProtectedRoute>
+              <AddDoctor />
+            </ProtectedRoute>
+          }
+        />
       </Routes>
     </BrowserRouter>
   );
 }
 
 export default App;
+
+

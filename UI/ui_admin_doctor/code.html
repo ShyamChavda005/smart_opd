@@ -1,0 +1,302 @@
+<html lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config={theme:{extend:{"colors":{"tertiary-fixed-dim":"#c4c7c9","tertiary-container":"#6b6e70","tertiary":"#525657","on-primary-fixed":"#00174b","on-background":"#0b1c30","primary-fixed":"#dbe1ff","on-surface-variant":"#434655","on-secondary-fixed-variant":"#454747","on-secondary-fixed":"#1a1c1c","surface-container-lowest":"#ffffff","on-tertiary-container":"#eff1f3","on-error":"#ffffff","surface-tint":"#0053db","surface-container-highest":"#d3e4fe","on-tertiary-fixed-variant":"#444749","error":"#ba1a1a","tertiary-fixed":"#e0e3e5","secondary-container":"#dfe0e0","secondary":"#5d5f5f","primary-container":"#2563eb","on-secondary":"#ffffff","on-primary":"#ffffff","inverse-on-surface":"#eaf1ff","on-primary-fixed-variant":"#003ea8","inverse-primary":"#b4c5ff","outline-variant":"#c3c6d7","surface-variant":"#d3e4fe","on-secondary-container":"#616363","surface":"#f8f9ff","on-surface":"#0b1c30","on-tertiary":"#ffffff","primary-fixed-dim":"#b4c5ff","on-primary-container":"#eeefff","on-tertiary-fixed":"#191c1e","on-error-container":"#93000a","surface-container":"#e5eeff","background":"#f8f9ff","secondary-fixed-dim":"#c6c6c7","secondary-fixed":"#e2e2e2","error-container":"#ffdad6","primary":"#004ac6","surface-bright":"#f8f9ff","surface-container-high":"#dce9ff","inverse-surface":"#213145","surface-container-low":"#eff4ff","surface-dim":"#cbdbf5","outline":"#737686"},"borderRadius":{"DEFAULT":"0.25rem","lg":"0.5rem","xl":"0.75rem","full":"9999px"},"spacing":{"unit":"4px","sidebar-width":"260px","gutter":"24px","margin":"32px","container-max":"1440px"},"fontFamily":{"headline-md":["Hanken Grotesk"],"display-lg":["Hanken Grotesk"],"label-md":["Inter"],"headline-lg":["Hanken Grotesk"],"caption":["Inter"],"body-md":["Inter"],"body-lg":["Inter"]},"fontSize":{"headline-md":["20px",{"lineHeight":"28px","fontWeight":"600"}],"display-lg":["36px",{"lineHeight":"44px","letterSpacing":"-0.02em","fontWeight":"700"}],"label-md":["13px",{"lineHeight":"18px","letterSpacing":"0.03em","fontWeight":"500"}],"headline-lg":["28px",{"lineHeight":"36px","letterSpacing":"-0.01em","fontWeight":"600"}],"caption":["12px",{"lineHeight":"16px","fontWeight":"400"}],"body-md":["14px",{"lineHeight":"20px","fontWeight":"400"}],"body-lg":["16px",{"lineHeight":"24px","fontWeight":"400"}]}}}}</script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@100..900&family=Inter:wght@100..900&display=swap" rel="stylesheet"/></head><body class="bg-background font-body-md text-on-surface"><aside class="fixed left-0 top-0 h-screen w-sidebar-width bg-surface-container-lowest border-r border-outline-variant z-50 flex flex-col transition-all duration-300 shadow-[0_1px_8px_rgba(0,0,0,0.04)]"><div class="h-16 flex items-center px-6 gap-3 mb-4"><div class="w-8 h-8 rounded-lg bg-primary flex items-center justify-center"><span class="material-symbols-outlined text-on-primary text-[20px]">admin_panel_settings</span></div><span class="font-headline-md text-headline-md text-primary tracking-tight">Adminly</span></div><nav class="flex-1 px-3 space-y-1" data-active-classes="bg-primary text-on-primary shadow-lg shadow-primary/20"><a class="flex items-center px-3 py-2.5 rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all group" data-path="dashboard" href="#"><span class="material-symbols-outlined mr-3">dashboard</span><span class="font-label-md text-label-md">Dashboard</span></a><a aria-current="page" class="flex items-center px-3 py-2.5 rounded-lg transition-all group bg-primary text-on-primary shadow-lg shadow-primary/20" data-path="doctors" href="#"><span class="material-symbols-outlined mr-3">medical_services</span><span class="font-label-md text-label-md">Doctors</span></a><a class="flex items-center px-3 py-2.5 rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all group" data-path="patients" href="#"><span class="material-symbols-outlined mr-3">person_search</span><span class="font-label-md text-label-md">Patients</span></a><a class="flex items-center px-3 py-2.5 rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all group" data-path="receptionists" href="#"><span class="material-symbols-outlined mr-3">badge</span><span class="font-label-md text-label-md">Receptionists</span></a><a class="flex items-center px-3 py-2.5 rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all group" data-path="appointments" href="#"><span class="material-symbols-outlined mr-3">event</span><span class="font-label-md text-label-md">Appointments</span></a><a class="flex items-center px-3 py-2.5 rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all group" data-path="queue" href="#"><span class="material-symbols-outlined mr-3">group_work</span><span class="font-label-md text-label-md">Queue</span></a><a class="flex items-center px-3 py-2.5 rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all group" data-path="reports" href="#"><span class="material-symbols-outlined mr-3">analytics</span><span class="font-label-md text-label-md">Reports</span></a><a class="flex items-center px-3 py-2.5 rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all group" data-path="settings" href="#"><span class="material-symbols-outlined mr-3">settings</span><span class="font-label-md text-label-md">Settings</span></a></nav><div class="mt-auto p-4 border-t border-outline-variant space-y-2"><div class="flex items-center gap-3 px-2 py-2"><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div><div class="flex flex-col"><span class="text-label-md font-bold text-on-surface truncate">Alex Miller</span><span class="text-caption text-on-surface-variant truncate">Admin</span></div></div><a class="flex items-center px-3 py-2 rounded-lg text-error hover:bg-error-container/20 transition-colors" href="#"><span class="material-symbols-outlined mr-3 text-[20px]">logout</span><span class="font-label-md text-label-md">Logout</span></a></div></aside><div class="pl-sidebar-width min-h-screen flex flex-col"><header class="sticky top-0 right-0 h-16 bg-surface-container-lowest/80 backdrop-blur-xl border-b border-outline-variant z-40 flex items-center justify-between px-8 shadow-sm"><div class="flex items-center bg-surface-container rounded-lg px-3 py-2 w-96 gap-2 group focus-within:ring-2 focus-within:ring-primary/20 transition-all"><span class="material-symbols-outlined text-on-surface-variant">search</span><input class="bg-transparent border-none focus:ring-0 text-sm w-full placeholder:text-on-surface-variant/60" placeholder="Search doctors, patients..." type="text"/></div><div class="flex items-center gap-6"><div class="relative"><span class="material-symbols-outlined text-on-surface-variant cursor-pointer hover:text-primary transition-colors">notifications</span><div class="absolute -top-1 -right-1 w-4 h-4 bg-error text-[10px] text-white flex items-center justify-center rounded-full border-2 border-white">3</div></div><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center cursor-pointer shadow-md"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div></div></header><main class="flex-1 p-margin bg-background relative"><div class="flex flex-col w-full relative group">
+<!-- Decorative Background Blob -->
+<div class="absolute -top-32 -right-32 w-[600px] h-[600px] bg-primary/5 rounded-full blur-3xl pointer-events-none mix-blend-multiply opacity-50 z-0 group-hover:opacity-70 transition-opacity duration-1000 ease-in-out"></div>
+<div class="absolute top-[20%] -left-16 w-96 h-96 bg-surface-tint/5 rounded-full blur-3xl pointer-events-none mix-blend-multiply z-0"></div>
+<!-- Header Area -->
+<div class="flex flex-col md:flex-row md:items-end justify-between w-full mb-12 z-10 space-y-6 md:space-y-0 relative">
+<div class="flex flex-col space-y-2">
+<div class="flex items-center space-x-3 text-on-surface-variant mb-2">
+<span class="font-label-md text-label-md uppercase tracking-[0.1em] text-primary">Personnel</span>
+<div class="h-1 w-1 bg-outline rounded-full"></div>
+<span class="font-label-md text-label-md uppercase tracking-widest text-outline">Q3 Roster</span>
+</div>
+<h1 class="font-display-lg text-display-lg text-on-surface relative inline-block">
+        Medical Staff
+        <!-- Subtle text accent -->
+<div class="absolute -bottom-1 left-0 w-1/3 h-1 bg-primary/20 rounded-full"></div>
+</h1>
+<p class="font-body-lg text-body-lg text-on-surface-variant max-w-xl mt-4">Manage and monitor the active roster of healthcare professionals, specialties, and immediate availability status across all departments.</p>
+</div>
+<div class="flex items-center space-x-4">
+<button class="h-12 px-6 rounded-xl bg-surface-container shadow-sm hover:shadow-md hover:bg-surface-container-high transition-all duration-300 flex items-center justify-center text-on-surface group">
+<span class="material-symbols-outlined mr-2 text-[20px] text-on-surface-variant group-hover:text-primary transition-colors">tune</span>
+<span class="font-label-md text-label-md">Filters</span>
+</button>
+<button class="h-12 px-6 rounded-xl bg-primary text-on-primary shadow-lg shadow-primary/25 hover:shadow-xl hover:shadow-primary/40 hover:-translate-y-0.5 transition-all duration-300 flex items-center justify-center group overflow-hidden relative">
+<!-- Button highlight effect -->
+<div class="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-out z-0"></div>
+<span class="material-symbols-outlined mr-2 text-[20px] relative z-10">person_add</span>
+<span class="font-label-md text-label-md relative z-10">Add Doctor</span>
+</button>
+</div>
+</div>
+<!-- Search & Filter Bar (Bento-style layout) -->
+<div class="grid grid-cols-1 md:grid-cols-12 gap-4 mb-8 z-10">
+<div class="md:col-span-8 lg:col-span-9 relative bg-surface-container-lowest rounded-2xl shadow-sm hover:shadow-md transition-shadow duration-300">
+<div class="absolute inset-y-0 left-0 pl-6 flex items-center pointer-events-none">
+<span class="material-symbols-outlined text-outline">search</span>
+</div>
+<input class="w-full h-14 pl-14 pr-6 bg-transparent border-0 rounded-2xl font-body-md text-body-md text-on-surface placeholder:text-outline focus:ring-2 focus:ring-primary/20 transition-shadow" placeholder="Search by name, ID, or specialty..." type="text"/>
+</div>
+<div class="md:col-span-4 lg:col-span-3 bg-surface-container-lowest rounded-2xl shadow-sm hover:shadow-md transition-shadow duration-300 relative group cursor-pointer">
+<div class="flex items-center justify-between h-14 px-6">
+<div class="flex flex-col justify-center">
+<span class="font-caption text-caption text-outline">Specialty</span>
+<span class="font-label-md text-label-md text-on-surface">All Departments</span>
+</div>
+<span class="material-symbols-outlined text-outline group-hover:text-primary transition-colors">expand_more</span>
+</div>
+</div>
+</div>
+<!-- Key Metrics Row -->
+<div class="grid grid-cols-1 sm:grid-cols-3 gap-6 mb-12 z-10">
+<div class="bg-surface-container-lowest p-6 rounded-3xl shadow-sm flex flex-col justify-between relative overflow-hidden group hover:shadow-md transition-all">
+<div class="absolute top-0 right-0 w-24 h-24 bg-primary-container/30 rounded-bl-full -mr-4 -mt-4 transition-transform group-hover:scale-110"></div>
+<div class="flex items-center justify-between w-full z-10 mb-4">
+<span class="font-label-md text-label-md text-on-surface-variant uppercase tracking-wider">Total Staff</span>
+<div class="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-[20px]">groups</span>
+</div>
+</div>
+<div class="z-10 flex items-baseline space-x-3 mt-2">
+<span class="font-display-lg text-display-lg text-on-surface">142</span>
+<span class="font-label-md text-label-md text-primary">+3 this month</span>
+</div>
+</div>
+<div class="bg-surface-container-lowest p-6 rounded-3xl shadow-sm flex flex-col justify-between relative overflow-hidden group hover:shadow-md transition-all">
+<div class="absolute top-0 right-0 w-24 h-24 bg-surface-tint/10 rounded-bl-full -mr-4 -mt-4 transition-transform group-hover:scale-110"></div>
+<div class="flex items-center justify-between w-full z-10 mb-4">
+<span class="font-label-md text-label-md text-on-surface-variant uppercase tracking-wider">Active Shift</span>
+<div class="w-10 h-10 rounded-full bg-surface-tint/10 flex items-center justify-center text-surface-tint">
+<span class="material-symbols-outlined text-[20px] fill-current" style="font-variation-settings: 'FILL' 1;">pulse_alert</span>
+</div>
+</div>
+<div class="z-10 flex items-baseline space-x-3 mt-2">
+<span class="font-display-lg text-display-lg text-on-surface">86</span>
+<span class="font-label-md text-label-md text-outline">/ 142 on duty</span>
+</div>
+</div>
+<!-- Mini chart metric -->
+<div class="bg-primary text-on-primary p-6 rounded-3xl shadow-md flex flex-col justify-between relative overflow-hidden group hover:shadow-lg hover:shadow-primary/20 transition-all">
+<!-- Abstract SVG background -->
+<svg class="absolute inset-0 w-full h-full text-white/5" preserveaspectratio="none" viewbox="0 0 100 100">
+<path d="M0,100 C30,90 70,110 100,50 L100,100 Z" fill="currentColor"></path>
+<path class="opacity-50" d="M0,100 C40,80 60,120 100,30 L100,100 Z" fill="currentColor"></path>
+</svg>
+<div class="flex items-center justify-between w-full z-10 mb-4">
+<span class="font-label-md text-label-md text-on-primary/80 uppercase tracking-wider">Avg Patient Load</span>
+</div>
+<div class="z-10 flex flex-col mt-2">
+<span class="font-display-lg text-display-lg">18.4</span>
+<div class="flex items-center mt-2 space-x-2">
+<div class="w-full bg-on-primary/20 h-1.5 rounded-full overflow-hidden">
+<div class="bg-white h-full w-[65%] rounded-full relative">
+<div class="absolute right-0 top-0 bottom-0 w-2 bg-primary blur-[2px]"></div>
+</div>
+</div>
+<span class="font-caption text-caption text-on-primary/80 whitespace-nowrap">Optimal</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Data Grid -->
+<div class="bg-surface-container-lowest rounded-3xl shadow-sm z-10 flex flex-col w-full relative">
+<!-- Table Header (List structure) -->
+<div class="hidden lg:grid grid-cols-12 gap-4 p-6 bg-surface-container/30 rounded-t-3xl border-b border-outline-variant/30 text-on-surface-variant font-label-md text-label-md uppercase tracking-wider items-center sticky top-16 z-20 backdrop-blur-md">
+<div class="col-span-4 flex items-center space-x-2">
+<span>Doctor Profile</span>
+<span class="material-symbols-outlined text-[16px] text-outline cursor-pointer hover:text-primary transition-colors">unfold_more</span>
+</div>
+<div class="col-span-3">Contact</div>
+<div class="col-span-2">Department</div>
+<div class="col-span-2 flex items-center space-x-2">
+<span>Status</span>
+</div>
+<div class="col-span-1 text-right">Actions</div>
+</div>
+<!-- Roster List -->
+<div class="flex flex-col divide-y divide-outline-variant/30">
+<!-- Row 1 -->
+<div class="group grid grid-cols-1 lg:grid-cols-12 gap-4 p-6 items-center hover:bg-surface-container-low/50 transition-all duration-300 relative">
+<div class="absolute left-0 top-1/2 -translate-y-1/2 w-1 h-0 bg-primary rounded-r-full group-hover:h-3/4 transition-all duration-300"></div>
+<!-- Profile -->
+<div class="col-span-1 lg:col-span-4 flex items-center space-x-4">
+<div class="relative">
+<div class="w-14 h-14 rounded-2xl overflow-hidden shadow-sm ring-2 ring-transparent group-hover:ring-primary/20 transition-all duration-300">
+<img class="w-full h-full object-cover" data-alt="Professional headshot of a middle-aged female doctor wearing a white coat over blue scrubs, warm lighting, smiling slightly, modern hospital background blurred, high resolution portrait." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBaYkiCtieAieiEd3B0XQ8tX5Q230LCusuZIoKkWiX86XSTvK6cMrLHiJshti6pV0fwOHazrGecJn64iS5jqdZC1IieNatB3KZswQJIj5ZzWQ6SyKkvBYqIz9J2sDbcWVZX-G6SuvGzWoIIAF6imKm2g1Rx8kYGJ6QEO6BLUmd7l4GdilXJmMlfKzWY4-HT7NQxAcgiGovrwFrOmfUfbe5GYAuxMqKa7MmOLaJEaAscJVT8y7A4mSXPVIwa4HktLAydAn6c2VSv4L4"/>
+</div>
+<!-- Online Indicator -->
+<div class="absolute -bottom-1 -right-1 w-4 h-4 bg-surface-container-lowest rounded-full flex items-center justify-center shadow-sm">
+<div class="w-2.5 h-2.5 bg-[#10b981] rounded-full animate-pulse"></div>
+</div>
+</div>
+<div class="flex flex-col">
+<span class="font-headline-md text-headline-md text-on-surface group-hover:text-primary transition-colors">Dr. Sarah Jenkins</span>
+<span class="font-caption text-caption text-outline">ID: MED-4921</span>
+</div>
+</div>
+<!-- Contact -->
+<div class="col-span-1 lg:col-span-3 flex flex-col space-y-1">
+<div class="flex items-center space-x-2 text-on-surface-variant">
+<span class="material-symbols-outlined text-[16px] text-outline">mail</span>
+<span class="font-body-md text-body-md">s.jenkins@adminly.com</span>
+</div>
+<div class="flex items-center space-x-2 text-on-surface-variant">
+<span class="material-symbols-outlined text-[16px] text-outline">call</span>
+<span class="font-body-md text-body-md font-mono text-[13px]">+1 (555) 234-8910</span>
+</div>
+</div>
+<!-- Department -->
+<div class="col-span-1 lg:col-span-2 flex items-center">
+<div class="px-3 py-1.5 rounded-lg bg-surface-container flex flex-col">
+<span class="font-label-md text-label-md text-on-surface">Cardiology</span>
+<span class="font-caption text-caption text-outline">Room 402</span>
+</div>
+</div>
+<!-- Status -->
+<div class="col-span-1 lg:col-span-2 flex flex-col items-start space-y-1.5">
+<div class="px-3 py-1 rounded-full bg-[#10b981]/10 flex items-center space-x-2 border border-[#10b981]/20">
+<div class="w-1.5 h-1.5 rounded-full bg-[#10b981]"></div>
+<span class="font-label-md text-label-md text-[#10b981] whitespace-nowrap">Active Shift</span>
+</div>
+<span class="font-caption text-caption text-outline ml-1">Ends in 4h</span>
+</div>
+<!-- Actions -->
+<div class="col-span-1 lg:col-span-1 flex items-center justify-end space-x-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+<button class="w-10 h-10 rounded-xl hover:bg-primary-fixed-dim/30 text-on-surface-variant hover:text-primary transition-colors flex items-center justify-center">
+<span class="material-symbols-outlined text-[20px]">edit</span>
+</button>
+<button class="w-10 h-10 rounded-xl hover:bg-surface-container-high text-on-surface-variant transition-colors flex items-center justify-center">
+<span class="material-symbols-outlined text-[20px]">more_vert</span>
+</button>
+</div>
+</div>
+<!-- Row 2 -->
+<div class="group grid grid-cols-1 lg:grid-cols-12 gap-4 p-6 items-center hover:bg-surface-container-low/50 transition-all duration-300 relative">
+<div class="absolute left-0 top-1/2 -translate-y-1/2 w-1 h-0 bg-secondary rounded-r-full group-hover:h-3/4 transition-all duration-300"></div>
+<!-- Profile -->
+<div class="col-span-1 lg:col-span-4 flex items-center space-x-4">
+<div class="relative">
+<div class="w-14 h-14 rounded-2xl overflow-hidden shadow-sm ring-2 ring-transparent group-hover:ring-secondary/20 transition-all duration-300">
+<img class="w-full h-full object-cover" data-alt="Portrait of a male doctor in his 40s, wearing glasses and dark blue scrubs, serious but approachable expression, clinical setting with soft natural light." src="https://lh3.googleusercontent.com/aida-public/AB6AXuD7et_N8Z9Bf0QRE80hHKsnS6yEGhGh0_NQ4bGvW-uLqgiSnVJb7fuLvYDQnade9IAMuQeNtZnRZ4sGqEWKrTfN6RXAlysHltTyz0Jl2Bya5dLke-ALOtK2GaAu4zgAuzDwd1Xn3Vj7SvL6H7i4Z-yPAm8mCdmoUto15FXzzmuwAY-7KcTut-WQNIYGJglI1CF1jL3OOkJBQQTEOmZDF71ZqQ6TJ09igrOnvalPr3a0dd_mSOOuXkam3V2Nk-q3Z3-c5PT5jf53tCg"/>
+</div>
+<!-- Away Indicator -->
+<div class="absolute -bottom-1 -right-1 w-4 h-4 bg-surface-container-lowest rounded-full flex items-center justify-center shadow-sm">
+<div class="w-2.5 h-2.5 bg-outline rounded-full"></div>
+</div>
+</div>
+<div class="flex flex-col">
+<span class="font-headline-md text-headline-md text-on-surface group-hover:text-primary transition-colors">Dr. Marcus Chen</span>
+<span class="font-caption text-caption text-outline">ID: MED-3302</span>
+</div>
+</div>
+<!-- Contact -->
+<div class="col-span-1 lg:col-span-3 flex flex-col space-y-1">
+<div class="flex items-center space-x-2 text-on-surface-variant">
+<span class="material-symbols-outlined text-[16px] text-outline">mail</span>
+<span class="font-body-md text-body-md">m.chen@adminly.com</span>
+</div>
+<div class="flex items-center space-x-2 text-on-surface-variant">
+<span class="material-symbols-outlined text-[16px] text-outline">call</span>
+<span class="font-body-md text-body-md font-mono text-[13px]">+1 (555) 482-9912</span>
+</div>
+</div>
+<!-- Department -->
+<div class="col-span-1 lg:col-span-2 flex items-center">
+<div class="px-3 py-1.5 rounded-lg bg-surface-container flex flex-col">
+<span class="font-label-md text-label-md text-on-surface">Neurology</span>
+<span class="font-caption text-caption text-outline">Room 610</span>
+</div>
+</div>
+<!-- Status -->
+<div class="col-span-1 lg:col-span-2 flex flex-col items-start space-y-1.5">
+<div class="px-3 py-1 rounded-full bg-outline-variant/30 flex items-center space-x-2 border border-outline-variant/50">
+<div class="w-1.5 h-1.5 rounded-full bg-outline"></div>
+<span class="font-label-md text-label-md text-on-surface-variant whitespace-nowrap">On Break</span>
+</div>
+<span class="font-caption text-caption text-outline ml-1">Returns 14:30</span>
+</div>
+<!-- Actions -->
+<div class="col-span-1 lg:col-span-1 flex items-center justify-end space-x-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+<button class="w-10 h-10 rounded-xl hover:bg-primary-fixed-dim/30 text-on-surface-variant hover:text-primary transition-colors flex items-center justify-center">
+<span class="material-symbols-outlined text-[20px]">edit</span>
+</button>
+<button class="w-10 h-10 rounded-xl hover:bg-surface-container-high text-on-surface-variant transition-colors flex items-center justify-center">
+<span class="material-symbols-outlined text-[20px]">more_vert</span>
+</button>
+</div>
+</div>
+<!-- Row 3 -->
+<div class="group grid grid-cols-1 lg:grid-cols-12 gap-4 p-6 items-center hover:bg-surface-container-low/50 transition-all duration-300 relative rounded-b-3xl">
+<div class="absolute left-0 top-1/2 -translate-y-1/2 w-1 h-0 bg-error rounded-r-full group-hover:h-3/4 transition-all duration-300"></div>
+<!-- Profile -->
+<div class="col-span-1 lg:col-span-4 flex items-center space-x-4">
+<div class="relative">
+<div class="w-14 h-14 rounded-2xl overflow-hidden shadow-sm ring-2 ring-transparent group-hover:ring-error/20 transition-all duration-300">
+<div class="w-full h-full bg-surface-container-highest flex items-center justify-center text-primary font-headline-md text-[20px]">
+                  EP
+               </div>
+</div>
+<!-- Surgery/Busy Indicator -->
+<div class="absolute -bottom-1 -right-1 w-4 h-4 bg-surface-container-lowest rounded-full flex items-center justify-center shadow-sm">
+<div class="w-2.5 h-2.5 bg-error rounded-full"></div>
+</div>
+</div>
+<div class="flex flex-col">
+<span class="font-headline-md text-headline-md text-on-surface group-hover:text-primary transition-colors">Dr. Elena Patel</span>
+<span class="font-caption text-caption text-outline">ID: MED-8891</span>
+</div>
+</div>
+<!-- Contact -->
+<div class="col-span-1 lg:col-span-3 flex flex-col space-y-1">
+<div class="flex items-center space-x-2 text-on-surface-variant">
+<span class="material-symbols-outlined text-[16px] text-outline">mail</span>
+<span class="font-body-md text-body-md">e.patel@adminly.com</span>
+</div>
+<div class="flex items-center space-x-2 text-on-surface-variant">
+<span class="material-symbols-outlined text-[16px] text-outline">call</span>
+<span class="font-body-md text-body-md font-mono text-[13px]">Internal pager</span>
+</div>
+</div>
+<!-- Department -->
+<div class="col-span-1 lg:col-span-2 flex items-center">
+<div class="px-3 py-1.5 rounded-lg bg-surface-container flex flex-col">
+<span class="font-label-md text-label-md text-on-surface">Surgery</span>
+<span class="font-caption text-caption text-outline">OR-3</span>
+</div>
+</div>
+<!-- Status -->
+<div class="col-span-1 lg:col-span-2 flex flex-col items-start space-y-1.5">
+<div class="px-3 py-1 rounded-full bg-error-container/30 flex items-center space-x-2 border border-error/20">
+<div class="w-1.5 h-1.5 rounded-full bg-error"></div>
+<span class="font-label-md text-label-md text-error whitespace-nowrap">In Surgery</span>
+</div>
+<span class="font-caption text-caption text-outline ml-1">Do not disturb</span>
+</div>
+<!-- Actions -->
+<div class="col-span-1 lg:col-span-1 flex items-center justify-end space-x-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+<button class="w-10 h-10 rounded-xl hover:bg-primary-fixed-dim/30 text-on-surface-variant hover:text-primary transition-colors flex items-center justify-center">
+<span class="material-symbols-outlined text-[20px]">edit</span>
+</button>
+<button class="w-10 h-10 rounded-xl hover:bg-surface-container-high text-on-surface-variant transition-colors flex items-center justify-center">
+<span class="material-symbols-outlined text-[20px]">more_vert</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+<!-- Pagination Footnote -->
+<div class="flex items-center justify-between mt-6 px-4 z-10">
+<span class="font-caption text-caption text-outline">Showing 1-3 of 142 doctors</span>
+<div class="flex space-x-1">
+<button class="w-8 h-8 rounded-lg flex items-center justify-center text-outline hover:bg-surface-container hover:text-on-surface transition-colors cursor-not-allowed opacity-50"><span class="material-symbols-outlined text-[18px]">chevron_left</span></button>
+<button class="w-8 h-8 rounded-lg flex items-center justify-center bg-primary text-on-primary shadow-sm font-label-md text-label-md">1</button>
+<button class="w-8 h-8 rounded-lg flex items-center justify-center text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors font-label-md text-label-md">2</button>
+<button class="w-8 h-8 rounded-lg flex items-center justify-center text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors font-label-md text-label-md">3</button>
+<span class="w-8 h-8 flex items-center justify-center text-outline font-label-md text-label-md">...</span>
+<button class="w-8 h-8 rounded-lg flex items-center justify-center text-outline hover:bg-surface-container hover:text-on-surface transition-colors"><span class="material-symbols-outlined text-[18px]">chevron_right</span></button>
+</div>
+</div>
+</div></main></div></body></html>

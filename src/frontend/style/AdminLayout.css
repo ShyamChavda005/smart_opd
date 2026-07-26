@@ -1,0 +1,9 @@
+/* ============================================================
+   AdminLayout.css  –  Shared layout styles (Sidebar + Header)
+   Already defined in AdminDashboard.css, imported here for
+   pages that share the same layout.
+   ============================================================ */
+
+/* This file imports the dashboard CSS which contains all
+   sidebar, header, and layout styles. Any page using
+   AdminLayout will get these styles automatically. */

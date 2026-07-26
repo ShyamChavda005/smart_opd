@@ -1,0 +1,1058 @@
+/* ============================================================
+   Doctors.css  –  Styles for the Doctors Page
+   ============================================================ */
+
+
+/* ---------- Page Wrapper ---------- */
+
+.doctors-page {
+  position: relative;
+}
+
+
+/* ---------- Decorative Background Blobs ---------- */
+
+.doctors-page__blob-1 {
+  position: absolute;
+  top: -128px;
+  right: -128px;
+  width: 600px;
+  height: 600px;
+  background-color: rgba(0, 74, 198, 0.05);
+  border-radius: 50%;
+  filter: blur(48px);
+  pointer-events: none;
+  opacity: 0.5;
+  z-index: 0;
+}
+
+.doctors-page__blob-2 {
+  position: absolute;
+  top: 20%;
+  left: -64px;
+  width: 384px;
+  height: 384px;
+  background-color: rgba(0, 83, 219, 0.05);
+  border-radius: 50%;
+  filter: blur(48px);
+  pointer-events: none;
+  z-index: 0;
+}
+
+
+/* ============================================================
+   HEADER AREA
+   ============================================================ */
+
+.doctors-header {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 48px;
+  position: relative;
+  z-index: 10;
+}
+
+@media (min-width: 768px) {
+  .doctors-header {
+    flex-direction: row;
+    align-items: flex-end;
+    justify-content: space-between;
+  }
+}
+
+/* Breadcrumb */
+.doctors-header__breadcrumb {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 8px;
+}
+
+.doctors-header__breadcrumb-primary {
+  font-family: 'Inter', sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 18px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #004ac6;
+}
+
+.doctors-header__breadcrumb-dot {
+  width: 4px;
+  height: 4px;
+  background-color: #737686;
+  border-radius: 50%;
+}
+
+.doctors-header__breadcrumb-secondary {
+  font-family: 'Inter', sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 18px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: #737686;
+}
+
+/* Title */
+.doctors-header__title {
+  font-family: 'Hanken Grotesk', sans-serif;
+  font-size: 36px;
+  font-weight: 700;
+  line-height: 44px;
+  letter-spacing: -0.02em;
+  color: #0b1c30;
+  margin: 0;
+  position: relative;
+  display: inline-block;
+}
+
+.doctors-header__title-accent {
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+  width: 33%;
+  height: 4px;
+  background-color: rgba(0, 74, 198, 0.2);
+  border-radius: 9999px;
+}
+
+/* Description */
+.doctors-header__description {
+  font-family: 'Inter', sans-serif;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 24px;
+  color: #434655;
+  max-width: 576px;
+  margin: 16px 0 0 0;
+}
+
+/* Action Buttons */
+.doctors-header__actions {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-top: 24px;
+}
+
+@media (min-width: 768px) {
+  .doctors-header__actions {
+    margin-top: 0;
+  }
+}
+
+.doctors-header__filter-btn {
+  height: 48px;
+  padding: 0 24px;
+  border-radius: 12px;
+  background-color: #e5eeff;
+  border: none;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #0b1c30;
+  transition: all 0.3s ease;
+}
+
+.doctors-header__filter-btn:hover {
+  background-color: #dce9ff;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.doctors-header__filter-btn .material-symbols-outlined {
+  margin-right: 8px;
+  font-size: 20px;
+  color: #434655;
+  transition: color 0.2s ease;
+}
+
+.doctors-header__filter-btn:hover .material-symbols-outlined {
+  color: #004ac6;
+}
+
+.doctors-header__filter-btn span:last-child {
+  font-family: 'Inter', sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 18px;
+  letter-spacing: 0.03em;
+}
+
+.doctors-header__add-btn {
+  height: 48px;
+  padding: 0 24px;
+  border-radius: 12px;
+  background-color: #004ac6;
+  color: #ffffff;
+  border: none;
+  box-shadow: 0 4px 12px rgba(0, 74, 198, 0.25);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+.doctors-header__add-btn:hover {
+  box-shadow: 0 8px 20px rgba(0, 74, 198, 0.4);
+  transform: translateY(-2px);
+}
+
+.doctors-header__add-btn .material-symbols-outlined {
+  margin-right: 8px;
+  font-size: 20px;
+}
+
+.doctors-header__add-btn span:last-child {
+  font-family: 'Inter', sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 18px;
+  letter-spacing: 0.03em;
+}
+
+
+/* ============================================================
+   SEARCH & FILTER BAR
+   ============================================================ */
+
+.doctors-search-bar {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 16px;
+  margin-bottom: 32px;
+  position: relative;
+  z-index: 10;
+}
+
+@media (min-width: 768px) {
+  .doctors-search-bar {
+    grid-template-columns: 3fr 1fr;
+  }
+}
+
+/* Search input */
+.doctors-search-bar__input-wrap {
+  position: relative;
+  background-color: #ffffff;
+  border-radius: 16px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+  transition: box-shadow 0.3s ease;
+}
+
+.doctors-search-bar__input-wrap:hover,
+.doctors-search-bar__input-wrap:focus-within {
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.doctors-search-bar__icon {
+  position: absolute;
+  top: 50%;
+  left: 24px;
+  transform: translateY(-50%);
+  color: #737686;
+  font-size: 24px;
+  pointer-events: none;
+}
+
+.doctors-search-bar__input {
+  width: 100%;
+  height: 56px;
+  padding: 0 24px 0 56px;
+  background: transparent;
+  border: none;
+  border-radius: 16px;
+  font-family: 'Inter', sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 20px;
+  color: #0b1c30;
+  outline: none;
+}
+
+.doctors-search-bar__input::placeholder {
+  color: #737686;
+}
+
+.doctors-search-bar__input:focus {
+  box-shadow: 0 0 0 2px rgba(0, 74, 198, 0.2);
+}
+
+/* Specialty dropdown */
+.doctors-search-bar__dropdown {
+  background-color: #ffffff;
+  border-radius: 16px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 56px;
+  padding: 0 24px;
+  cursor: pointer;
+  transition: box-shadow 0.3s ease;
+}
+
+.doctors-search-bar__dropdown:hover {
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.doctors-search-bar__dropdown-labels {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.doctors-search-bar__dropdown-caption {
+  font-family: 'Inter', sans-serif;
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 16px;
+  color: #737686;
+}
+
+.doctors-search-bar__dropdown-value {
+  font-family: 'Inter', sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 18px;
+  letter-spacing: 0.03em;
+  color: #0b1c30;
+}
+
+.doctors-search-bar__dropdown .material-symbols-outlined {
+  color: #737686;
+  transition: color 0.2s ease;
+}
+
+.doctors-search-bar__dropdown:hover .material-symbols-outlined {
+  color: #004ac6;
+}
+
+
+/* ============================================================
+   KEY METRICS ROW
+   ============================================================ */
+
+.doctors-metrics {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 24px;
+  margin-bottom: 48px;
+  position: relative;
+  z-index: 10;
+}
+
+@media (min-width: 640px) {
+  .doctors-metrics {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+/* Generic metric card */
+.metric-card {
+  padding: 24px;
+  border-radius: 24px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  position: relative;
+  overflow: hidden;
+  transition: box-shadow 0.2s ease;
+}
+
+.metric-card:hover {
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* White metric cards */
+.metric-card--white {
+  background-color: #ffffff;
+}
+
+.metric-card__blob {
+  position: absolute;
+  top: -16px;
+  right: -16px;
+  width: 96px;
+  height: 96px;
+  border-radius: 0 0 0 100%;
+  transition: transform 0.3s ease;
+}
+
+.metric-card:hover .metric-card__blob {
+  transform: scale(1.1);
+}
+
+.metric-card__blob--blue {
+  background-color: rgba(37, 99, 235, 0.3);
+}
+
+.metric-card__blob--teal {
+  background-color: rgba(0, 83, 219, 0.1);
+}
+
+.metric-card__top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  position: relative;
+  z-index: 10;
+  margin-bottom: 16px;
+}
+
+.metric-card__label {
+  font-family: 'Inter', sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 18px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #434655;
+}
+
+.metric-card__icon-circle {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.metric-card__icon-circle--blue {
+  background-color: rgba(0, 74, 198, 0.1);
+  color: #004ac6;
+}
+
+.metric-card__icon-circle--teal {
+  background-color: rgba(0, 83, 219, 0.1);
+  color: #0053db;
+}
+
+.metric-card__icon-circle .material-symbols-outlined {
+  font-size: 20px;
+}
+
+.metric-card__bottom {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  margin-top: 8px;
+  position: relative;
+  z-index: 10;
+}
+
+.metric-card__value {
+  font-family: 'Hanken Grotesk', sans-serif;
+  font-size: 36px;
+  font-weight: 700;
+  line-height: 44px;
+  letter-spacing: -0.02em;
+  color: #0b1c30;
+}
+
+.metric-card__change {
+  font-family: 'Inter', sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 18px;
+  letter-spacing: 0.03em;
+  color: #004ac6;
+}
+
+.metric-card__sub {
+  font-family: 'Inter', sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 18px;
+  letter-spacing: 0.03em;
+  color: #737686;
+}
+
+/* Blue (primary) metric card */
+.metric-card--primary {
+  background-color: #004ac6;
+  color: #ffffff;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.metric-card--primary:hover {
+  box-shadow: 0 8px 16px rgba(0, 74, 198, 0.2);
+}
+
+.metric-card--primary .metric-card__label {
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.metric-card--primary .metric-card__value {
+  color: #ffffff;
+}
+
+/* SVG background for the primary card */
+.metric-card__svg-bg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  color: rgba(255, 255, 255, 0.05);
+}
+
+/* Progress bar in primary card */
+.metric-card__progress-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.metric-card__progress-bar {
+  flex: 1;
+  height: 6px;
+  border-radius: 9999px;
+  background-color: rgba(255, 255, 255, 0.2);
+  overflow: hidden;
+}
+
+.metric-card__progress-fill {
+  height: 100%;
+  width: 65%;
+  border-radius: 9999px;
+  background-color: #ffffff;
+  position: relative;
+}
+
+.metric-card__progress-glow {
+  position: absolute;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  width: 8px;
+  background-color: #004ac6;
+  filter: blur(2px);
+}
+
+.metric-card__progress-label {
+  font-family: 'Inter', sans-serif;
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 16px;
+  color: rgba(255, 255, 255, 0.8);
+  white-space: nowrap;
+}
+
+
+/* ============================================================
+   DATA TABLE
+   ============================================================ */
+
+.doctors-table {
+  background-color: #ffffff;
+  border-radius: 24px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+  position: relative;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+/* Table Header */
+.doctors-table__header {
+  display: none;
+}
+
+@media (min-width: 1024px) {
+  .doctors-table__header {
+    display: grid;
+    grid-template-columns: 4fr 3fr 2fr 2fr 1fr;
+    gap: 16px;
+    padding: 24px;
+    background-color: rgba(229, 238, 255, 0.3);
+    border-radius: 24px 24px 0 0;
+    border-bottom: 1px solid rgba(195, 198, 215, 0.3);
+    align-items: center;
+  }
+}
+
+.doctors-table__header-cell {
+  font-family: 'Inter', sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 18px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #434655;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.doctors-table__header-cell--right {
+  text-align: right;
+  justify-content: flex-end;
+}
+
+.doctors-table__sort-icon {
+  font-size: 16px;
+  color: #737686;
+  cursor: pointer;
+  transition: color 0.2s ease;
+}
+
+.doctors-table__sort-icon:hover {
+  color: #004ac6;
+}
+
+/* Table Body */
+.doctors-table__body {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Table Row */
+.doctors-table__row {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 16px;
+  padding: 24px;
+  align-items: center;
+  position: relative;
+  transition: background-color 0.3s ease;
+  border-bottom: 1px solid rgba(195, 198, 215, 0.3);
+}
+
+.doctors-table__row:last-child {
+  border-bottom: none;
+  border-radius: 0 0 24px 24px;
+}
+
+@media (min-width: 1024px) {
+  .doctors-table__row {
+    grid-template-columns: 4fr 3fr 2fr 2fr 1fr;
+  }
+}
+
+.doctors-table__row:hover {
+  background-color: rgba(239, 244, 255, 0.5);
+}
+
+/* Left accent bar on hover */
+.doctors-table__row-accent {
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 4px;
+  height: 0;
+  border-radius: 0 9999px 9999px 0;
+  transition: height 0.3s ease;
+}
+
+.doctors-table__row:hover .doctors-table__row-accent {
+  height: 75%;
+}
+
+.doctors-table__row-accent--green  { background-color: #004ac6; }
+.doctors-table__row-accent--gray   { background-color: #5d5f5f; }
+.doctors-table__row-accent--red    { background-color: #ba1a1a; }
+
+
+/* --- Profile Cell --- */
+
+.doctors-table__profile {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.doctors-table__avatar-wrap {
+  position: relative;
+  flex-shrink: 0;
+}
+
+.doctors-table__avatar {
+  width: 56px;
+  height: 56px;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+  border: 2px solid transparent;
+  transition: border-color 0.3s ease;
+}
+
+.doctors-table__row:hover .doctors-table__avatar {
+  border-color: rgba(0, 74, 198, 0.2);
+}
+
+.doctors-table__avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* Initials avatar (no photo) */
+.doctors-table__avatar--initials {
+  width: 56px;
+  height: 56px;
+  border-radius: 16px;
+  background-color: #d3e4fe;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Hanken Grotesk', sans-serif;
+  font-size: 20px;
+  font-weight: 600;
+  color: #004ac6;
+  border: 2px solid transparent;
+  transition: border-color 0.3s ease;
+}
+
+.doctors-table__row:hover .doctors-table__avatar--initials {
+  border-color: rgba(186, 26, 26, 0.2);
+}
+
+/* Online / status indicator dot */
+.doctors-table__indicator {
+  position: absolute;
+  bottom: -4px;
+  right: -4px;
+  width: 16px;
+  height: 16px;
+  background-color: #ffffff;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+.doctors-table__indicator-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+}
+
+.doctors-table__indicator-dot--green {
+  background-color: #10b981;
+  animation: pulse 2s infinite;
+}
+
+.doctors-table__indicator-dot--gray {
+  background-color: #737686;
+}
+
+.doctors-table__indicator-dot--red {
+  background-color: #ba1a1a;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50%      { opacity: 0.5; }
+}
+
+.doctors-table__profile-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.doctors-table__name {
+  font-family: 'Hanken Grotesk', sans-serif;
+  font-size: 20px;
+  font-weight: 600;
+  line-height: 28px;
+  color: #0b1c30;
+  transition: color 0.2s ease;
+}
+
+.doctors-table__row:hover .doctors-table__name {
+  color: #004ac6;
+}
+
+.doctors-table__id {
+  font-family: 'Inter', sans-serif;
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 16px;
+  color: #737686;
+}
+
+
+/* --- Contact Cell --- */
+
+.doctors-table__contact {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.doctors-table__contact-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #434655;
+}
+
+.doctors-table__contact-row .material-symbols-outlined {
+  font-size: 16px;
+  color: #737686;
+}
+
+.doctors-table__contact-text {
+  font-family: 'Inter', sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 20px;
+}
+
+.doctors-table__contact-text--mono {
+  font-family: monospace;
+  font-size: 13px;
+}
+
+
+/* --- Department Cell --- */
+
+.doctors-table__department {
+  display: flex;
+  align-items: center;
+}
+
+.doctors-table__dept-badge {
+  padding: 6px 12px;
+  border-radius: 8px;
+  background-color: #e5eeff;
+  display: flex;
+  flex-direction: column;
+}
+
+.doctors-table__dept-name {
+  font-family: 'Inter', sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 18px;
+  letter-spacing: 0.03em;
+  color: #0b1c30;
+}
+
+.doctors-table__dept-room {
+  font-family: 'Inter', sans-serif;
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 16px;
+  color: #737686;
+}
+
+
+/* --- Status Cell --- */
+
+.doctors-table__status {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 6px;
+}
+
+.doctors-table__status-badge {
+  padding: 4px 12px;
+  border-radius: 9999px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  white-space: nowrap;
+}
+
+.doctors-table__status-badge-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.doctors-table__status-badge-text {
+  font-family: 'Inter', sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 18px;
+  letter-spacing: 0.03em;
+}
+
+/* Active Shift (green) */
+.doctors-table__status-badge--green {
+  background-color: rgba(16, 185, 129, 0.1);
+  border: 1px solid rgba(16, 185, 129, 0.2);
+}
+
+.doctors-table__status-badge--green .doctors-table__status-badge-dot {
+  background-color: #10b981;
+}
+
+.doctors-table__status-badge--green .doctors-table__status-badge-text {
+  color: #10b981;
+}
+
+/* On Break (gray) */
+.doctors-table__status-badge--gray {
+  background-color: rgba(195, 198, 215, 0.3);
+  border: 1px solid rgba(195, 198, 215, 0.5);
+}
+
+.doctors-table__status-badge--gray .doctors-table__status-badge-dot {
+  background-color: #737686;
+}
+
+.doctors-table__status-badge--gray .doctors-table__status-badge-text {
+  color: #434655;
+}
+
+/* In Surgery (red) */
+.doctors-table__status-badge--red {
+  background-color: rgba(255, 218, 214, 0.3);
+  border: 1px solid rgba(186, 26, 26, 0.2);
+}
+
+.doctors-table__status-badge--red .doctors-table__status-badge-dot {
+  background-color: #ba1a1a;
+}
+
+.doctors-table__status-badge--red .doctors-table__status-badge-text {
+  color: #ba1a1a;
+}
+
+.doctors-table__status-sub {
+  font-family: 'Inter', sans-serif;
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 16px;
+  color: #737686;
+  margin-left: 4px;
+}
+
+
+/* --- Actions Cell --- */
+
+.doctors-table__actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 8px;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.doctors-table__row:hover .doctors-table__actions {
+  opacity: 1;
+}
+
+.doctors-table__action-btn {
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  border: none;
+  background: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #434655;
+  transition: all 0.2s ease;
+}
+
+.doctors-table__action-btn:hover {
+  background-color: rgba(180, 197, 255, 0.3);
+  color: #004ac6;
+}
+
+
+/* ============================================================
+   PAGINATION
+   ============================================================ */
+
+.doctors-pagination {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 24px;
+  padding: 0 16px;
+  position: relative;
+  z-index: 10;
+}
+
+.doctors-pagination__info {
+  font-family: 'Inter', sans-serif;
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 16px;
+  color: #737686;
+}
+
+.doctors-pagination__pages {
+  display: flex;
+  gap: 4px;
+}
+
+.doctors-pagination__btn {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  border: none;
+  background: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Inter', sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 18px;
+  letter-spacing: 0.03em;
+  color: #434655;
+  transition: all 0.2s ease;
+}
+
+.doctors-pagination__btn:hover {
+  background-color: #e5eeff;
+  color: #0b1c30;
+}
+
+.doctors-pagination__btn--active {
+  background-color: #004ac6;
+  color: #ffffff;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+.doctors-pagination__btn--active:hover {
+  background-color: #004ac6;
+  color: #ffffff;
+}
+
+.doctors-pagination__btn--disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+.doctors-pagination__btn .material-symbols-outlined {
+  font-size: 18px;
+}
+
+.doctors-pagination__ellipsis {
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Inter', sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 18px;
+  letter-spacing: 0.03em;
+  color: #737686;
+}
