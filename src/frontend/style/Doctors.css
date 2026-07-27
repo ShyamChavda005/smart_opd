@@ -7,6 +7,7 @@
 
 .doctors-page {
   position: relative;
+  overflow-x: hidden;
 }
 
 
@@ -562,6 +563,7 @@
   display: flex;
   flex-direction: column;
   width: 100%;
+  overflow: hidden;
 }
 
 /* Table Header */
@@ -572,7 +574,7 @@
 @media (min-width: 1024px) {
   .doctors-table__header {
     display: grid;
-    grid-template-columns: 4fr 3fr 2fr 2fr 1fr;
+    grid-template-columns: 3fr 1.5fr 2.5fr 2fr 2fr 1.5fr;
     gap: 16px;
     padding: 24px;
     background-color: rgba(229, 238, 255, 0.3);
@@ -611,10 +613,30 @@
   color: #004ac6;
 }
 
-/* Table Body */
+/* Table Body (Internal Scroll View) */
 .doctors-table__body {
   display: flex;
   flex-direction: column;
+  max-height: 360px;
+  overflow-y: auto;
+}
+
+/* Custom Scrollbar for Doctor List */
+.doctors-table__body::-webkit-scrollbar {
+  width: 6px;
+}
+
+.doctors-table__body::-webkit-scrollbar-track {
+  background: rgba(229, 238, 255, 0.3);
+}
+
+.doctors-table__body::-webkit-scrollbar-thumb {
+  background: #c3c6d7;
+  border-radius: 4px;
+}
+
+.doctors-table__body::-webkit-scrollbar-thumb:hover {
+  background: #004ac6;
 }
 
 /* Table Row */
@@ -636,7 +658,7 @@
 
 @media (min-width: 1024px) {
   .doctors-table__row {
-    grid-template-columns: 4fr 3fr 2fr 2fr 1fr;
+    grid-template-columns: 3fr 1.5fr 2.5fr 2fr 2fr 1.5fr;
   }
 }
 
@@ -786,36 +808,20 @@
 }
 
 
-/* --- Contact Cell --- */
+/* --- Gender & Username Cells --- */
 
-.doctors-table__contact {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-}
-
-.doctors-table__contact-row {
+.doctors-table__gender,
+.doctors-table__username {
   display: flex;
   align-items: center;
-  gap: 8px;
-  color: #434655;
 }
 
-.doctors-table__contact-row .material-symbols-outlined {
-  font-size: 16px;
-  color: #737686;
-}
-
-.doctors-table__contact-text {
+.doctors-table__gender-text,
+.doctors-table__username-text {
   font-family: 'Inter', sans-serif;
   font-size: 14px;
   font-weight: 400;
-  line-height: 20px;
-}
-
-.doctors-table__contact-text--mono {
-  font-family: monospace;
-  font-size: 13px;
+  color: #0b1c30;
 }
 
 
@@ -944,11 +950,6 @@
   align-items: center;
   justify-content: flex-end;
   gap: 8px;
-  opacity: 0;
-  transition: opacity 0.3s ease;
-}
-
-.doctors-table__row:hover .doctors-table__actions {
   opacity: 1;
 }
 

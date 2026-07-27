@@ -1,0 +1,502 @@
+/* ============================================================
+   AdminProfile.css  –  Styles for the Admin Profile Page
+   ============================================================ */
+
+.admin-profile-page {
+  position: relative;
+  width: 100%;
+}
+
+/* ---------- Breadcrumb ---------- */
+.admin-profile-breadcrumb {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: 'Inter', sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  color: #434655;
+  margin-top: 16px;
+  margin-bottom: 16px;
+}
+
+.admin-profile-breadcrumb a {
+  color: #434655;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.admin-profile-breadcrumb a:hover {
+  color: #004ac6;
+}
+
+.admin-profile-breadcrumb .material-symbols-outlined {
+  font-size: 16px;
+  color: #737686;
+}
+
+.admin-profile-breadcrumb__active {
+  color: #0b1c30;
+  font-weight: 600;
+}
+
+
+/* ---------- Header ---------- */
+.admin-profile-header {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-bottom: 32px;
+}
+
+.admin-profile-header__title {
+  font-family: 'Hanken Grotesk', sans-serif;
+  font-size: 36px;
+  font-weight: 700;
+  line-height: 44px;
+  letter-spacing: -0.02em;
+  color: #0b1c30;
+  margin: 0;
+}
+
+.admin-profile-header__desc {
+  font-family: 'Inter', sans-serif;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 24px;
+  color: #434655;
+  margin: 0;
+}
+
+
+/* ---------- Grid Layout ---------- */
+.admin-profile-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 32px;
+  align-items: start;
+}
+
+@media (min-width: 1024px) {
+  .admin-profile-grid {
+    grid-template-columns: 4fr 8fr;
+  }
+}
+
+.admin-profile-left-col,
+.admin-profile-right-col {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+
+/* ---------- Card Container ---------- */
+.ap-card {
+  background-color: #ffffff;
+  border-radius: 16px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  padding: 32px;
+  position: relative;
+  overflow: hidden;
+}
+
+.ap-card--sm-padding {
+  padding: 24px;
+}
+
+
+/* ---------- Left Column: Profile Summary Card ---------- */
+.ap-profile-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.ap-avatar-ring {
+  position: relative;
+  width: 128px;
+  height: 128px;
+  border-radius: 50%;
+  margin-bottom: 24px;
+  background-color: #e5eeff;
+  border: 4px solid #eff4ff;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.ap-avatar-ring__bg {
+  width: 100%;
+  height: 100%;
+  background-color: #004ac6;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #ffffff;
+  font-family: 'Hanken Grotesk', sans-serif;
+  font-size: 32px;
+  font-weight: 700;
+}
+
+.ap-profile-name {
+  font-family: 'Hanken Grotesk', sans-serif;
+  font-size: 28px;
+  font-weight: 600;
+  line-height: 36px;
+  color: #0b1c30;
+  margin: 0 0 4px 0;
+}
+
+.ap-profile-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background-color: rgba(0, 74, 198, 0.1);
+  color: #004ac6;
+  padding: 4px 12px;
+  border-radius: 9999px;
+  margin-bottom: 16px;
+  font-family: 'Inter', sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+}
+
+.ap-profile-badge .material-symbols-outlined {
+  font-size: 16px;
+}
+
+.ap-profile-desc {
+  font-family: 'Inter', sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 20px;
+  color: #434655;
+  margin: 0 0 24px 0;
+}
+
+.ap-profile-stats {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.ap-profile-stat-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px;
+  background-color: #f8f9ff;
+  border-radius: 8px;
+}
+
+.ap-profile-stat-key {
+  font-family: 'Inter', sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  color: #434655;
+}
+
+.ap-profile-stat-val {
+  font-family: 'Inter', sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  color: #0b1c30;
+}
+
+
+/* ---------- Left Column: Security Activity Card ---------- */
+.ap-card-title {
+  font-family: 'Hanken Grotesk', sans-serif;
+  font-size: 20px;
+  font-weight: 600;
+  line-height: 28px;
+  color: #0b1c30;
+  margin: 0 0 16px 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.ap-card-title .material-symbols-outlined {
+  color: #004ac6;
+  font-size: 24px;
+}
+
+.ap-card-title--danger .material-symbols-outlined {
+  color: #ba1a1a;
+}
+
+.ap-timeline {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.ap-timeline-item {
+  display: flex;
+  gap: 16px;
+  position: relative;
+}
+
+.ap-timeline-line {
+  position: absolute;
+  left: 15px;
+  top: 32px;
+  bottom: -16px;
+  width: 2px;
+  background-color: #dce9ff;
+}
+
+.ap-timeline-icon {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background-color: #dce9ff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1;
+  flex-shrink: 0;
+}
+
+.ap-timeline-icon .material-symbols-outlined {
+  font-size: 16px;
+  color: #434655;
+}
+
+.ap-timeline-content {
+  flex: 1;
+}
+
+.ap-timeline-title {
+  font-family: 'Inter', sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 18px;
+  letter-spacing: 0.03em;
+  color: #0b1c30;
+  margin: 0;
+}
+
+.ap-timeline-sub {
+  font-family: 'Inter', sans-serif;
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 16px;
+  color: #434655;
+  margin: 4px 0 0 0;
+}
+
+
+/* ---------- Right Column: Cards & Forms ---------- */
+.ap-card-header {
+  padding-bottom: 16px;
+  border-bottom: 1px solid rgba(195, 198, 215, 0.3);
+  margin-bottom: 24px;
+}
+
+.ap-card-header .ap-card-title {
+  margin-bottom: 4px;
+}
+
+.ap-card-subtitle {
+  font-family: 'Inter', sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 20px;
+  color: #434655;
+  margin: 0;
+}
+
+.ap-form-grid-2 {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 24px;
+}
+
+@media (min-width: 768px) {
+  .ap-form-grid-2 {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.ap-input-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.ap-input-group__label {
+  font-family: 'Inter', sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 18px;
+  letter-spacing: 0.03em;
+  color: #434655;
+}
+
+.ap-input-group__wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.ap-input-group__wrap .material-symbols-outlined {
+  position: absolute;
+  left: 12px;
+  font-size: 20px;
+  color: #737686;
+  pointer-events: none;
+  transition: color 0.2s ease;
+}
+
+.ap-input-group__wrap:focus-within .material-symbols-outlined {
+  color: #004ac6;
+}
+
+.ap-input-group__control {
+  width: 100%;
+  padding: 10px 16px 10px 40px;
+  background-color: #ffffff;
+  border: 1px solid #c3c6d7;
+  border-radius: 8px;
+  font-family: 'Inter', sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 20px;
+  color: #0b1c30;
+  outline: none;
+  transition: all 0.2s ease;
+  box-sizing: border-box;
+}
+
+.ap-input-group__control:hover {
+  background-color: rgba(239, 244, 255, 0.5);
+}
+
+.ap-input-group__control:focus {
+  border-color: #004ac6;
+  box-shadow: 0 0 0 2px rgba(0, 74, 198, 0.2);
+}
+
+.ap-input-group__toggle-btn {
+  position: absolute;
+  right: 12px;
+  border: none;
+  background: none;
+  cursor: pointer;
+  padding: 0;
+  color: #737686;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: color 0.2s ease;
+}
+
+.ap-input-group__toggle-btn:hover {
+  color: #0b1c30;
+}
+
+.ap-input-group__toggle-btn .material-symbols-outlined {
+  position: static;
+  font-size: 20px;
+  pointer-events: auto;
+}
+
+.ap-form-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  padding-top: 24px;
+}
+
+.ap-btn-cancel {
+  padding: 10px 24px;
+  border-radius: 8px;
+  border: 1px solid #c3c6d7;
+  background-color: #ffffff;
+  font-family: 'Inter', sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  color: #004ac6;
+  cursor: pointer;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+  transition: all 0.2s ease;
+}
+
+.ap-btn-cancel:hover {
+  background-color: #f8f9ff;
+}
+
+.ap-btn-save {
+  padding: 10px 24px;
+  border-radius: 8px;
+  border: none;
+  background-color: #004ac6;
+  font-family: 'Inter', sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  color: #ffffff;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  box-shadow: 0 4px 12px rgba(0, 74, 198, 0.2);
+  transition: all 0.2s ease;
+}
+
+.ap-btn-save:hover {
+  background-color: #003ea8;
+  box-shadow: 0 6px 16px rgba(0, 74, 198, 0.3);
+}
+
+.ap-btn-save .material-symbols-outlined {
+  font-size: 18px;
+}
+
+.ap-btn-update {
+  padding: 10px 24px;
+  border-radius: 8px;
+  border: none;
+  background-color: #dce9ff;
+  font-family: 'Inter', sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  color: #0b1c30;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+  transition: all 0.2s ease;
+}
+
+.ap-btn-update:hover {
+  background-color: #004ac6;
+  color: #ffffff;
+  box-shadow: 0 4px 12px rgba(0, 74, 198, 0.2);
+}
+
+.ap-btn-update:hover .material-symbols-outlined {
+  color: #ffffff;
+}
+
+/* Background blob inside security card */
+.ap-security-blob {
+  position: absolute;
+  top: -80px;
+  right: -80px;
+  width: 256px;
+  height: 256px;
+  border-radius: 50%;
+  background-color: rgba(255, 218, 214, 0.3);
+  filter: blur(48px);
+  pointer-events: none;
+}

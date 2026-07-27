@@ -14,40 +14,34 @@ const DOCTORS = [
   {
     id: 'MED-4921',
     name: 'Dr. Sarah Jenkins',
-    email: 's.jenkins@adminly.com',
-    phone: '+1 (555) 234-8910',
-    department: 'Cardiology',
-    room: 'Room 402',
+    gender: 'Female',
+    specialization: 'Cardiology',
+    username: 's.jenkins',
     status: 'active',
     statusLabel: 'Active Shift',
     statusSub: 'Ends in 4h',
-    photo: 'https://lh3.googleusercontent.com/aida-public/AB6AXuBaYkiCtieAieiEd3B0XQ8tX5Q230LCusuZIoKkWiX86XSTvK6cMrLHiJshti6pV0fwOHazrGecJn64iS5jqdZC1IieNatB3KZswQJIj5ZzWQ6SyKkvBYqIz9J2sDbcWVZX-G6SuvGzWoIIAF6imKm2g1Rx8kYGJ6QEO6BLUmd7l4GdilXJmMlfKzWY4-HT7NQxAcgiGovrwFrOmfUfbe5GYAuxMqKa7MmOLaJEaAscJVT8y7A4mSXPVIwa4HktLAydAn6c2VSv4L4',
-    initials: null,
+    initials: 'SJ',
   },
   {
     id: 'MED-3302',
     name: 'Dr. Marcus Chen',
-    email: 'm.chen@adminly.com',
-    phone: '+1 (555) 482-9912',
-    department: 'Neurology',
-    room: 'Room 610',
+    gender: 'Male',
+    specialization: 'Neurology',
+    username: 'm.chen',
     status: 'break',
     statusLabel: 'On Break',
     statusSub: 'Returns 14:30',
-    photo: 'https://lh3.googleusercontent.com/aida-public/AB6AXuD7et_N8Z9Bf0QRE80hHKsnS6yEGhGh0_NQ4bGvW-uLqgiSnVJb7fuLvYDQnade9IAMuQeNtZnRZ4sGqEWKrTfN6RXAlysHltTyz0Jl2Bya5dLke-ALOtK2GaAu4zgAuzDwd1Xn3Vj7SvL6H7i4Z-yPAm8mCdmoUto15FXzzmuwAY-7KcTut-WQNIYGJglI1CF1jL3OOkJBQQTEOmZDF71ZqQ6TJ09igrOnvalPr3a0dd_mSOOuXkam3V2Nk-q3Z3-c5PT5jf53tCg',
-    initials: null,
+    initials: 'MC',
   },
   {
     id: 'MED-8891',
     name: 'Dr. Elena Patel',
-    email: 'e.patel@adminly.com',
-    phone: 'Internal pager',
-    department: 'Surgery',
-    room: 'OR-3',
+    gender: 'Female',
+    specialization: 'Surgery',
+    username: 'e.patel',
     status: 'surgery',
     statusLabel: 'In Surgery',
     statusSub: 'Do not disturb',
-    photo: null,
     initials: 'EP',
   },
 ];
@@ -198,11 +192,12 @@ function Doctors() {
           {/* Table Header */}
           <div className="doctors-table__header">
             <div className="doctors-table__header-cell">
-              <span>Doctor Profile</span>
+              <span>Name</span>
               <span className="material-symbols-outlined doctors-table__sort-icon">unfold_more</span>
             </div>
-            <div className="doctors-table__header-cell">Contact</div>
-            <div className="doctors-table__header-cell">Department</div>
+            <div className="doctors-table__header-cell">Gender</div>
+            <div className="doctors-table__header-cell">Specialization</div>
+            <div className="doctors-table__header-cell">Username</div>
             <div className="doctors-table__header-cell">Status</div>
             <div className="doctors-table__header-cell doctors-table__header-cell--right">Actions</div>
           </div>
@@ -218,18 +213,12 @@ function Doctors() {
                   {/* Hover accent bar */}
                   <div className={`doctors-table__row-accent doctors-table__row-accent--${color}`} />
 
-                  {/* Profile */}
+                  {/* Name (with Initials Avatar) */}
                   <div className="doctors-table__profile">
                     <div className="doctors-table__avatar-wrap">
-                      {doctor.photo ? (
-                        <div className="doctors-table__avatar">
-                          <img src={doctor.photo} alt={doctor.name} />
-                        </div>
-                      ) : (
-                        <div className="doctors-table__avatar--initials">
-                          {doctor.initials}
-                        </div>
-                      )}
+                      <div className="doctors-table__avatar--initials">
+                        {doctor.initials}
+                      </div>
                       <div className="doctors-table__indicator">
                         <div className={`doctors-table__indicator-dot doctors-table__indicator-dot--${color}`} />
                       </div>
@@ -240,26 +229,21 @@ function Doctors() {
                     </div>
                   </div>
 
-                  {/* Contact */}
-                  <div className="doctors-table__contact">
-                    <div className="doctors-table__contact-row">
-                      <span className="material-symbols-outlined">mail</span>
-                      <span className="doctors-table__contact-text">{doctor.email}</span>
-                    </div>
-                    <div className="doctors-table__contact-row">
-                      <span className="material-symbols-outlined">call</span>
-                      <span className="doctors-table__contact-text doctors-table__contact-text--mono">
-                        {doctor.phone}
-                      </span>
+                  {/* Gender */}
+                  <div className="doctors-table__gender">
+                    <span className="doctors-table__gender-text">{doctor.gender}</span>
+                  </div>
+
+                  {/* Specialization */}
+                  <div className="doctors-table__department">
+                    <div className="doctors-table__dept-badge">
+                      <span className="doctors-table__dept-name">{doctor.specialization}</span>
                     </div>
                   </div>
 
-                  {/* Department */}
-                  <div className="doctors-table__department">
-                    <div className="doctors-table__dept-badge">
-                      <span className="doctors-table__dept-name">{doctor.department}</span>
-                      <span className="doctors-table__dept-room">{doctor.room}</span>
-                    </div>
+                  {/* Username */}
+                  <div className="doctors-table__username">
+                    <span className="doctors-table__username-text">{doctor.username}</span>
                   </div>
 
                   {/* Status */}
@@ -271,13 +255,13 @@ function Doctors() {
                     <span className="doctors-table__status-sub">{doctor.statusSub}</span>
                   </div>
 
-                  {/* Actions */}
+                  {/* Actions (View and Edit) */}
                   <div className="doctors-table__actions">
-                    <button className="doctors-table__action-btn">
-                      <span className="material-symbols-outlined">edit</span>
+                    <button className="doctors-table__action-btn" title="View Details">
+                      <span className="material-symbols-outlined">visibility</span>
                     </button>
-                    <button className="doctors-table__action-btn">
-                      <span className="material-symbols-outlined">more_vert</span>
+                    <button className="doctors-table__action-btn" title="Edit Doctor">
+                      <span className="material-symbols-outlined">edit</span>
                     </button>
                   </div>
                 </div>

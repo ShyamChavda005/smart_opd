@@ -3,6 +3,19 @@
    ============================================================ */
 
 
+/* ---------- Material Symbols ---------- */
+.material-symbols-outlined {
+  font-family: 'Material Symbols Outlined' !important;
+  font-weight: normal;
+  font-style: normal;
+  display: inline-block;
+  white-space: nowrap;
+  word-wrap: normal;
+  direction: ltr;
+  -webkit-font-smoothing: antialiased;
+}
+
+
 /* ---------- Layout ---------- */
 
 .dashboard-layout {
@@ -14,6 +27,7 @@
   line-height: 20px;
   color: #0b1c30;
   background-color: #f8f9ff;
+  overflow-x: hidden;
 }
 
 
@@ -36,6 +50,59 @@
   transition: all 0.3s ease;
 }
 
+/* Collapsed Sidebar */
+.sidebar--collapsed {
+  width: 72px;
+}
+
+.sidebar--collapsed .sidebar__logo {
+  padding: 0;
+  justify-content: center;
+}
+
+.sidebar--collapsed .sidebar__logo-text {
+  display: none !important;
+}
+
+.sidebar--collapsed .sidebar__nav {
+  padding: 0 8px;
+}
+
+.sidebar--collapsed .sidebar__nav-link {
+  justify-content: center;
+  align-items: center;
+  padding: 12px 0;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.sidebar--collapsed .sidebar__nav-icon {
+  margin-right: 0 !important;
+  font-size: 24px;
+}
+
+.sidebar--collapsed .sidebar__nav-text {
+  display: none !important;
+}
+
+.sidebar--collapsed .sidebar__user {
+  justify-content: center;
+  padding: 8px 0;
+}
+
+.sidebar--collapsed .sidebar__user-info {
+  display: none !important;
+}
+
+.sidebar--collapsed .sidebar__logout {
+  justify-content: center;
+  padding: 12px 0;
+}
+
+.sidebar--collapsed .sidebar__logout .sidebar__nav-icon {
+  margin-right: 0 !important;
+}
+
 
 /* --- Sidebar Logo --- */
 
@@ -46,6 +113,7 @@
   padding: 0 24px;
   gap: 12px;
   margin-bottom: 16px;
+  position: relative;
 }
 
 .sidebar__logo-icon {
@@ -96,12 +164,14 @@
   width: 100%;
 }
 
-.sidebar__nav-link .material-symbols-outlined {
+.sidebar__nav-link .material-symbols-outlined,
+.sidebar__nav-icon {
   margin-right: 12px;
   font-size: 24px;
+  font-family: 'Material Symbols Outlined' !important;
 }
 
-.sidebar__nav-link span:last-child {
+.sidebar__nav-text {
   font-family: 'Inter', sans-serif;
   font-size: 13px;
   font-weight: 500;
@@ -209,14 +279,7 @@
 .sidebar__logout .material-symbols-outlined {
   margin-right: 12px;
   font-size: 20px;
-}
-
-.sidebar__logout span:last-child {
-  font-family: 'Inter', sans-serif;
-  font-size: 13px;
-  font-weight: 500;
-  line-height: 18px;
-  letter-spacing: 0.03em;
+  font-family: 'Material Symbols Outlined' !important;
 }
 
 
@@ -230,6 +293,14 @@
   display: flex;
   flex-direction: column;
   min-height: 100vh;
+  max-width: calc(100vw - 260px);
+  overflow-x: hidden;
+  transition: margin-left 0.3s ease, max-width 0.3s ease;
+}
+
+.dashboard-main--collapsed {
+  margin-left: 72px;
+  max-width: calc(100vw - 72px);
 }
 
 
@@ -250,6 +321,36 @@
   justify-content: space-between;
   padding: 0 32px;
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+.dashboard-header__left {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.dashboard-header__toggle-btn {
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  border: 1px solid #c3c6d7;
+  background-color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: #434655;
+  transition: all 0.2s ease;
+}
+
+.dashboard-header__toggle-btn:hover {
+  background-color: #e5eeff;
+  color: #004ac6;
+  border-color: #004ac6;
+}
+
+.dashboard-header__toggle-btn .material-symbols-outlined {
+  font-size: 20px;
 }
 
 /* Search box */
