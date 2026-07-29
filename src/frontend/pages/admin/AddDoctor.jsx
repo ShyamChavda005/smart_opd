@@ -279,19 +279,36 @@ function AddDoctor() {
 
   // ---------- Form State ----------
   const [formData, setFormData] = useState({
-    fullName: '',
-    dob: '',
-    gender: '',
-    email: '',
-    phone: '',
-    specialization: '',
-    consultTime: 15,
-    username: '',
-    password: '',
-    accountStatus: true,
+    name: "",
+    dob: "",
+    gender: "",
+    email: "",
+    contact: "",
+    specialization: "",
+    avg_time: "",
+    username: "",
+    password: "",
+    status: "Active",
   });
 
+  const specializations = [
+    "Cardiology",
+    "Neurology",
+    "Orthopedics",
+    "Dermatology",
+    "ENT",
+    "General Physician",
+    "Pediatrics",
+    "Psychiatry",
+  ];
+  
   const [showPassword, setShowPassword] = useState(false);
+  const [search, setSearch] = useState("");
+  const [showDropdown, setShowDropdown] = useState(false);
+
+  const filtered = specializations.filter((item) =>
+    item.toLowerCase().includes(search.toLowerCase())
+  );
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -303,23 +320,39 @@ function AddDoctor() {
 
   const handleReset = () => {
     setFormData({
-      fullName: '',
-      dob: '',
-      gender: '',
-      email: '',
-      phone: '',
-      specialization: '',
-      consultTime: 15,
-      username: '',
-      password: '',
-      accountStatus: true,
+      name: "",
+      dob: "",
+      gender: "",
+      email: "",
+      phone: "",
+      specialization: "",
+      avg_time: "",
+      username: "",
+      password: "",
+      status: "",
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log('Registered Doctor Data:', formData);
-    navigate('/admin/doctors');
+
+    const response = await fetch("http://localhost:8000/doctor", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(formData)
+    })
+
+    const data = await response.json();
+    console.log(data);
+
+    if (data) {
+      alert("Doctor Added !");
+      console.log('Registered Doctor Data:', formData);
+      navigate('/admin/doctors');
+    }
+
   };
 
   return (
@@ -371,11 +404,11 @@ function AddDoctor() {
                   <input
                     className="form-input-group__control"
                     id="fullName"
-                    name="fullName"
+                    name="name"
                     type="text"
                     placeholder="Dr. Jane Smith"
                     required
-                    value={formData.fullName}
+                    value={formData.name}
                     onChange={handleChange}
                   />
                   <span className="material-symbols-outlined form-input-group__icon">badge</span>
@@ -400,9 +433,7 @@ function AddDoctor() {
                   icon="wc"
                   options={[
                     { value: 'female', label: 'Female' },
-                    { value: 'male', label: 'Male' },
-                    { value: 'other', label: 'Other' },
-                    { value: 'prefer_not_to_say', label: 'Prefer not to say' },
+                    { value: 'male', label: 'Male' }
                   ]}
                 />
 
@@ -432,11 +463,11 @@ function AddDoctor() {
                   <input
                     className="form-input-group__control"
                     id="phone"
-                    name="phone"
+                    name="contact"
                     type="tel"
-                    placeholder="+1 (555) 000-0000"
+                    placeholder="00000-00000"
                     required
-                    value={formData.phone}
+                    value={formData.contact}
                     onChange={handleChange}
                   />
                   <span className="material-symbols-outlined form-input-group__icon">call</span>
@@ -460,20 +491,46 @@ function AddDoctor() {
               <div className="form-grid-2">
                 {/* Specialization */}
                 <div className="form-input-group form-col-full">
-                  <label className="form-input-group__label" htmlFor="specialization">
+                  <label className="form-input-group__label">
                     Specialization <span className="required-star">*</span>
                   </label>
+
                   <input
-                    className="form-input-group__control"
-                    id="specialization"
-                    name="specialization"
                     type="text"
+                    className="form-input-group__control"
                     placeholder="Search specialization..."
-                    required
-                    value={formData.specialization}
-                    onChange={handleChange}
+                    value={search}
+                    onChange={(e) => {
+                      setSearch(e.target.value);
+                      setShowDropdown(true);
+                    }}
+                    onFocus={() => setShowDropdown(true)}
                   />
-                  <span className="material-symbols-outlined form-input-group__icon">search</span>
+
+                  <span className="material-symbols-outlined form-input-group__icon">
+                    search
+                  </span>
+
+                  {showDropdown && (
+                    <div className="dropdown">
+                      {filtered.map((item) => (
+                        <div
+                          key={item}
+                          className="dropdown-item"
+                          onClick={() => {
+                            setSearch(item);
+                            setFormData({
+                              ...formData,
+                              specialization: item,
+                            });
+                            setShowDropdown(false);
+                          }}
+                        >
+                          {item}
+                        </div>
+                      ))}
+                    </div>
+                  )}
                 </div>
 
                 {/* Avg Consultation Time */}
@@ -484,13 +541,13 @@ function AddDoctor() {
                   <input
                     className="form-input-group__control"
                     id="consultTime"
-                    name="consultTime"
+                    name="avg_time"
                     type="number"
                     min="5"
                     max="120"
                     step="5"
                     required
-                    value={formData.consultTime}
+                    value={formData.avg_time}
                     onChange={handleChange}
                   />
                   <span className="material-symbols-outlined form-input-group__icon">timer</span>
@@ -515,7 +572,7 @@ function AddDoctor() {
               </div>
               <div className="system-record-card__row">
                 <span className="system-record-card__key">Created At</span>
-                <span className="system-record-card__val">2023-10-27</span>
+                <span className="system-record-card__val">{new Date().toLocaleString()}</span>
               </div>
             </div>
 
@@ -585,8 +642,8 @@ function AddDoctor() {
                   <label className="switch">
                     <input
                       type="checkbox"
-                      name="accountStatus"
-                      checked={formData.accountStatus}
+                      name="status"
+                      checked={formData.status}
                       onChange={handleChange}
                     />
                     <span className="slider" />
