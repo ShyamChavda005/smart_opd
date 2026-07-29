@@ -6,7 +6,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import AdminLayout from '../../components/admin/AdminLayout';
 import '../../style/admin/AddReceptionist.css';
-import '../../style/admin/AddDoctor.css';
+// import '../../style/admin/AddDoctor.css';
 
 
 // ---------- Custom Modern Date Picker (reused from AddDoctor) ----------
@@ -232,15 +232,15 @@ function AddReceptionist() {
 
   // ---------- Form State ----------
   const [formData, setFormData] = useState({
-    fullName: '',
-    dob: '',
-    gender: '',
-    email: '',
-    phone: '',
-    username: '',
-    password: '',
-    shift: 'morning',
-    accountStatus: true,
+    name: "",
+    dob: "",
+    gender: "",
+    email: "",
+    contact: "",
+    username: "",
+    password: "",
+    shift: "morning",
+    status: "Active",
   });
 
   const [showPassword, setShowPassword] = useState(false);
@@ -255,22 +255,37 @@ function AddReceptionist() {
 
   const handleReset = () => {
     setFormData({
-      fullName: '',
-      dob: '',
-      gender: '',
-      email: '',
-      phone: '',
-      username: '',
-      password: '',
-      shift: 'morning',
-      accountStatus: true,
+      name: "",
+      dob: "",
+      gender: "",
+      email: "",
+      contact: "",
+      username: "",
+      password: "",
+      shift: "morning",
+      status: "",
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log('Registered Receptionist Data:', formData);
-    navigate('/admin/receptionists');
+
+    const response = await fetch("http://localhost:8000/receptionist", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(formData)
+    })
+
+    const data = await response.json();
+    console.log(data);
+
+    if (data) {
+      alert("Receptionist Data saved !");
+      navigate('/admin/receptionists');
+    }
+
   };
 
   return (
@@ -351,11 +366,11 @@ function AddReceptionist() {
                     <span className="material-symbols-outlined">badge</span>
                     <input
                       className="ar-input-group__control"
-                      name="fullName"
+                      name="name"
                       type="text"
                       placeholder="e.g. Sarah Jenkins"
                       required
-                      value={formData.fullName}
+                      value={formData.name}
                       onChange={handleChange}
                     />
                   </div>
@@ -378,9 +393,7 @@ function AddReceptionist() {
                   icon="wc"
                   options={[
                     { value: 'female', label: 'Female' },
-                    { value: 'male', label: 'Male' },
-                    { value: 'other', label: 'Other' },
-                    { value: 'prefer_not_to_say', label: 'Prefer not to say' },
+                    { value: 'male', label: 'Male' }
                   ]}
                 />
 
@@ -410,10 +423,10 @@ function AddReceptionist() {
                     <span className="material-symbols-outlined">phone</span>
                     <input
                       className="ar-input-group__control"
-                      name="phone"
+                      name="contact"
                       type="tel"
-                      placeholder="+1 (555) 000-0000"
-                      value={formData.phone}
+                      placeholder="00000-00000"
+                      value={formData.contact}
                       onChange={handleChange}
                     />
                   </div>
@@ -492,9 +505,14 @@ function AddReceptionist() {
                       <label className="ar-switch">
                         <input
                           type="checkbox"
-                          name="accountStatus"
-                          checked={formData.accountStatus}
-                          onChange={handleChange}
+                          name="status"
+                          checked={formData.status}
+                          onChange={(e) =>
+                            setFormData((prev) => ({
+                              ...prev,
+                              status: e.target.checked ? "Active" : "Inactive",
+                            }))
+                          }
                         />
                         <span className="ar-switch__slider" />
                       </label>
@@ -517,13 +535,13 @@ function AddReceptionist() {
                 <div className="ar-form-card__icon-badge ar-form-card__icon-badge--tertiary">
                   <span className="material-symbols-outlined">work</span>
                 </div>
-                <h2 className="ar-form-card__title">Employment Details</h2>
+                <h2 className="ar-form-card__title">Receptionist Details</h2>
               </div>
 
               <div className="ar-form-fields ar-form-fields--single">
                 {/* Employee ID (disabled) */}
                 <div className="ar-input-group">
-                  <label className="ar-input-group__label">Employee ID</label>
+                  <label className="ar-input-group__label">Receptionist ID</label>
                   <div className="ar-input-group__control-wrap ar-input-group__control-wrap--disabled">
                     <span className="material-symbols-outlined">tag</span>
                     <input
@@ -545,10 +563,10 @@ function AddReceptionist() {
                   onChange={handleChange}
                   icon="schedule"
                   options={[
-                    { value: 'morning', label: 'Morning (8 AM - 4 PM)' },
-                    { value: 'afternoon', label: 'Afternoon (2 PM - 10 PM)' },
-                    { value: 'night', label: 'Night (10 PM - 6 AM)' },
-                    { value: 'full', label: 'Full-time Flex' },
+                    { value: 'morning', label: 'Morning' },
+                    { value: 'afternoon', label: 'Afternoon' },
+                    { value: 'evening', label: 'Evening' },
+                    { value: 'night', label: 'Night' },
                   ]}
                 />
 
@@ -560,22 +578,10 @@ function AddReceptionist() {
                     <input
                       className="ar-input-group__control ar-input-group__control--disabled"
                       type="text"
-                      value="2023-11-15 (Today)"
+                      value={new Date().toLocaleString()}
                       disabled
                     />
                   </div>
-                </div>
-              </div>
-
-              {/* Help Card */}
-              <div className="ar-help-card">
-                <span className="material-symbols-outlined">info</span>
-                <div>
-                  <h4 className="ar-help-card__title">Need Help?</h4>
-                  <p className="ar-help-card__desc">
-                    Check the staff handbook for shift definitions and access level policies.
-                  </p>
-                  <a href="#docs" className="ar-help-card__link">View Documentation</a>
                 </div>
               </div>
             </div>

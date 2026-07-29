@@ -10,6 +10,50 @@
   overflow-x: hidden;
 }
 
+.doctors-table .dataTables_wrapper {
+  padding: 0;
+}
+
+.doctors-table .dataTables_filter {
+  padding: 16px 20px 0;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.doctors-table .dataTables_filter input {
+  border: 1px solid #dce7ff;
+  border-radius: 999px;
+  padding: 8px 14px;
+  min-width: 220px;
+  outline: none;
+}
+
+.doctors-table .dataTables_filter input:focus {
+  border-color: #004ac6;
+  box-shadow: 0 0 0 2px rgba(0, 74, 198, 0.12);
+}
+
+.doctors-table .dataTables_paginate {
+  padding: 16px 20px 20px;
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
+.doctors-table .dataTables_paginate .paginate_button {
+  border: none;
+  border-radius: 8px;
+  padding: 6px 10px;
+  color: #434655;
+  background: transparent;
+}
+
+.doctors-table .dataTables_paginate .paginate_button.current,
+.doctors-table .dataTables_paginate .paginate_button:hover {
+  background: #004ac6;
+  color: #fff;
+}
+
 
 /* ---------- Decorative Background Blobs ---------- */
 
@@ -287,6 +331,7 @@
 
 /* Specialty dropdown */
 .doctors-search-bar__dropdown {
+  position: relative;
   background-color: #ffffff;
   border-radius: 16px;
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
@@ -297,6 +342,50 @@
   padding: 0 24px;
   cursor: pointer;
   transition: box-shadow 0.3s ease;
+  gap: 12px;
+}
+
+.doctor-status-switch {
+    position: relative;
+    display: inline-block;
+    width: 46px;
+    height: 24px;
+    margin-top: 10px;
+}
+
+.doctor-status-switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.doctor-status-slider {
+    position: absolute;
+    inset: 0;
+    background: #d1d5db;
+    border-radius: 30px;
+    cursor: pointer;
+    transition: .3s;
+}
+
+.doctor-status-slider::before {
+    content: "";
+    position: absolute;
+    width: 18px;
+    height: 18px;
+    left: 3px;
+    top: 3px;
+    background: white;
+    border-radius: 50%;
+    transition: .3s;
+}
+
+.doctor-status-switch input:checked + .doctor-status-slider {
+    background: #22c55e;
+}
+
+.doctor-status-switch input:checked + .doctor-status-slider::before {
+    transform: translateX(22px);
 }
 
 .doctors-search-bar__dropdown:hover {
@@ -307,6 +396,7 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
+  flex: 1;
 }
 
 .doctors-search-bar__dropdown-caption {
@@ -326,12 +416,22 @@
   color: #0b1c30;
 }
 
-.doctors-search-bar__dropdown .material-symbols-outlined {
-  color: #737686;
-  transition: color 0.2s ease;
+.doctors-search-bar__select {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  cursor: pointer;
 }
 
-.doctors-search-bar__dropdown:hover .material-symbols-outlined {
+.doctors-search-bar__arrow {
+  color: #737686;
+  transition: color 0.2s ease;
+  pointer-events: none;
+}
+
+.doctors-search-bar__dropdown:hover .doctors-search-bar__arrow {
   color: #004ac6;
 }
 
@@ -566,40 +666,88 @@
   overflow: hidden;
 }
 
-/* Table Header */
-.doctors-table__header {
-  display: none;
+.doctors-table::before,
+.doctors-table::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 10px;
+  width: 28px;
+  pointer-events: none;
+  z-index: 20;
 }
 
-@media (min-width: 1024px) {
-  .doctors-table__header {
-    display: grid;
-    grid-template-columns: 3fr 1.5fr 2.5fr 2fr 2fr 1.5fr;
-    gap: 16px;
-    padding: 24px;
-    background-color: rgba(229, 238, 255, 0.3);
-    border-radius: 24px 24px 0 0;
-    border-bottom: 1px solid rgba(195, 198, 215, 0.3);
-    align-items: center;
-  }
+.doctors-table::before {
+  left: 0;
+  background: linear-gradient(90deg, rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0));
+}
+
+.doctors-table::after {
+  right: 0;
+  background: linear-gradient(270deg, rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0));
+}
+
+.doctors-table__scroll {
+  position: relative;
+  overflow-x: auto;
+  overflow-y: hidden;
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior-x: contain;
+  scrollbar-gutter: stable;
+  scrollbar-width: thin;
+  scrollbar-color: #7f95cf rgba(229, 238, 255, 0.45);
+}
+
+.doctors-table__scroll::-webkit-scrollbar {
+  height: 10px;
+}
+
+.doctors-table__scroll::-webkit-scrollbar-track {
+  background: rgba(229, 238, 255, 0.45);
+  border-radius: 999px;
+}
+
+.doctors-table__scroll::-webkit-scrollbar-thumb {
+  background: linear-gradient(90deg, #9aafd9, #6f89c8);
+  border-radius: 999px;
+  border: 2px solid rgba(229, 238, 255, 0.45);
+}
+
+.doctors-table__scroll::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(90deg, #7c97d2, #4f73be);
+}
+
+/* Table Header */
+.doctors-table__table {
+  width: 100%;
+  min-width: 1100px;
+  border-collapse: collapse;
+}
+
+.doctors-table__head {
+  background: linear-gradient(90deg, rgba(229, 238, 255, 0.55), rgba(239, 244, 255, 0.75));
+}
+
+.doctors-table__header-row {
+  border-bottom: 1px solid rgba(195, 198, 215, 0.35);
 }
 
 .doctors-table__header-cell {
+  padding: 18px 20px;
+  text-align: left;
   font-family: 'Inter', sans-serif;
-  font-size: 13px;
-  font-weight: 500;
+  font-size: 12px;
+  font-weight: 600;
   line-height: 18px;
   letter-spacing: 0.1em;
   text-transform: uppercase;
   color: #434655;
-  display: flex;
-  align-items: center;
-  gap: 8px;
+  white-space: nowrap;
 }
 
 .doctors-table__header-cell--right {
   text-align: right;
-  justify-content: flex-end;
 }
 
 .doctors-table__sort-icon {
@@ -607,85 +755,48 @@
   color: #737686;
   cursor: pointer;
   transition: color 0.2s ease;
+  margin-left: 6px;
 }
 
 .doctors-table__sort-icon:hover {
   color: #004ac6;
 }
 
-/* Table Body (Internal Scroll View) */
 .doctors-table__body {
-  display: flex;
-  flex-direction: column;
-  max-height: 360px;
-  overflow-y: auto;
+  background-color: #ffffff;
 }
 
-/* Custom Scrollbar for Doctor List */
-.doctors-table__body::-webkit-scrollbar {
-  width: 6px;
+.doctors-table__empty {
+  padding: 28px 20px;
+  text-align: center;
+  font-family: 'Inter', sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  color: #434655;
 }
 
-.doctors-table__body::-webkit-scrollbar-track {
-  background: rgba(229, 238, 255, 0.3);
-}
-
-.doctors-table__body::-webkit-scrollbar-thumb {
-  background: #c3c6d7;
-  border-radius: 4px;
-}
-
-.doctors-table__body::-webkit-scrollbar-thumb:hover {
-  background: #004ac6;
+.doctors-table__empty--error {
+  color: #ba1a1a;
 }
 
 /* Table Row */
 .doctors-table__row {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 16px;
-  padding: 24px;
-  align-items: center;
-  position: relative;
-  transition: background-color 0.3s ease;
-  border-bottom: 1px solid rgba(195, 198, 215, 0.3);
-}
-
-.doctors-table__row:last-child {
-  border-bottom: none;
-  border-radius: 0 0 24px 24px;
-}
-
-@media (min-width: 1024px) {
-  .doctors-table__row {
-    grid-template-columns: 3fr 1.5fr 2.5fr 2fr 2fr 1.5fr;
-  }
+  transition: background-color 0.2s ease;
 }
 
 .doctors-table__row:hover {
-  background-color: rgba(239, 244, 255, 0.5);
+  background-color: rgba(239, 244, 255, 0.6);
 }
 
-/* Left accent bar on hover */
-.doctors-table__row-accent {
-  position: absolute;
-  left: 0;
-  top: 50%;
-  transform: translateY(-50%);
-  width: 4px;
-  height: 0;
-  border-radius: 0 9999px 9999px 0;
-  transition: height 0.3s ease;
+.doctors-table__row td {
+  padding: 18px 20px;
+  border-bottom: 1px solid rgba(195, 198, 215, 0.26);
+  vertical-align: middle;
 }
 
-.doctors-table__row:hover .doctors-table__row-accent {
-  height: 75%;
+.doctors-table__row:last-child td {
+  border-bottom: none;
 }
-
-.doctors-table__row-accent--green  { background-color: #004ac6; }
-.doctors-table__row-accent--gray   { background-color: #5d5f5f; }
-.doctors-table__row-accent--red    { background-color: #ba1a1a; }
-
 
 /* --- Profile Cell --- */
 
@@ -808,19 +919,17 @@
 }
 
 
-/* --- Gender & Username Cells --- */
+/* --- Standard Table Cells --- */
 
-.doctors-table__gender,
-.doctors-table__username {
-  display: flex;
-  align-items: center;
-}
-
-.doctors-table__gender-text,
-.doctors-table__username-text {
+.doctors-table__cell {
   font-family: 'Inter', sans-serif;
   font-size: 14px;
   font-weight: 400;
+  color: #0b1c30;
+  white-space: nowrap;
+}
+
+.doctors-table__text {
   color: #0b1c30;
 }
 
@@ -944,6 +1053,10 @@
 
 
 /* --- Actions Cell --- */
+
+.doctors-table__cell--actions {
+  text-align: right;
+}
 
 .doctors-table__actions {
   display: flex;

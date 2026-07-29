@@ -2,7 +2,7 @@
 //  AdminProfile.jsx  –  Admin Profile Page Component
 // ============================================================
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import AdminLayout from '../../components/admin/AdminLayout';
 import '../../style/admin/AdminProfile.css';
@@ -12,18 +12,34 @@ function AdminProfile() {
 
   // Personal Info Form State
   const [personalInfo, setPersonalInfo] = useState({
-    firstName: 'Alex',
-    lastName: 'Miller',
-    email: 'alex.miller@adminly.com',
-    username: 'admin_alex',
+    "id" : "",
+    "name" : "",
+    "email" : "",
+    "username" : "",
+    "password" : "",
+    "create_at" : ""
   });
 
   // Password Security Form State
   const [securityData, setSecurityData] = useState({
-    currentPassword: '',
-    newPassword: '',
-    confirmPassword: '',
+    currentPassword: personalInfo.password,
+    newPassword: "",
+    confirmPassword: "",
   });
+
+
+  useEffect(() => {
+    fetch("http://localhost:8000/admin")
+    .then((res) => res.json())
+    .then((data) => {
+      console.log(data);
+      setPersonalInfo(data[0]);
+    })
+    .catch((err) => {
+      console.log(err);
+    })
+  },[]);
+
 
   // Password Visibility Toggles
   const [showCurrent, setShowCurrent] = useState(false);
@@ -40,14 +56,52 @@ function AdminProfile() {
     setSecurityData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleSavePersonal = (e) => {
+  const handleSavePersonal = async (e) => {
     e.preventDefault();
-    console.log('Saved Personal Info:', personalInfo);
+
+    const response = await fetch(`http://localhost:8000/admin/${personalInfo.id}`, {
+      method : "PUT",
+      headers : {
+        "Content-Type" : "application/json",
+      },
+      body : JSON.stringify(personalInfo)
+    })
+
+    if (!response.ok) {
+      alert("some issue in update")
+    }
+
+    alert('profile updated');
   };
 
-  const handleUpdatePassword = (e) => {
+  const handleUpdatePassword = async (e) => {
     e.preventDefault();
-    console.log('Updated Password Data:', securityData);
+
+    if (!securityData.currentPassword) {
+      alert("current password can not be null")
+    }
+
+    const updateData = {
+      ...personalInfo,
+      password : securityData.newPassword
+    }
+
+    const response = await fetch(`http://localhost:8000/admin/${personalInfo.id}`, {
+      method : "PUT",
+      headers : {
+        "Content-Type" : "application/json"
+      },
+      body : JSON.stringify(updateData)
+    })
+    
+      
+    if (response.ok) {
+      alert("Password Updated");
+    }
+    else {
+      alert("confirmPassword not match");
+    }
+
   };
 
   return (
@@ -82,9 +136,12 @@ function AdminProfile() {
             {/* Profile Summary Card */}
             <div className="ap-card ap-profile-card">
               <div className="ap-avatar-ring">
-                <div className="ap-avatar-ring__bg">AM</div>
+                <div className="ap-avatar-ring__bg">
+                  {personalInfo.name.split(" ")[0]?.charAt(0)}
+                  {personalInfo.name.split(" ")[1]?.charAt(0)}
+                  </div>
               </div>
-              <h2 className="ap-profile-name">Alex Miller</h2>
+              <h2 className="ap-profile-name">{personalInfo.name}</h2>
               <div className="ap-profile-badge">
                 <span className="material-symbols-outlined" style={{ fontVariationSettings: "'FILL' 1" }}>
                   verified_user
@@ -97,12 +154,20 @@ function AdminProfile() {
 
               <div className="ap-profile-stats">
                 <div className="ap-profile-stat-row">
-                  <span className="ap-profile-stat-key">Last Login</span>
-                  <span className="ap-profile-stat-val">Today, 09:42 AM</span>
+                  <span className="ap-profile-stat-key">Account Create Date</span>
+                  <span className="ap-profile-stat-val">{new Date(personalInfo.create_at).toLocaleDateString("en-IN")}</span>
                 </div>
                 <div className="ap-profile-stat-row">
-                  <span className="ap-profile-stat-key">Access Level</span>
-                  <span className="ap-profile-stat-val">Level 5 (Full)</span>
+                  <span className="ap-profile-stat-key">Account Create Time</span>
+                  <span className="ap-profile-stat-val">{
+                    new Date(personalInfo.create_at).toLocaleDateString("en-IN", {
+                      hour: "2-digit",
+                      minute: "2-digit",
+                      second: "2-digit",  
+                      hour12: true,
+                    }).split(",")[1]
+                  }
+                </span>
                 </div>
               </div>
             </div>
@@ -154,29 +219,29 @@ function AdminProfile() {
                 <div className="ap-form-grid-2">
                   {/* First Name */}
                   <div className="ap-input-group">
-                    <label className="ap-input-group__label">First Name</label>
+                    <label className="ap-input-group__label">ID</label>
                     <div className="ap-input-group__wrap">
                       <span className="material-symbols-outlined">badge</span>
                       <input
                         className="ap-input-group__control"
                         type="text"
                         name="firstName"
-                        value={personalInfo.firstName}
-                        onChange={handlePersonalChange}
+                        value={personalInfo.id}
+                        disabled
                       />
                     </div>
                   </div>
 
                   {/* Last Name */}
                   <div className="ap-input-group">
-                    <label className="ap-input-group__label">Last Name</label>
+                    <label className="ap-input-group__label">Name</label>
                     <div className="ap-input-group__wrap">
                       <span className="material-symbols-outlined">badge</span>
                       <input
                         className="ap-input-group__control"
                         type="text"
-                        name="lastName"
-                        value={personalInfo.lastName}
+                        name="name"
+                        value={personalInfo.name}
                         onChange={handlePersonalChange}
                       />
                     </div>
@@ -253,8 +318,10 @@ function AdminProfile() {
                       type={showCurrent ? 'text' : 'password'}
                       name="currentPassword"
                       value={securityData.currentPassword}
+                      placeholder={personalInfo.password}
                       onChange={handleSecurityChange}
                       style={{ paddingRight: '48px' }}
+                      required
                     />
                     <button
                       type="button"
@@ -281,6 +348,7 @@ function AdminProfile() {
                         value={securityData.newPassword}
                         onChange={handleSecurityChange}
                         style={{ paddingRight: '48px' }}
+                        required
                       />
                       <button
                         type="button"
@@ -337,5 +405,6 @@ function AdminProfile() {
     </AdminLayout>
   );
 }
+
 
 export default AdminProfile;
