@@ -1,0 +1,16 @@
+/* ============================================================
+   DoctorOverview.css – Dedicated Styles for Doctor Overview
+   ============================================================ */
+
+.doctor-overview-container {
+  width: 100%;
+}
+
+.overview-card-hover {
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.overview-card-hover:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05);
+}

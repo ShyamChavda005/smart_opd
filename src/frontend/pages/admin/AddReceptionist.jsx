@@ -4,9 +4,9 @@
 
 import React, { useState, useRef, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import AdminLayout from '../components/AdminLayout';
-import '../style/AddReceptionist.css';
-import '../style/AddDoctor.css';
+import AdminLayout from '../../components/admin/AdminLayout';
+import '../../style/admin/AddReceptionist.css';
+import '../../style/admin/AddDoctor.css';
 
 
 // ---------- Custom Modern Date Picker (reused from AddDoctor) ----------

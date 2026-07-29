@@ -4,8 +4,8 @@
 
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import AdminLayout from '../components/AdminLayout';
-import '../style/Doctors.css';
+import AdminLayout from '../../components/admin/AdminLayout';
+import '../../style/admin/Doctors.css';
 
 
 // ---------- Sample Doctor Data ----------

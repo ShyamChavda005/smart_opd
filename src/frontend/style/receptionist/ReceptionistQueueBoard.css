@@ -1,0 +1,15 @@
+/* ============================================================
+   ReceptionistQueueBoard.css – Styles for Receptionist Queue Board
+   ============================================================ */
+
+.receptionist-queueboard-container {
+  width: 100%;
+}
+
+.pipeline-item-hover {
+  transition: border-color 0.2s ease, background-color 0.2s ease;
+}
+
+.pipeline-item-hover:hover {
+  border-color: #bfdbfe;
+}

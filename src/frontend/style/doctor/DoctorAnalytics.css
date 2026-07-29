@@ -1,0 +1,15 @@
+/* ============================================================
+   DoctorAnalytics.css – Dedicated Styles for Doctor Analytics
+   ============================================================ */
+
+.doctor-analytics-container {
+  width: 100%;
+}
+
+.analytics-stat-card {
+  transition: transform 0.2s ease, border-color 0.2s ease;
+}
+
+.analytics-stat-card:hover {
+  transform: translateY(-2px);
+}

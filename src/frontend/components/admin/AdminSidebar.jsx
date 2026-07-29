@@ -1,12 +1,11 @@
 // ============================================================
-//  Sidebar.jsx  –  Reusable Admin Sidebar Navigation Component
+//  AdminSidebar.jsx – Reusable Admin Sidebar Component
 // ============================================================
 
 import React from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import '../style/AdminDashboard.css';
+import '../../style/admin/AdminDashboard.css';
 
-// ---------- Sidebar Navigation Items ----------
 const NAV_ITEMS = [
   { label: 'Dashboard',     icon: 'dashboard',        path: '/admin/dashboard' },
   { label: 'Doctors',       icon: 'medical_services',  path: '/admin/doctors' },
@@ -14,7 +13,7 @@ const NAV_ITEMS = [
   { label: 'Reports',       icon: 'analytics',         path: '/admin/reports' },
 ];
 
-function Sidebar({ isCollapsed }) {
+function AdminSidebar({ isCollapsed }) {
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -45,9 +44,7 @@ function Sidebar({ isCollapsed }) {
             <button
               key={item.path}
               className={`sidebar__nav-link ${
-                isActive
-                  ? 'sidebar__nav-link--active'
-                  : 'sidebar__nav-link--inactive'
+                isActive ? 'sidebar__nav-link--active' : 'sidebar__nav-link--inactive'
               }`}
               onClick={() => navigate(item.path)}
               title={isCollapsed ? item.label : undefined}
@@ -90,4 +87,4 @@ function Sidebar({ isCollapsed }) {
   );
 }
 
-export default Sidebar;
+export default AdminSidebar;

@@ -4,8 +4,8 @@
 
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import AdminLayout from '../components/AdminLayout';
-import '../style/AdminProfile.css';
+import AdminLayout from '../../components/admin/AdminLayout';
+import '../../style/admin/AdminProfile.css';
 
 function AdminProfile() {
   const navigate = useNavigate();

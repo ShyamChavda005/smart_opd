@@ -1,12 +1,12 @@
 // ============================================================
-//  Header.jsx  –  Reusable Top Header Bar Component
+//  AdminHeader.jsx – Reusable Admin Top Header Component
 // ============================================================
 
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import '../style/AdminDashboard.css';
+import '../../style/admin/AdminDashboard.css';
 
-function Header({ placeholder = "Search doctors, patients...", isCollapsed, toggleSidebar }) {
+function AdminHeader({ placeholder = "Search doctors, patients...", isCollapsed, toggleSidebar }) {
   const navigate = useNavigate();
 
   return (
@@ -53,4 +53,4 @@ function Header({ placeholder = "Search doctors, patients...", isCollapsed, togg
   );
 }
 
-export default Header;
+export default AdminHeader;

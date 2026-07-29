@@ -1,11 +1,11 @@
 // ============================================================
-//  AdminLayout.jsx  –  Shared Layout (Sidebar + Header + Content)
+//  AdminLayout.jsx – Shared Layout (AdminSidebar + AdminHeader + Content)
 // ============================================================
 
 import React, { useState } from 'react';
-import Sidebar from './Sidebar';
-import Header from './Header';
-import '../style/AdminDashboard.css';
+import AdminSidebar from './AdminSidebar';
+import AdminHeader from './AdminHeader';
+import '../../style/admin/AdminDashboard.css';
 
 function AdminLayout({ children }) {
   const [isCollapsed, setIsCollapsed] = useState(() => {
@@ -22,13 +22,13 @@ function AdminLayout({ children }) {
 
   return (
     <div className="dashboard-layout">
-      {/* Reusable Sidebar / Navbar */}
-      <Sidebar isCollapsed={isCollapsed} toggleSidebar={toggleSidebar} />
+      {/* Admin Sidebar */}
+      <AdminSidebar isCollapsed={isCollapsed} toggleSidebar={toggleSidebar} />
 
       {/* Main Content Area */}
       <div className={`dashboard-main ${isCollapsed ? 'dashboard-main--collapsed' : ''}`}>
-        {/* Reusable Header */}
-        <Header isCollapsed={isCollapsed} toggleSidebar={toggleSidebar} />
+        {/* Admin Header */}
+        <AdminHeader isCollapsed={isCollapsed} toggleSidebar={toggleSidebar} />
 
         {/* Dynamic Page Content */}
         <main className="dashboard-content">

@@ -1,0 +1,15 @@
+/* ============================================================
+   ReceptionistPatients.css – Styles for Receptionist Patient Database
+   ============================================================ */
+
+.receptionist-patients-container {
+  width: 100%;
+}
+
+.patient-table-row {
+  transition: background-color 0.15s ease;
+}
+
+.patient-table-row:hover {
+  background-color: #f8fafc;
+}

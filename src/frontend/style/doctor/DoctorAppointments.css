@@ -1,0 +1,16 @@
+/* ============================================================
+   DoctorAppointments.css – Dedicated Styles for Doctor Appointments
+   ============================================================ */
+
+.doctor-appointments-container {
+  width: 100%;
+}
+
+.appointment-item-card {
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.appointment-item-card:hover {
+  border-color: #93c5fd;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+}

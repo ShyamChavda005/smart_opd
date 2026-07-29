@@ -4,8 +4,8 @@
 
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import AdminLayout from '../components/AdminLayout';
-import '../style/Receptionists.css';
+import AdminLayout from '../../components/admin/AdminLayout';
+import '../../style/admin/Receptionists.css';
 
 
 // ---------- Sample Receptionist Data ----------

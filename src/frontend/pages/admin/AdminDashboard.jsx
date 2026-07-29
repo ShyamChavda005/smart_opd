@@ -3,8 +3,8 @@
 // ============================================================
 
 import React from 'react';
-import AdminLayout from '../components/AdminLayout';
-import '../style/AdminDashboard.css';
+import AdminLayout from '../../components/admin/AdminLayout';
+import '../../style/admin/AdminDashboard.css';
 
 
 function AdminDashboard() {

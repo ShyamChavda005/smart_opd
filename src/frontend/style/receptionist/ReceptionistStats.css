@@ -1,0 +1,15 @@
+/* ============================================================
+   ReceptionistStats.css – Styles for Receptionist Stats & Analytics
+   ============================================================ */
+
+.receptionist-stats-container {
+  width: 100%;
+}
+
+.stats-card-box {
+  transition: transform 0.2s ease;
+}
+
+.stats-card-box:hover {
+  transform: translateY(-2px);
+}

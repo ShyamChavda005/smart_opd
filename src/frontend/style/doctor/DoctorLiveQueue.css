@@ -1,0 +1,17 @@
+/* ============================================================
+   DoctorLiveQueue.css – Dedicated Styles for Doctor Live Queue
+   ============================================================ */
+
+.doctor-live-queue-container {
+  width: 100%;
+}
+
+.queue-card-consulting {
+  border-color: #93c5fd;
+  box-shadow: 0 0 0 2px rgba(96, 165, 250, 0.2);
+}
+
+.queue-card-urgent {
+  border-color: #fca5a5;
+  background-color: rgba(254, 242, 242, 0.8);
+}
