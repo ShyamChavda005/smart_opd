@@ -3,6 +3,7 @@
 // ============================================================
 
 import React from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import '../../style/admin/AdminDashboard.css';
 
@@ -16,6 +17,19 @@ const NAV_ITEMS = [
 function AdminSidebar({ isCollapsed }) {
   const navigate = useNavigate();
   const location = useLocation();
+  const [name, setName] = useState("");
+
+  useEffect(() => {
+    fetch("http://localhost:8000/admin")
+    .then((res) => res.json())
+    .then((data) => {
+      // console.log(data)
+      setName(data[0].name)
+    })
+    .catch((err) => {
+      console.log(err)
+    })
+  })
 
   const handleLogout = () => {
     localStorage.removeItem('isAdminLoggedIn');
@@ -69,7 +83,7 @@ function AdminSidebar({ isCollapsed }) {
           </div>
           {!isCollapsed && (
             <div className="sidebar__user-info">
-              <span className="sidebar__user-name">Alex Miller</span>
+              <span className="sidebar__user-name">{name}</span>
               <span className="sidebar__user-role">Admin</span>
             </div>
           )}

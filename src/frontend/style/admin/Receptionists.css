@@ -319,125 +319,30 @@
   flex: 1;
 }
 
-/* --- Toolbar --- */
-.receptionists-table__toolbar {
-  padding: 16px;
+.receptionists-table__scroll {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.receptionists-table__table {
+  width: 100%;
+  min-width: 1180px;
+  border-collapse: collapse;
+  table-layout: auto;
+  white-space: nowrap;
+}
+
+.receptionists-table__head {
+  background-color: rgba(239, 244, 255, 0.5);
+}
+
+.receptionists-table__header-row {
   border-bottom: 1px solid rgba(195, 198, 215, 0.3);
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-  background-color: rgba(239, 244, 255, 0.3);
-}
-
-@media (min-width: 640px) {
-  .receptionists-table__toolbar {
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-  }
-}
-
-.receptionists-table__toolbar-actions {
-  display: flex;
-  gap: 8px;
-}
-
-.receptionists-table__toolbar-btn {
-  padding: 8px 16px;
-  background-color: #f8f9ff;
-  border-radius: 8px;
-  border: none;
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  transition: background-color 0.2s ease;
-}
-
-.receptionists-table__toolbar-btn:hover {
-  background-color: #dce9ff;
-}
-
-.receptionists-table__toolbar-btn .material-symbols-outlined {
-  font-size: 18px;
-  color: #434655;
-}
-
-.receptionists-table__toolbar-btn span:last-child {
-  font-family: 'Inter', sans-serif;
-  font-size: 13px;
-  font-weight: 500;
-  line-height: 18px;
-  letter-spacing: 0.03em;
-  color: #434655;
-}
-
-/* Search input in toolbar */
-.receptionists-table__search-wrap {
-  position: relative;
-  width: 100%;
-}
-
-@media (min-width: 640px) {
-  .receptionists-table__search-wrap {
-    width: 256px;
-  }
-}
-
-.receptionists-table__search-wrap .material-symbols-outlined {
-  position: absolute;
-  left: 12px;
-  top: 50%;
-  transform: translateY(-50%);
-  font-size: 20px;
-  color: rgba(67, 70, 85, 0.6);
-  pointer-events: none;
-}
-
-.receptionists-table__search-input {
-  width: 100%;
-  padding: 8px 16px 8px 40px;
-  background-color: #f8f9ff;
-  border: 1px solid rgba(195, 198, 215, 0.5);
-  border-radius: 8px;
-  font-family: 'Inter', sans-serif;
-  font-size: 14px;
-  font-weight: 400;
-  line-height: 20px;
-  color: #0b1c30;
-  outline: none;
-  transition: all 0.2s ease;
-  box-sizing: border-box;
-}
-
-.receptionists-table__search-input::placeholder {
-  color: rgba(67, 70, 85, 0.5);
-}
-
-.receptionists-table__search-input:focus {
-  border-color: #004ac6;
-  box-shadow: 0 0 0 1px #004ac6;
-}
-
-
-/* --- Table Header --- */
-.receptionists-table__header {
-  display: none;
-}
-
-@media (min-width: 768px) {
-  .receptionists-table__header {
-    display: grid;
-    grid-template-columns: 3fr 1.5fr 2fr 2.5fr 2fr 1.5fr;
-    gap: 16px;
-    padding: 16px;
-    background-color: rgba(239, 244, 255, 0.5);
-    border-bottom: 1px solid rgba(195, 198, 215, 0.3);
-  }
 }
 
 .receptionists-table__header-cell {
+  padding: 16px;
+  text-align: left;
   font-family: 'Inter', sans-serif;
   font-size: 13px;
   font-weight: 500;
@@ -445,77 +350,51 @@
   letter-spacing: 0.06em;
   text-transform: uppercase;
   color: #434655;
+  white-space: nowrap;
 }
 
 .receptionists-table__header-cell--right {
   text-align: right;
 }
 
+.receptionists-table__sort-icon {
+  font-size: 18px;
+  vertical-align: middle;
+  margin-left: 4px;
+  color: #737686;
+}
 
-/* --- Table Body --- */
 .receptionists-table__body {
-  display: flex;
-  flex-direction: column;
-  max-height: 360px;
-  overflow-y: auto;
+  display: table-row-group;
+  max-height: none;
+  overflow: visible;
 }
 
-/* Custom Scrollbar for Receptionist List */
-.receptionists-table__body::-webkit-scrollbar {
-  width: 6px;
+.receptionists-table__body tr:last-child {
+  border-bottom: none;
 }
 
-.receptionists-table__body::-webkit-scrollbar-track {
-  background: rgba(229, 238, 255, 0.3);
-}
-
-.receptionists-table__body::-webkit-scrollbar-thumb {
-  background: #c3c6d7;
-  border-radius: 4px;
-}
-
-.receptionists-table__body::-webkit-scrollbar-thumb:hover {
-  background: #004ac6;
-}
-
-
-/* --- Table Row --- */
 .receptionists-table__row {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 16px;
-  padding: 16px;
-  align-items: center;
-  border-bottom: 1px solid rgba(195, 198, 215, 0.1);
   transition: background-color 0.2s ease;
 }
 
-@media (min-width: 768px) {
-  .receptionists-table__row {
-    grid-template-columns: 3fr 1.5fr 2fr 2.5fr 2fr 1.5fr;
-  }
+.receptionists-table__row > td {
+  border-bottom: 1px solid rgba(195, 198, 215, 0.12);
 }
 
 .receptionists-table__row:hover {
   background-color: rgba(255, 255, 255, 0.8);
 }
 
-.receptionists-table__row:last-child {
-  border-bottom: none;
+.receptionists-table__cell {
+  padding: 16px;
+  vertical-align: middle;
 }
 
-.receptionists-table__row--faded {
-  /* Off Duty row fading */
+.receptionists-table__profile-cell {
+  min-width: 220px;
 }
 
-.receptionists-table__row--faded .receptionists-table__avatar--initials,
-.receptionists-table__row--faded .receptionists-table__profile-info,
-.receptionists-table__row--faded .receptionists-table__shift {
-  opacity: 0.6;
-}
-
-
-/* --- Profile Cell --- */
 .receptionists-table__profile {
   display: flex;
   align-items: center;
@@ -528,41 +407,67 @@
 }
 
 .receptionists-table__avatar--initials {
-  width: 48px;
-  height: 48px;
-  border-radius: 50%;
+  width: 56px;
+  height: 56px;
+  border-radius: 16px;
   background-color: #d3e4fe;
   display: flex;
   align-items: center;
   justify-content: center;
   font-family: 'Hanken Grotesk', sans-serif;
-  font-size: 18px;
+  font-size: 20px;
   font-weight: 600;
   color: #004ac6;
+  border: 2px solid transparent;
+  transition: border-color 0.3s ease;
+}
+
+.receptionists-table__row:hover .receptionists-table__avatar--initials {
+  border-color: rgba(0, 74, 198, 0.2);
+}
+
+.receptionists-table__indicator {
+  position: absolute;
+  bottom: -4px;
+  right: -4px;
+  width: 16px;
+  height: 16px;
+  background-color: #ffffff;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
 }
 
-/* Status dot on avatar */
-.receptionists-table__avatar-status {
-  position: absolute;
-  bottom: 0;
-  right: 0;
-  width: 14px;
-  height: 14px;
+.receptionists-table__indicator-dot {
+  width: 10px;
+  height: 10px;
   border-radius: 50%;
-  border: 2px solid #ffffff;
 }
 
-.receptionists-table__avatar-status--active {
-  background-color: #004ac6;
+.receptionists-table__indicator-dot--green {
+  background-color: #10b981;
+  animation: receptionist-pulse 2s infinite;
 }
 
-.receptionists-table__avatar-status--break {
-  background-color: #5d5f5f;
-}
-
-.receptionists-table__avatar-status--off {
+.receptionists-table__indicator-dot--gray {
   background-color: #737686;
+}
+
+.receptionists-table__indicator-dot--red {
+  background-color: #ba1a1a;
+}
+
+@keyframes receptionist-pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0.5;
+  }
 }
 
 .receptionists-table__profile-info {
@@ -572,11 +477,10 @@
 
 .receptionists-table__name {
   font-family: 'Hanken Grotesk', sans-serif;
-  font-size: 16px;
+  font-size: 20px;
   font-weight: 600;
-  line-height: 1.3;
+  line-height: 28px;
   color: #0b1c30;
-  cursor: pointer;
   transition: color 0.2s ease;
 }
 
@@ -585,59 +489,40 @@
 }
 
 .receptionists-table__id {
-  font-family: 'Inter', monospace;
+  font-family: 'Inter', sans-serif;
   font-size: 12px;
   font-weight: 400;
   line-height: 16px;
-  color: #434655;
+  color: #737686;
 }
 
-
-/* --- Gender, Username, & Shift Cells --- */
-.receptionists-table__gender,
-.receptionists-table__username,
-.receptionists-table__shift {
-  display: flex;
-  align-items: center;
-}
-
-.receptionists-table__gender-text,
-.receptionists-table__username-text,
-.receptionists-table__shift-text {
+.receptionists-table__text {
   font-family: 'Inter', sans-serif;
   font-size: 14px;
   font-weight: 400;
+  line-height: 20px;
   color: #0b1c30;
 }
 
-.receptionists-table__mobile-label {
-  display: inline;
+.receptionists-table__dept-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 10px;
+  border-radius: 9999px;
+  background-color: #e5eeff;
+}
+
+.receptionists-table__dept-name {
   font-family: 'Inter', sans-serif;
-  font-size: 13px;
+  font-size: 12px;
   font-weight: 500;
   line-height: 18px;
-  letter-spacing: 0.03em;
-  color: #434655;
+  color: #004ac6;
+  text-transform: capitalize;
 }
 
-@media (min-width: 768px) {
-  .receptionists-table__mobile-label {
-    display: none;
-  }
-}
-
-
-/* --- Status Cell --- */
-.receptionists-table__status {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-}
-
-@media (min-width: 768px) {
-  .receptionists-table__status {
-    align-items: flex-start;
-  }
+.receptionists-table__status-badge {
+  display: inline-flex;
 }
 
 .receptionists-table__status-badge {
@@ -653,61 +538,35 @@
   letter-spacing: 0.03em;
 }
 
-.receptionists-table__status-badge--active {
+.receptionists-table__status-badge--green {
   background-color: rgba(0, 74, 198, 0.1);
   color: #004ac6;
 }
 
-.receptionists-table__status-badge--break {
+.receptionists-table__status-badge--gray {
   background-color: rgba(93, 95, 95, 0.1);
   color: #5d5f5f;
 }
 
-.receptionists-table__status-badge--off {
-  background-color: #d3e4fe;
-  color: #434655;
+.receptionists-table__status-badge--red {
+  background-color: rgba(180, 35, 24, 0.1);
+  color: #b42318;
 }
 
-.receptionists-table__status-dot {
+.receptionists-table__status-badge-dot {
   width: 6px;
   height: 6px;
   border-radius: 50%;
+  background-color: currentColor;
 }
 
-.receptionists-table__status-dot--active {
-  background-color: #004ac6;
+.receptionists-table__cell--actions {
+  text-align: right;
 }
 
-.receptionists-table__status-dot--break {
-  background-color: #5d5f5f;
-}
-
-.receptionists-table__status-dot--off {
-  background-color: #737686;
-}
-
-.receptionists-table__status-sub {
-  font-family: 'Inter', sans-serif;
-  font-size: 12px;
-  font-weight: 400;
-  line-height: 16px;
-  color: #434655;
-  margin-top: 4px;
-}
-
-
-/* --- Actions Cell --- */
 .receptionists-table__actions {
-  display: flex;
-  justify-content: flex-end;
+  display: inline-flex;
   gap: 8px;
-  margin-top: 16px;
-}
-
-@media (min-width: 768px) {
-  .receptionists-table__actions {
-    margin-top: 0;
-  }
 }
 
 .receptionists-table__action-btn {
@@ -719,105 +578,24 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #434655;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: background-color 0.2s ease, transform 0.2s ease;
 }
 
 .receptionists-table__action-btn:hover {
   background-color: #dce9ff;
-}
-
-.receptionists-table__action-btn--danger:hover {
-  background-color: rgba(255, 218, 214, 0.5);
-  color: #ba1a1a;
+  transform: translateY(-1px);
 }
 
 .receptionists-table__action-btn .material-symbols-outlined {
   font-size: 18px;
+  color: #004ac6;
 }
 
-
-/* ============================================================
-   PAGINATION
-   ============================================================ */
-
-.receptionists-pagination {
-  padding: 16px;
-  border-top: 1px solid rgba(195, 198, 215, 0.3);
-  background-color: #ffffff;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
-.receptionists-pagination__info {
+.receptionists-table__empty {
+  padding: 24px 16px;
+  text-align: center;
   font-family: 'Inter', sans-serif;
-  font-size: 12px;
-  font-weight: 400;
-  line-height: 16px;
-  color: #434655;
-}
-
-.receptionists-pagination__pages {
-  display: flex;
-  gap: 4px;
-}
-
-.receptionists-pagination__btn {
-  width: 32px;
-  height: 32px;
-  border-radius: 6px;
-  background-color: #f8f9ff;
-  border: 1px solid rgba(195, 198, 215, 0.3);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  font-family: 'Inter', sans-serif;
-  font-size: 13px;
-  font-weight: 500;
-  line-height: 18px;
-  letter-spacing: 0.03em;
-  color: #0b1c30;
-  transition: background-color 0.2s ease;
-}
-
-.receptionists-pagination__btn:hover {
-  background-color: #dce9ff;
-}
-
-.receptionists-pagination__btn--active {
-  background-color: #004ac6;
-  color: #ffffff;
-  border-color: #004ac6;
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
-}
-
-.receptionists-pagination__btn--active:hover {
-  background-color: #003ea8;
-}
-
-.receptionists-pagination__btn--disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
-}
-
-.receptionists-pagination__btn--disabled:hover {
-  background-color: #f8f9ff;
-}
-
-.receptionists-pagination__btn .material-symbols-outlined {
-  font-size: 18px;
-}
-
-.receptionists-pagination__ellipsis {
-  width: 32px;
-  height: 32px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-family: 'Inter', sans-serif;
-  font-size: 13px;
+  font-size: 14px;
   color: #434655;
 }

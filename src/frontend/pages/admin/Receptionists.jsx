@@ -2,55 +2,110 @@
 //  Receptionists.jsx  –  Receptionists Page Component
 // ============================================================
 
-import React from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import AdminLayout from '../../components/admin/AdminLayout';
 import '../../style/admin/Receptionists.css';
 
+function getInitials(name) {
+  if (!name) return 'RP';
 
-// ---------- Sample Receptionist Data ----------
+  const initials = String(name)
+    .trim()
+    .split(/\s+/)
+    .filter(Boolean)
+    .slice(0, 2)
+    .map((part) => part[0]?.toUpperCase())
+    .join('');
 
-const RECEPTIONISTS = [
-  {
-    id: 'REC-1021',
-    name: 'Alice Thompson',
-    gender: 'Female',
-    username: 'alice.t',
-    shift: 'Morning (8 AM - 4 PM)',
-    status: 'active',
-    statusLabel: 'Active Shift',
-    statusSub: 'Ends in 2h',
-    initials: 'AT',
-  },
-  {
-    id: 'REC-3304',
-    name: 'Robert Miller',
-    gender: 'Male',
-    username: 'robert.m',
-    shift: 'Afternoon (2 PM - 10 PM)',
-    status: 'break',
-    statusLabel: 'On Break',
-    statusSub: 'Returns 15:00',
-    initials: 'RM',
-  },
-  {
-    id: 'REC-8821',
-    name: 'Sarah Connor',
-    gender: 'Female',
-    username: 'sarah.c',
-    shift: 'Night (10 PM - 6 AM)',
-    status: 'off',
-    statusLabel: 'Off Duty',
-    statusSub: null,
-    initials: 'SC',
-  },
-];
+  return initials || 'RP';
+}
 
+function formatDateTime(value) {
+  if (!value) return '-';
+
+  const date = new Date(value);
+  if (Number.isNaN(date.getTime())) return '-';
+
+  return date.toLocaleString('en-IN', {
+    day: '2-digit',
+    month: 'short',
+    year: 'numeric',
+    hour: '2-digit',
+    minute: '2-digit'
+  });
+}
+
+function formatStatus(status) {
+  if (!status) return 'Unknown';
+
+  return String(status).charAt(0).toUpperCase() + String(status).slice(1).toLowerCase();
+}
+
+function getStatusClass(status) {
+  const normalizedStatus = String(status || '').toLowerCase();
+
+  switch (normalizedStatus) {
+    case 'active':
+      return 'green';
+    case 'break':
+      return 'gray';
+    case 'off':
+    case 'inactive':
+      return 'red';
+    default:
+      return 'gray';
+  }
+}
 
 // ---------- Component ----------
 
 function Receptionists() {
+  const [receptionist, setRecetionist] = useState([]);
+  const [searchTerm, setSearchTerm] = useState('');
+  const [selectedShift, setSelectedShift] = useState("All");
+  const shifts = ["All", "Morning", "Afternoon", "Evening", "Night"];
   const navigate = useNavigate();
+
+  useEffect(() => {
+    fetch("http://localhost:8000/receptionists")
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data)
+        setRecetionist(data);
+      })
+      .catch((err) => {
+        console.log(err);
+      })
+  }, [])
+
+  const filteredReceptionists = useMemo(() => {
+    const query = searchTerm.trim().toLowerCase();
+
+    return receptionist.filter((rec) => {
+      const matchesSearch =
+        !query ||
+        [
+          rec.name,
+          rec.rid,
+          rec.gender,
+          rec.email,
+          rec.contact,
+          rec.username,
+        ]
+          .filter(Boolean)
+          .some((value) => String(value).toLowerCase().includes(query));
+
+      const matchesShift =
+        selectedShift === "All" || rec.shift === selectedShift;
+
+      return matchesSearch && matchesShift;
+    });
+  }, [receptionist, searchTerm, selectedShift]);
+
+  const totalReceptionists = receptionist.length;
+  const activeReceptionists = receptionist.filter((rec) => String(rec.status || '').toLowerCase() === 'active').length;
+  const morningShiftReceptionists = receptionist.filter((rec) => String(rec.shift || '').toLowerCase() === 'morning').length;
 
   return (
     <AdminLayout>
@@ -70,6 +125,45 @@ function Receptionists() {
           </button>
         </div>
 
+        {/* ============ SEARCH & FILTER BAR ============ */}
+        <div className="doctors-search-bar">
+          <div className="doctors-search-bar__input-wrap">
+            <span className="material-symbols-outlined doctors-search-bar__icon">search</span>
+            <input
+              className="doctors-search-bar__input"
+              type="text"
+              placeholder="Search by name, ID, or specialty..."
+              value={searchTerm}
+              onChange={(event) => setSearchTerm(event.target.value)}
+            />
+          </div>
+          <div className="doctors-search-bar__dropdown">
+            <div className="doctors-search-bar__dropdown-labels">
+              <span className="doctors-search-bar__dropdown-caption">Shift</span>
+              <span className="doctors-search-bar__dropdown-value">
+                {selectedShift === "All" ? "All Shifts" : selectedShift}
+              </span>
+            </div>
+
+            <select
+              className="doctors-search-bar__select"
+              value={selectedShift}
+              onChange={(e) => setSelectedShift(e.target.value)}
+              aria-label="Filter receptionists by shift"
+            >
+              {shifts.map((shift) => (
+                <option key={shift} value={shift}>
+                  {shift === "All" ? "All Shifts" : shift}
+                </option>
+              ))}
+            </select>
+
+            <span className="material-symbols-outlined doctors-search-bar__arrow">
+              expand_more
+            </span>
+          </div>
+        </div>
+
         {/* ============ STATISTICS CARDS ============ */}
         <div className="receptionists-stats">
 
@@ -82,12 +176,12 @@ function Receptionists() {
               </div>
               <div className="stat-card__trend">
                 <span className="material-symbols-outlined">trending_up</span>
-                <span className="stat-card__trend-text">+2 this month</span>
+                <span className="stat-card__trend-text">Live directory</span>
               </div>
             </div>
             <div className="stat-card__bottom">
               <h3 className="stat-card__label">Total Receptionists</h3>
-              <p className="stat-card__value">24</p>
+              <p className="stat-card__value">{totalReceptionists}</p>
             </div>
           </div>
 
@@ -98,24 +192,15 @@ function Receptionists() {
               <div className="stat-card__icon stat-card__icon--slate">
                 <span className="material-symbols-outlined">schedule</span>
               </div>
-              <div className="stat-card__donut">
-                <svg viewBox="0 0 36 36">
-                  <path
-                    className="stat-card__donut-bg"
-                    d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
-                  />
-                  <path
-                    className="stat-card__donut-fill"
-                    d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
-                  />
-                </svg>
+              <div className="stat-card__badge">
+                <span className="stat-card__badge-text">{activeReceptionists} active</span>
               </div>
             </div>
             <div className="stat-card__bottom">
               <h3 className="stat-card__label">On Shift</h3>
               <p className="stat-card__value">
-                8
-                <span className="stat-card__value-sub">/ 12</span>
+                {activeReceptionists}
+                <span className="stat-card__value-sub">/ {totalReceptionists || 0}</span>
               </p>
             </div>
           </div>
@@ -128,14 +213,14 @@ function Receptionists() {
                 <span className="material-symbols-outlined">timer</span>
               </div>
               <div className="stat-card__badge">
-                <span className="stat-card__badge-text">Optimal</span>
+                <span className="stat-card__badge-text">{morningShiftReceptionists} morning</span>
               </div>
             </div>
             <div className="stat-card__bottom">
-              <h3 className="stat-card__label">Avg Response Time</h3>
+              <h3 className="stat-card__label">Morning Shift</h3>
               <p className="stat-card__value">
-                4.2
-                <span className="stat-card__value-unit">m</span>
+                {morningShiftReceptionists}
+                <span className="stat-card__value-unit">staff</span>
               </p>
             </div>
           </div>
@@ -143,101 +228,98 @@ function Receptionists() {
 
         {/* ============ DIRECTORY TABLE ============ */}
         <div className="receptionists-table">
+          <div className="receptionists-table__scroll">
+            <table className="receptionists-table__table">
+              <thead className="receptionists-table__head">
+                <tr className="receptionists-table__header-row">
+                  <th className="receptionists-table__header-cell">
+                    <span>Name</span>
+                    <span className="material-symbols-outlined receptionists-table__sort-icon">unfold_more</span>
+                  </th>
+                  <th className="receptionists-table__header-cell">Gender</th>
+                  <th className="receptionists-table__header-cell">DOB</th>
+                  <th className="receptionists-table__header-cell">Email</th>
+                  <th className="receptionists-table__header-cell">Contact</th>
+                  <th className="receptionists-table__header-cell">Username</th>
+                  <th className="receptionists-table__header-cell">Shift</th>
+                  <th className="receptionists-table__header-cell">Created</th>
+                  <th className="receptionists-table__header-cell">Status</th>
+                  <th className="receptionists-table__header-cell receptionists-table__header-cell--right">Actions</th>
+                </tr>
+              </thead>
+              <tbody className="receptionists-table__body">
+                {!filteredReceptionists.length && (
+                  <tr>
+                    <td colSpan="10" className="receptionists-table__empty">No receptionists found.</td>
+                  </tr>
+                )}
 
-          {/* Toolbar */}
-          <div className="receptionists-table__toolbar">
-            <div className="receptionists-table__toolbar-actions">
-              <button className="receptionists-table__toolbar-btn">
-                <span className="material-symbols-outlined">filter_list</span>
-                <span>Filter</span>
-              </button>
-              <button className="receptionists-table__toolbar-btn">
-                <span className="material-symbols-outlined">sort</span>
-                <span>Sort</span>
-              </button>
-            </div>
-            <div className="receptionists-table__search-wrap">
-              <span className="material-symbols-outlined">search</span>
-              <input
-                className="receptionists-table__search-input"
-                type="text"
-                placeholder="Search ID or Name..."
-              />
-            </div>
-          </div>
+                {filteredReceptionists.map((rec) => {
+                  const color = getStatusClass(rec.status);
 
-          {/* Table Header */}
-          <div className="receptionists-table__header">
-            <div className="receptionists-table__header-cell">Name</div>
-            <div className="receptionists-table__header-cell">Gender</div>
-            <div className="receptionists-table__header-cell">Username</div>
-            <div className="receptionists-table__header-cell">Shift</div>
-            <div className="receptionists-table__header-cell">Status</div>
-            <div className="receptionists-table__header-cell receptionists-table__header-cell--right">Actions</div>
-          </div>
-
-          {/* Table Body */}
-          <div className="receptionists-table__body">
-            {RECEPTIONISTS.map((rec) => (
-              <div
-                className={`receptionists-table__row ${rec.status === 'off' ? 'receptionists-table__row--faded' : ''}`}
-                key={rec.id}
-              >
-                {/* Name & Initials Avatar */}
-                <div className="receptionists-table__profile">
-                  <div className="receptionists-table__avatar-wrap">
-                    <div className="receptionists-table__avatar--initials">
-                      {rec.initials}
-                    </div>
-                    <div className={`receptionists-table__avatar-status receptionists-table__avatar-status--${rec.status}`} />
-                  </div>
-                  <div className="receptionists-table__profile-info">
-                    <span className="receptionists-table__name">{rec.name}</span>
-                    <span className="receptionists-table__id">ID: {rec.id}</span>
-                  </div>
-                </div>
-
-                {/* Gender */}
-                <div className="receptionists-table__gender">
-                  <span className="receptionists-table__gender-text">{rec.gender}</span>
-                </div>
-
-                {/* Username */}
-                <div className="receptionists-table__username">
-                  <span className="receptionists-table__username-text">{rec.username}</span>
-                </div>
-
-                {/* Shift */}
-                <div className="receptionists-table__shift">
-                  <span className="receptionists-table__shift-text">{rec.shift}</span>
-                </div>
-
-                {/* Status */}
-                <div className="receptionists-table__status">
-                  <span className={`receptionists-table__status-badge receptionists-table__status-badge--${rec.status}`}>
-                    <span className={`receptionists-table__status-dot receptionists-table__status-dot--${rec.status}`} />
-                    {rec.statusLabel}
-                  </span>
-                  {rec.statusSub && (
-                    <span className="receptionists-table__status-sub">{rec.statusSub}</span>
-                  )}
-                </div>
-
-                {/* Actions (View and Edit) */}
-                <div className="receptionists-table__actions">
-                  <button className="receptionists-table__action-btn" title="View Details">
-                    <span className="material-symbols-outlined">visibility</span>
-                  </button>
-                  <button className="receptionists-table__action-btn" title="Edit Receptionist">
-                    <span className="material-symbols-outlined">edit</span>
-                  </button>
-                </div>
-              </div>
-            ))}
+                  return (
+                    <tr className="receptionists-table__row" key={rec.rid}>
+                      <td className="receptionists-table__cell receptionists-table__profile-cell">
+                        <div className="receptionists-table__profile">
+                          <div className="receptionists-table__avatar-wrap">
+                            <div className="receptionists-table__avatar--initials">{getInitials(rec.name)}</div>
+                            <div className="receptionists-table__indicator">
+                              <div className={`receptionists-table__indicator-dot receptionists-table__indicator-dot--${color}`} />
+                            </div>
+                          </div>
+                          <div className="receptionists-table__profile-info">
+                            <span className="receptionists-table__name">{rec.name}</span>
+                            <span className="receptionists-table__id">ID: {rec.rid}</span>
+                          </div>
+                        </div>
+                      </td>
+                      <td className="receptionists-table__cell"><span className="receptionists-table__text">{rec.gender || '-'}</span></td>
+                      <td className="receptionists-table__cell"><span className="receptionists-table__text">{rec.dob || '-'}</span></td>
+                      <td className="receptionists-table__cell"><span className="receptionists-table__text">{rec.email || '-'}</span></td>
+                      <td className="receptionists-table__cell"><span className="receptionists-table__text">{rec.contact || '-'}</span></td>
+                      <td className="receptionists-table__cell"><span className="receptionists-table__text">{rec.username || '-'}</span></td>
+                      <td className="receptionists-table__cell">
+                        <div className="receptionists-table__dept-badge">
+                          <span className="receptionists-table__dept-name">{rec.shift || '-'}</span>
+                        </div>
+                      </td>
+                      <td className="receptionists-table__cell"><span className="receptionists-table__text">{formatDateTime(rec.create_at || rec.created_at)}</span></td>
+                      <td className="receptionists-table__cell">
+                        <div className="receptionists-table__status">
+                          <div className={`receptionists-table__status-badge receptionists-table__status-badge--${color}`}>
+                            <div className="receptionists-table__status-badge-dot" />
+                            <span className="receptionists-table__status-badge-text">{formatStatus(rec.status)}</span>
+                            <label className="doctor-status-switch">
+                              <input
+                                type="checkbox"
+                                checked={rec.status === "Active"}
+                                // onChange={() => handleStatusToggle(doctor.id, doctor.status)}
+                                readOnly
+                              />
+                              <span className="doctor-status-slider"></span>
+                            </label>
+                          </div>
+                        </div>
+                      </td>
+                      <td className="receptionists-table__cell receptionists-table__cell--actions">
+                        <div className="receptionists-table__actions">
+                          <button className="receptionists-table__action-btn" title="View Details">
+                            <span className="material-symbols-outlined">visibility</span>
+                          </button>
+                          <button className="receptionists-table__action-btn" title="Edit Receptionist">
+                            <span className="material-symbols-outlined">edit</span>
+                          </button>
+                        </div>
+                      </td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
           </div>
 
           {/* Pagination */}
-          <div className="receptionists-pagination">
+          {/* <div className="receptionists-pagination">
             <span className="receptionists-pagination__info">Showing 1 to 3 of 24 entries</span>
             <div className="receptionists-pagination__pages">
               <button className="receptionists-pagination__btn receptionists-pagination__btn--disabled">
@@ -251,7 +333,7 @@ function Receptionists() {
                 <span className="material-symbols-outlined">chevron_right</span>
               </button>
             </div>
-          </div>
+          </div> */}
         </div>
       </div>
     </AdminLayout>
