@@ -350,7 +350,8 @@
     display: inline-block;
     width: 46px;
     height: 24px;
-    margin-top: 10px;
+    margin-top: 0;
+    flex-shrink: 0;
 }
 
 .doctor-status-switch input {
@@ -377,7 +378,7 @@
     top: 3px;
     background: white;
     border-radius: 50%;
-    transition: .3s;
+    transition: left .3s ease;
 }
 
 .doctor-status-switch input:checked + .doctor-status-slider {
@@ -385,7 +386,7 @@
 }
 
 .doctor-status-switch input:checked + .doctor-status-slider::before {
-    transform: translateX(22px);
+    left: 25px;
 }
 
 .doctors-search-bar__dropdown:hover {

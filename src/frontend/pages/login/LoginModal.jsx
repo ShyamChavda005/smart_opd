@@ -47,10 +47,14 @@ export default function LoginModal({ isOpen, onClose, onLogin }) {
     // console.log(response.status);
     console.log(data);
 
+    
     if (data.message === "Login successful") {
       localStorage.setItem(`${localName}Id`, JSON.stringify(data.id));
       onLogin(role, username, password);
     } 
+    else if (data.status != "Active") {
+      alert("Your Account is Suspended by Administrator !")
+    }
     else {
       alert(`${role} - login failed `)
     }

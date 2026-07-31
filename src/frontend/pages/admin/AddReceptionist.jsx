@@ -245,6 +245,13 @@ function AddReceptionist() {
 
   const [showPassword, setShowPassword] = useState(false);
 
+  const [currentTime, setCurrentTime] = useState(new Date());
+
+  useEffect(() => {
+    const timer = setInterval(() => setCurrentTime(new Date()), 1000);
+    return () => clearInterval(timer);
+  }, []);
+
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
     setFormData((prev) => ({
@@ -578,7 +585,7 @@ function AddReceptionist() {
                     <input
                       className="ar-input-group__control ar-input-group__control--disabled"
                       type="text"
-                      value={new Date().toLocaleString()}
+                      value={currentTime.toLocaleString()}
                       disabled
                     />
                   </div>

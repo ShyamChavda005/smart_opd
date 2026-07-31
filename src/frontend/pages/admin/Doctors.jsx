@@ -138,33 +138,38 @@ function Doctors() {
 
   const activeDoctorsCount = doctors.filter((doctor) => String(doctor.status || '').toLowerCase() === 'active').length;
 
-  // const handleStatusToggle = async (id, currentStatus) => {
-  //   const newStatus = currentStatus === "active" ? "inactive" : "active";
+  const handleStatusToggle = async (id, currentStatus) => {
+    const normalizedCurrent = String(currentStatus || "").toLowerCase();
+    const newStatus = normalizedCurrent === "active" ? "inactive" : "active";
 
-  //   try {
-  //     const response = await fetch(`http://localhost:8000/doctor/${id}/status`, {
-  //       method: "PATCH",
-  //       headers: {
-  //         "Content-Type": "application/json",
-  //       },
-  //       body: JSON.stringify({
-  //         status: newStatus,
-  //       }),
-  //     });
+    if (newStatus === "inactive") {
+      alert("Doctor account has been set to inactive.");
+    }
 
-  //     if (response.ok) {
-  //       setDoctors(prev =>
-  //         prev.map(doc =>
-  //           doc.id === id
-  //             ? { ...doc, status: newStatus }
-  //             : doc
-  //         )
-  //       );
-  //     }
-  //   } catch (err) {
-  //     console.error(err);
-  //   }
-  // };
+    try {
+      const response = await fetch(`http://localhost:8000/doctor/${id}/${newStatus}`, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          status: newStatus,
+        }),
+      });
+
+      if (response.ok) {
+        setDoctors(prev =>
+          prev.map(doc =>
+            doc.did === id
+              ? { ...doc, status: newStatus }
+              : doc
+          )
+        );
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  };
 
   return (
     <AdminLayout>
@@ -405,9 +410,8 @@ function Doctors() {
                             <label className="doctor-status-switch">
                               <input
                                 type="checkbox"
-                                checked={doctor.status === "Active"}
-                              // onChange={() => handleStatusToggle(doctor.id, doctor.status)}
-                              readOnly
+                                checked={String(doctor.status || "").toLowerCase() === "active"}
+                                onChange={() => handleStatusToggle(doctor.did, doctor.status)}
                               />
                               <span className="doctor-status-slider"></span>
                             </label>

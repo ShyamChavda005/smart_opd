@@ -2,7 +2,7 @@
 //  ReceptionistLayout.jsx – Shared Receptionist Layout Component
 // ============================================================
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import ReceptionistSidebar from './ReceptionistSidebar';
 import ReceptionistHeader from './ReceptionistHeader';
@@ -13,6 +13,7 @@ export default function ReceptionistLayout({ children, activeTab = 'Dashboard' }
 
   // Settings State
   const [settingsOpen, setSettingsOpen] = useState(false);
+  const [profileOpen, setProfileOpen] = useState(false);
   const [autoPrintSlip, setAutoPrintSlip] = useState(true);
   const [smsAlertsEnabled, setSmsAlertsEnabled] = useState(true);
   const [whatsappAlerts, setWhatsappAlerts] = useState(true);
@@ -21,11 +22,17 @@ export default function ReceptionistLayout({ children, activeTab = 'Dashboard' }
   const [stationName, setStationName] = useState('Main Reception Counter A-01');
 
   // User Profile State
-  const [profileOpen, setProfileOpen] = useState(false);
-  const [profileName, setProfileName] = useState('Sarah Jenkins');
-  const [profileEmail, setProfileEmail] = useState('sarah.jenkins@hospital.com');
-  const [profilePhone, setProfilePhone] = useState('+91 98765 12345');
-  const [profileRole] = useState('Senior Receptionist');
+  const [profile, setProfile] = useState({
+    "name": "",
+    "dob": "",
+    "gender": "",
+    "email": "",
+    "contact": "",
+    "username": "",
+    "password": "",
+    "shift": "",
+    "status": ""
+  })
 
   const [toastMessage, setToastMessage] = useState(null);
 
@@ -38,6 +45,38 @@ export default function ReceptionistLayout({ children, activeTab = 'Dashboard' }
     localStorage.removeItem('isReceptionistLoggedIn');
     navigate('/');
   };
+
+  const id = localStorage.getItem("receptionistId");
+
+  useEffect(() => {
+    if (!id) return;
+    fetch(`http://localhost:8000/receptionist/${id}`)
+      .then((res) => res.json())
+      .then((data) => {
+        setProfile(data);
+        console.log("receptionist api fetch");
+      })
+      .catch((err) => {
+        console.log(err);
+      })
+  }, [id]);
+
+  const saveProfile = () => {
+    fetch(`http://localhost:8000/receptionist/${id}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(profile),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        console.log("Profile updated successfully");
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }
 
   return (
     <div className="min-h-screen bg-[#F8FAFC] text-slate-800 flex font-sans">
@@ -56,7 +95,7 @@ export default function ReceptionistLayout({ children, activeTab = 'Dashboard' }
       <div className="flex-1 flex flex-col min-w-0">
         {/* Receptionist Header */}
         <ReceptionistHeader
-          profileName={profileName}
+          profileName={profile.name}
           stationName={stationName}
           onOpenSettings={() => setSettingsOpen(true)}
           onOpenProfile={() => setProfileOpen(true)}
@@ -94,9 +133,8 @@ export default function ReceptionistLayout({ children, activeTab = 'Dashboard' }
                     <button
                       type="button"
                       onClick={() => setAutoPrintSlip(!autoPrintSlip)}
-                      className={`w-12 h-6 rounded-full transition-colors p-1 flex items-center ${
-                        autoPrintSlip ? 'bg-blue-600 justify-end' : 'bg-slate-300 justify-start'
-                      }`}
+                      className={`w-12 h-6 rounded-full transition-colors p-1 flex items-center ${autoPrintSlip ? 'bg-blue-600 justify-end' : 'bg-slate-300 justify-start'
+                        }`}
                     >
                       <span className="w-4 h-4 rounded-full bg-white shadow-md"></span>
                     </button>
@@ -125,9 +163,8 @@ export default function ReceptionistLayout({ children, activeTab = 'Dashboard' }
                     <button
                       type="button"
                       onClick={() => setSmsAlertsEnabled(!smsAlertsEnabled)}
-                      className={`w-12 h-6 rounded-full transition-colors p-1 flex items-center ${
-                        smsAlertsEnabled ? 'bg-blue-600 justify-end' : 'bg-slate-300 justify-start'
-                      }`}
+                      className={`w-12 h-6 rounded-full transition-colors p-1 flex items-center ${smsAlertsEnabled ? 'bg-blue-600 justify-end' : 'bg-slate-300 justify-start'
+                        }`}
                     >
                       <span className="w-4 h-4 rounded-full bg-white shadow-md"></span>
                     </button>
@@ -140,9 +177,8 @@ export default function ReceptionistLayout({ children, activeTab = 'Dashboard' }
                     <button
                       type="button"
                       onClick={() => setWhatsappAlerts(!whatsappAlerts)}
-                      className={`w-12 h-6 rounded-full transition-colors p-1 flex items-center ${
-                        whatsappAlerts ? 'bg-blue-600 justify-end' : 'bg-slate-300 justify-start'
-                      }`}
+                      className={`w-12 h-6 rounded-full transition-colors p-1 flex items-center ${whatsappAlerts ? 'bg-blue-600 justify-end' : 'bg-slate-300 justify-start'
+                        }`}
                     >
                       <span className="w-4 h-4 rounded-full bg-white shadow-md"></span>
                     </button>
@@ -159,9 +195,8 @@ export default function ReceptionistLayout({ children, activeTab = 'Dashboard' }
                     <button
                       type="button"
                       onClick={() => setVoiceAnnouncement(!voiceAnnouncement)}
-                      className={`w-12 h-6 rounded-full transition-colors p-1 flex items-center ${
-                        voiceAnnouncement ? 'bg-blue-600 justify-end' : 'bg-slate-300 justify-start'
-                      }`}
+                      className={`w-12 h-6 rounded-full transition-colors p-1 flex items-center ${voiceAnnouncement ? 'bg-blue-600 justify-end' : 'bg-slate-300 justify-start'
+                        }`}
                     >
                       <span className="w-4 h-4 rounded-full bg-white shadow-md"></span>
                     </button>
@@ -214,32 +249,74 @@ export default function ReceptionistLayout({ children, activeTab = 'Dashboard' }
               </button>
               <div className="flex items-center gap-4 mb-6 pb-6 border-b border-slate-100">
                 <div className="w-16 h-16 rounded-2xl bg-blue-600 text-white font-black text-xl flex items-center justify-center border-2 border-blue-500 shadow-md">
-                  SJ
+                  {profile.name.split(" ")[0]?.charAt(0) || ""}
+                  {profile.name.split(" ")[1]?.charAt(0) || ""}
                 </div>
                 <div>
-                  <h3 className="text-xl font-extrabold text-slate-900">{profileName}</h3>
-                  <p className="text-xs font-semibold text-blue-600">{profileRole}</p>
+                  <h3 className="text-xl font-extrabold text-slate-900">{profile.name}</h3>
+                  <p className="text-xs font-semibold text-blue-600">Receptionist</p>
                   <span className="inline-block mt-1 px-2.5 py-0.5 bg-slate-100 text-slate-600 rounded text-[10px] font-bold">
-                    Staff ID: EMP-8842
+                    ID : {id}
+                  </span> <br />
+                  <span className="inline-block mt-1 px-2.5 py-0.5 bg-slate-100 text-slate-600 rounded text-[10px] font-bold">
+                    Status : {profile.status}
                   </span>
                 </div>
               </div>
-              <div className="space-y-4">
+              <div className="space-y-4 max-h-[60vh] overflow-y-auto pr-2">
                 <div>
-                  <label className="block text-xs font-bold text-slate-700 uppercase mb-1">Full Name</label>
+                  <label className="block text-xs font-bold text-slate-700 uppercase mb-1">Name</label>
                   <input
                     type="text"
-                    value={profileName}
-                    onChange={(e) => setProfileName(e.target.value)}
+                    value={profile.name}
+                    onChange={(e) => setProfile({ ...profile, name: e.target.value })}
                     className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-800 text-xs font-medium focus:bg-white focus:ring-2 focus:ring-blue-600 focus:outline-none"
                   />
+                </div>
+                <div>
+                  <label className="block text-xs font-bold text-slate-700 uppercase mb-1">Date Of Birth</label>
+                  <input
+                    type="date"
+                    value={profile.dob}
+                    onChange={(e) => setProfile({ ...profile, dob: e.target.value })}
+                    className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-800 text-xs font-medium focus:bg-white focus:ring-2 focus:ring-blue-600 focus:outline-none"
+                  />
+                </div>
+                <div>
+                  <label className="block text-xs font-bold text-slate-700 uppercase mb-1">
+                    Gender
+                  </label>
+
+                  <div className="flex gap-4">
+                    <label>
+                      <input
+                        type="radio"
+                        name="gender"
+                        value="Male"
+                        checked={profile.gender === "Male"}
+                        onChange={(e) => setProfile({ ...profile, gender: e.target.value })}
+                      />
+                      Male
+                    </label>
+
+                    <label>
+                      <input
+                        type="radio"
+                        name="gender"
+                        value="Female"
+                        checked={profile.gender === "Female"}
+                        onChange={(e) => setProfile({ ...profile, gender: e.target.value })}
+                      />
+                      Female
+                    </label>
+                  </div>
                 </div>
                 <div>
                   <label className="block text-xs font-bold text-slate-700 uppercase mb-1">Email Address</label>
                   <input
                     type="email"
-                    value={profileEmail}
-                    onChange={(e) => setProfileEmail(e.target.value)}
+                    value={profile.email}
+                    onChange={(e) => setProfile({ ...profile, email: e.target.value })}
                     className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-800 text-xs font-medium focus:bg-white focus:ring-2 focus:ring-blue-600 focus:outline-none"
                   />
                 </div>
@@ -247,10 +324,42 @@ export default function ReceptionistLayout({ children, activeTab = 'Dashboard' }
                   <label className="block text-xs font-bold text-slate-700 uppercase mb-1">Mobile Number</label>
                   <input
                     type="tel"
-                    value={profilePhone}
-                    onChange={(e) => setProfilePhone(e.target.value)}
+                    value={profile.contact}
+                    onChange={(e) => setProfile({ ...profile, contact: e.target.value })}
                     className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-800 text-xs font-medium focus:bg-white focus:ring-2 focus:ring-blue-600 focus:outline-none"
                   />
+                </div>
+                <div>
+                  <label className="block text-xs font-bold text-slate-700 uppercase mb-1">Username</label>
+                  <input
+                    type="text"
+                    value={profile.username}
+                    onChange={(e) => setProfile({ ...profile, username: e.target.value })}
+                    className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-800 text-xs font-medium focus:bg-white focus:ring-2 focus:ring-blue-600 focus:outline-none"
+                  />
+                </div>
+                <div>
+                  <label className="block text-xs font-bold text-slate-700 uppercase mb-1">Password</label>
+                  <input
+                    type="password"
+                    placeholder={profile.password || ''}
+                    onChange={(e) => setProfile({ ...profile, password: e.target.value })}
+                    className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-800 text-xs font-medium focus:bg-white focus:ring-2 focus:ring-blue-600 focus:outline-none"
+                  />
+                </div>
+                <div>
+                  <label className="block text-xs font-bold text-slate-700 uppercase mb-1">Shift</label>
+
+                  <select
+                    value={profile.shift || ''}
+                    onChange={(e) => setProfile({ ...profile, shift: e.target.value })}
+                    className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-800 text-xs font-medium focus:bg-white focus:ring-2 focus:ring-blue-600 focus:outline-none"
+                  >
+                    <option value="Morning"> Morning </option>
+                    <option value="Evening"> Evening </option>
+                    <option value="Afternoon"> Afternoon </option>
+                    <option value="Night"> Night </option>
+                  </select>
                 </div>
               </div>
               <div className="mt-6 pt-4 border-t border-slate-100 flex items-center justify-between">
@@ -267,6 +376,7 @@ export default function ReceptionistLayout({ children, activeTab = 'Dashboard' }
                   onClick={() => {
                     setProfileOpen(false);
                     showToast('Profile updated successfully!');
+                    saveProfile()
                   }}
                   className="px-5 py-2.5 bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs rounded-xl shadow-md transition-all flex items-center gap-1.5"
                 >
