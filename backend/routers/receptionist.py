@@ -13,7 +13,7 @@ def validate_receptionist(rec : ReceptionistLoginValidate, db : Session = Depend
     if not success :
         return {"message" : "Login failed"}
     
-    return {"message" : "Login successful"}
+    return {"message" : "Login successful", "id" : success.rid}
 
 
 @router.post("/receptionist")
