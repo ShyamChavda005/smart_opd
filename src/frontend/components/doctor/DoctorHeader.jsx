@@ -2,7 +2,7 @@
 //  DoctorHeader.jsx – Reusable Doctor Top Header Component
 // ============================================================
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import '../../style/doctor/DoctorLayout.css';
 
 export default function DoctorHeader({
@@ -14,6 +14,17 @@ export default function DoctorHeader({
 }) {
   const [searchQuery, setSearchQuery] = useState('');
   const [notificationsOpen, setNotificationsOpen] = useState(false);
+  const [name, setName] = useState("");
+
+  const id = localStorage.getItem("doctorId");
+
+  useEffect(() => {
+    fetch(`http://localhost:8000/doctor/${id}`)
+    .then((res) => res.json())
+    .then((data) => {
+      setName(data.name);
+    })
+  },[])
 
   return (
     <header className="bg-white border-b border-slate-200 px-8 py-5 flex items-center justify-between sticky top-0 z-40 shadow-sm">
@@ -78,7 +89,7 @@ export default function DoctorHeader({
           className="flex items-center gap-2 pl-2 cursor-pointer hover:opacity-90 transition-opacity"
         >
           <div className="w-10 h-10 rounded-full bg-blue-600 text-white font-bold flex items-center justify-center border-2 border-blue-500 shadow-sm text-sm">
-            DS
+            {name.split(" ")[0].charAt(0)}
           </div>
         </div>
       </div>

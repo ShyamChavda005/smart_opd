@@ -33,6 +33,7 @@ function AdminSidebar({ isCollapsed }) {
 
   const handleLogout = () => {
     localStorage.removeItem('isAdminLoggedIn');
+    localStorage.removeItem('adminId');
     navigate('/');
   };
 
