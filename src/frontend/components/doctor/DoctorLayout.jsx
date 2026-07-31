@@ -201,8 +201,8 @@ export default function DoctorLayout({ children, activeTab = 'Overview' }) {
               </button>
               <div className="flex items-center gap-4 mb-6 pb-6 border-b border-slate-100">
                 <div className="w-16 h-16 rounded-2xl bg-blue-600 text-white font-black text-xl flex items-center justify-center border-2 border-blue-500 shadow-md">
-                  {doctor.name.split(" ")[0].charAt(0)}
-                  {doctor.name.split(" ")[1].charAt(0)}
+                  {doctor.name.split(" ")[0]?.charAt(0) || ""}
+                  {doctor.name.split(" ")[1]?.charAt(0) || ""}
                 </div>
                 <div>
                   <h3 className="text-xl font-extrabold text-slate-900">{doctor.name}</h3>

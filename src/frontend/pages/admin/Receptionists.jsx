@@ -107,6 +107,50 @@ function Receptionists() {
   const activeReceptionists = receptionist.filter((rec) => String(rec.status || '').toLowerCase() === 'active').length;
   const morningShiftReceptionists = receptionist.filter((rec) => String(rec.shift || '').toLowerCase() === 'morning').length;
 
+  const handleStatusToggle = async (id, currentStatus) => {
+    const normalizedCurrent = String(currentStatus || "").toLowerCase();
+    const newStatus = normalizedCurrent === "active" ? "inactive" : "active";
+
+    setRecetionist(prev =>
+      prev.map(rec =>
+        (String(rec.rid) === String(id))
+          ? { ...rec, status: newStatus }
+          : rec
+      )
+    );
+
+    if (newStatus === "inactive") {
+      alert("Receptionist account has been set to inactive.");
+    }
+
+    try {
+      const response = await fetch(`http://localhost:8000/receptionist/${id}/${newStatus}`, {
+        method: "PATCH",
+      });
+
+      if (!response.ok) {
+        setRecetionist(prev =>
+          prev.map(rec =>
+            (String(rec.rid) === String(id))
+              ? { ...rec, status: currentStatus }
+              : rec
+          )
+        );
+        console.error("Failed to update status. API returned:", response.status);
+      }
+    } catch (err) {
+      // Revert on network error
+      setRecetionist(prev =>
+        prev.map(rec =>
+          (String(rec.rid) === String(id))
+            ? { ...rec, status: currentStatus }
+            : rec
+        )
+      );
+      console.error("Network error:", err);
+    }
+  };
+
   return (
     <AdminLayout>
       <div className="receptionists-page">
@@ -292,9 +336,8 @@ function Receptionists() {
                             <label className="doctor-status-switch">
                               <input
                                 type="checkbox"
-                                checked={rec.status === "Active"}
-                                // onChange={() => handleStatusToggle(doctor.id, doctor.status)}
-                                readOnly
+                                checked={String(rec.status || "").toLowerCase() === "active"}
+                                onChange={() => handleStatusToggle(rec.rid, rec.status)}
                               />
                               <span className="doctor-status-slider"></span>
                             </label>

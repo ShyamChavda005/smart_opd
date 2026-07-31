@@ -15,5 +15,8 @@ def get_one_doctor(id, db) :
 def update_doctor(id, doc, db) :
     return doctor_crud.update_doctor(id, doc, db)
 
+def update_doctor_status(id, status, db) :
+    return doctor_crud.update_doctor_status(id, status, db)
+
 def delete_doctor(id, db) :
     return doctor_crud.delete_doctor(id, db)

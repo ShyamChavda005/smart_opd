@@ -95,13 +95,6 @@ export default function ReceptionistSidebar({ activeTab = 'Dashboard', showToast
 
       <div className="p-4 border-t border-slate-100 space-y-1">
         <button
-          onClick={() => showToast && showToast('Connecting to Hospital IT Helpdesk Ext 404...')}
-          className="w-full flex items-center gap-3 px-4 py-2.5 rounded-xl font-medium text-xs text-slate-500 hover:bg-slate-50 transition-colors"
-        >
-          <span className="material-symbols-outlined text-lg text-slate-400">help</span>
-          <span>Help Center</span>
-        </button>
-        <button
           onClick={handleLogout}
           className="w-full flex items-center gap-3 px-4 py-2.5 rounded-xl font-bold text-xs text-red-600 hover:bg-red-50 transition-colors"
         >

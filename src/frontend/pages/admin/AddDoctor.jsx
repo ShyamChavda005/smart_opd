@@ -301,10 +301,17 @@ function AddDoctor() {
     "Pediatrics",
     "Psychiatry",
   ];
-  
+
   const [showPassword, setShowPassword] = useState(false);
   const [search, setSearch] = useState("");
   const [showDropdown, setShowDropdown] = useState(false);
+
+  const [currentTime, setCurrentTime] = useState(new Date());
+
+  useEffect(() => {
+    const timer = setInterval(() => setCurrentTime(new Date()), 1000);
+    return () => clearInterval(timer);
+  }, []);
 
   const filtered = specializations.filter((item) =>
     item.toLowerCase().includes(search.toLowerCase())
@@ -572,7 +579,7 @@ function AddDoctor() {
               </div>
               <div className="system-record-card__row">
                 <span className="system-record-card__key">Created At</span>
-                <span className="system-record-card__val">{new Date().toLocaleString()}</span>
+                <span className="system-record-card__val">{currentTime.toLocaleString()}</span>
               </div>
             </div>
 
