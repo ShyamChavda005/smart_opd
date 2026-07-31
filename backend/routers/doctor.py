@@ -13,7 +13,7 @@ def validate_doctor(doc : DoctorLoginValidate, db: Session = Depends(get_db)) :
     if not success :
         return {"message" : "Login failed"}
     
-    return {"message" : "Login successful"}
+    return {"message" : "Login successful", "id": success.did}
         
 
 @router.post("/doctor")

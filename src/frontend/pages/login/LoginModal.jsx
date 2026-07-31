@@ -13,17 +13,20 @@ export default function LoginModal({ isOpen, onClose, onLogin }) {
     setRole(newRole);
   };
   
-  let url = "";
+  let url = "", localName = "";
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     if (role === "receptionist") {
       url = "http://localhost:8000/login/receptionist";
+      localName = "receptionist";
     } else if (role === "doctor") {
       url = "http://localhost:8000/login/doctor";
+      localName = "doctor";
     } else if (role === "admin") {
       url = "http://localhost:8000/login/admin";
+      localName = "admin";
     }
 
     const user = {
@@ -45,8 +48,10 @@ export default function LoginModal({ isOpen, onClose, onLogin }) {
     console.log(data);
 
     if (data.message === "Login successful") {
+      localStorage.setItem(`${localName}Id`, JSON.stringify(data.id));
       onLogin(role, username, password);
-    } else {
+    } 
+    else {
       alert(`${role} - login failed `)
     }
 
