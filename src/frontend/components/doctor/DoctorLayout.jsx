@@ -2,7 +2,7 @@
 //  DoctorLayout.jsx – Shared Doctor Layout Component
 // ============================================================
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import DoctorSidebar from './DoctorSidebar';
 import DoctorHeader from './DoctorHeader';
@@ -21,10 +21,18 @@ export default function DoctorLayout({ children, activeTab = 'Overview' }) {
   const [audioChime, setAudioChime] = useState(true);
 
   // Doctor Profile State
-  const [docName, setDocName] = useState('Dr. Sharma');
-  const [docSpecialty, setDocSpecialty] = useState('Cardiology Department');
-  const [docLicense] = useState('LIC-998421');
-  const [docEmail, setDocEmail] = useState('dr.sharma@hospital.com');
+  const [doctor, setDoctor] = useState({
+    "name": "",
+    "dob": "",
+    "gender": "",
+    "email": "",
+    "contact": "",
+    "specialization": "",
+    "avg_time": "",
+    "username": "",
+    "password": "",
+    "status": ""
+  })
 
   // Quick Add Patient state
   const [newPatientName, setNewPatientName] = useState('');
@@ -36,7 +44,42 @@ export default function DoctorLayout({ children, activeTab = 'Overview' }) {
     setTimeout(() => setToastMessage(null), 3500);
   };
 
+  const id = localStorage.getItem("doctorId");
+
+  useEffect(() => {
+    fetch(`http://localhost:8000/doctor/${id}`)
+      .then((res) => res.json())
+      .then((data) => {
+        setDoctor(data);
+        console.log(data);
+      })
+      .catch((err) => {
+        console.log(err);
+      })
+  }, [])
+
+  const saveProfile = async () => {
+    try {
+      const response = await fetch(`http://localhost:8000/doctor/${id}`, {
+        method : "PUT",
+        headers : {
+          "Content-Type" : "application/json"
+        },
+        body : JSON.stringify(doctor)
+      });
+
+      if (!response.ok) {
+        alert("not updated !");
+      } 
+
+    } catch (err) {
+      console.error(err);
+      alert("Error updating profile");
+    }
+  }
+
   const handleLogout = () => {
+    localStorage.removeItem('doctorusername');
     localStorage.removeItem('isDoctorLoggedIn');
     navigate('/');
   };
@@ -58,8 +101,8 @@ export default function DoctorLayout({ children, activeTab = 'Overview' }) {
       <div className="flex-1 flex flex-col min-w-0">
         {/* Doctor Header */}
         <DoctorHeader
-          docName={docName}
-          docSpecialty={docSpecialty}
+          docName={doctor.name}
+          docSpecialty={doctor.specialization}
           roomNumber={roomNumber}
           onOpenSettings={() => setSettingsOpen(true)}
           onOpenProfile={() => setProfileOpen(true)}
@@ -104,9 +147,8 @@ export default function DoctorLayout({ children, activeTab = 'Overview' }) {
                   <button
                     type="button"
                     onClick={() => setAutoNext(!autoNext)}
-                    className={`w-11 h-6 rounded-full transition-colors p-1 flex items-center ${
-                      autoNext ? 'bg-blue-600 justify-end' : 'bg-slate-300 justify-start'
-                    }`}
+                    className={`w-11 h-6 rounded-full transition-colors p-1 flex items-center ${autoNext ? 'bg-blue-600 justify-end' : 'bg-slate-300 justify-start'
+                      }`}
                   >
                     <span className="w-4 h-4 rounded-full bg-white shadow-md"></span>
                   </button>
@@ -119,9 +161,8 @@ export default function DoctorLayout({ children, activeTab = 'Overview' }) {
                   <button
                     type="button"
                     onClick={() => setAudioChime(!audioChime)}
-                    className={`w-11 h-6 rounded-full transition-colors p-1 flex items-center ${
-                      audioChime ? 'bg-blue-600 justify-end' : 'bg-slate-300 justify-start'
-                    }`}
+                    className={`w-11 h-6 rounded-full transition-colors p-1 flex items-center ${audioChime ? 'bg-blue-600 justify-end' : 'bg-slate-300 justify-start'
+                      }`}
                   >
                     <span className="w-4 h-4 rounded-full bg-white shadow-md"></span>
                   </button>
@@ -160,32 +201,74 @@ export default function DoctorLayout({ children, activeTab = 'Overview' }) {
               </button>
               <div className="flex items-center gap-4 mb-6 pb-6 border-b border-slate-100">
                 <div className="w-16 h-16 rounded-2xl bg-blue-600 text-white font-black text-xl flex items-center justify-center border-2 border-blue-500 shadow-md">
-                  DS
+                  {doctor.name.split(" ")[0].charAt(0)}
+                  {doctor.name.split(" ")[1].charAt(0)}
                 </div>
                 <div>
-                  <h3 className="text-xl font-extrabold text-slate-900">{docName}</h3>
-                  <p className="text-xs font-semibold text-blue-600">{docSpecialty}</p>
+                  <h3 className="text-xl font-extrabold text-slate-900">{doctor.name}</h3>
+                  <p className="text-xs font-semibold text-blue-600">{doctor.specialization}</p>
                   <span className="inline-block mt-1 px-2.5 py-0.5 bg-slate-100 text-slate-600 rounded text-[10px] font-bold">
-                    License: {docLicense}
+                    ID: {id}
+                  </span> <br/>
+                  <span className="inline-block mt-1 px-2.5 py-0.5 bg-slate-100 text-slate-600 rounded text-[10px] font-bold">
+                    Status: {doctor.status}
                   </span>
                 </div>
               </div>
-              <div className="space-y-4">
+              <div className="space-y-4 max-h-[60vh] overflow-y-auto pr-2">
                 <div>
                   <label className="block text-xs font-bold text-slate-700 uppercase mb-1">Doctor Name</label>
                   <input
                     type="text"
-                    value={docName}
-                    onChange={(e) => setDocName(e.target.value)}
+                    value={doctor.name}
+                    onChange={(e) => setDoctor({ ...doctor, name: e.target.value })}
                     className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-800 text-xs font-medium focus:bg-white focus:ring-2 focus:ring-blue-600 focus:outline-none"
                   />
                 </div>
                 <div>
-                  <label className="block text-xs font-bold text-slate-700 uppercase mb-1">Department</label>
+                  <label className="block text-xs font-bold text-slate-700 uppercase mb-1">Date Of Birth</label>
+                  <input
+                    type="date"
+                    value={doctor.dob}
+                    onChange={(e) => setDoctor({ ...doctor, dob: e.target.value })}
+                    className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-800 text-xs font-medium focus:bg-white focus:ring-2 focus:ring-blue-600 focus:outline-none"
+                  />
+                </div>
+                <div>
+                  <label className="block text-xs font-bold text-slate-700 uppercase mb-1">
+                    Gender
+                  </label>
+
+                  <div className="flex gap-4">
+                    <label>
+                      <input
+                        type="radio"
+                        name="gender"
+                        value="Male"
+                        checked={doctor.gender === "Male"}
+                        onChange={(e) => setDoctor({ ...doctor, gender: e.target.value })}
+                      />
+                      Male
+                    </label>
+
+                    <label>
+                      <input
+                        type="radio"
+                        name="gender"
+                        value="Female"
+                        checked={doctor.gender === "Female"}
+                        onChange={(e) => setDoctor({ ...doctor, gender: e.target.value })}
+                      />
+                      Female
+                    </label>
+                  </div>
+                </div>
+                <div>
+                  <label className="block text-xs font-bold text-slate-700 uppercase mb-1">Specialization</label>
                   <input
                     type="text"
-                    value={docSpecialty}
-                    onChange={(e) => setDocSpecialty(e.target.value)}
+                    value={doctor.specialization}
+                    onChange={(e) => setDoctor({ ...doctor, specialization: e.target.value })}
                     className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-800 text-xs font-medium focus:bg-white focus:ring-2 focus:ring-blue-600 focus:outline-none"
                   />
                 </div>
@@ -193,8 +276,45 @@ export default function DoctorLayout({ children, activeTab = 'Overview' }) {
                   <label className="block text-xs font-bold text-slate-700 uppercase mb-1">Email</label>
                   <input
                     type="email"
-                    value={docEmail}
-                    onChange={(e) => setDocEmail(e.target.value)}
+                    value={doctor.email}
+                    onChange={(e) => setDoctor({ ...doctor, email: e.target.value })}
+                    className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-800 text-xs font-medium focus:bg-white focus:ring-2 focus:ring-blue-600 focus:outline-none"
+                  />
+                </div>
+                <div>
+                  <label className="block text-xs font-bold text-slate-700 uppercase mb-1">Contact No.</label>
+                  <input
+                    type="tel"
+                    value={doctor.contact}
+                    onChange={(e) => setDoctor({ ...doctor, contact: e.target.value })}
+                    className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-800 text-xs font-medium focus:bg-white focus:ring-2 focus:ring-blue-600 focus:outline-none"
+                  />
+                </div>
+                <div>
+                  <label className="block text-xs font-bold text-slate-700 uppercase mb-1">Avg_Constulant_Time</label>
+                  <input
+                    type="number"
+                    value={doctor.avg_time}
+                    onChange={(e) => setDoctor({ ...doctor, avg_time: e.target.value })}
+                    className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-800 text-xs font-medium focus:bg-white focus:ring-2 focus:ring-blue-600 focus:outline-none"
+                  />
+                </div>
+                <div>
+                  <label className="block text-xs font-bold text-slate-700 uppercase mb-1">Username</label>
+                  <input
+                    type="text"
+                    value={doctor.username}
+                    onChange={(e) => setDoctor({ ...doctor, username: e.target.value })}
+                    className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-800 text-xs font-medium focus:bg-white focus:ring-2 focus:ring-blue-600 focus:outline-none"
+                  />
+                </div>
+                <div>
+                  <label className="block text-xs font-bold text-slate-700 uppercase mb-1">Password</label>
+                  <input
+                    type="password"
+                    value={doctor.password || ''}
+                    placeholder="Enter new password"
+                    onChange={(e) => setDoctor({ ...doctor, password: e.target.value })}
                     className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-800 text-xs font-medium focus:bg-white focus:ring-2 focus:ring-blue-600 focus:outline-none"
                   />
                 </div>
@@ -212,7 +332,8 @@ export default function DoctorLayout({ children, activeTab = 'Overview' }) {
                   type="button"
                   onClick={() => {
                     setProfileOpen(false);
-                    showToast('Doctor profile updated!');
+                    showToast('Doctor Profile Updated!');
+                    saveProfile();
                   }}
                   className="px-5 py-2.5 bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs rounded-xl shadow-md transition-all flex items-center gap-1.5"
                 >

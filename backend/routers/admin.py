@@ -28,4 +28,4 @@ def validate_admin(ad : AdminLoginValidate, db : Session = Depends(get_db)) :
     if success is None :
         return {"message" : "Login Failed"}
     
-    return {"message" : "Login successful"}
+    return {"message" : "Login successful", "id" : success.id}
