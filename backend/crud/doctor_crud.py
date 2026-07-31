@@ -3,7 +3,8 @@ from models import Doctor
 def validate_doctor(doc, db) :
     return db.query(Doctor).filter(
         Doctor.username == doc.username,
-        Doctor.password == doc.password
+        Doctor.password == doc.password,
+        Doctor.status == "Active"
         ).first()
 
 
@@ -52,6 +53,20 @@ def update_doctor(did, doc, db) :
     exits_doctor.username = doc.username
     exits_doctor.password = doc.password
     exits_doctor.status = doc.status
+    
+    db.commit()
+    db.refresh(exits_doctor)
+    
+    return exits_doctor
+
+
+def update_doctor_status(id, status, db) :
+    exits_doctor = db.query(Doctor).filter(Doctor.did == id).first()
+
+    if exits_doctor is None :
+        return {"message" : "No doctor found"}
+    
+    exits_doctor.status = status
     
     db.commit()
     db.refresh(exits_doctor)

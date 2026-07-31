@@ -89,7 +89,8 @@ export default function DoctorHeader({
           className="flex items-center gap-2 pl-2 cursor-pointer hover:opacity-90 transition-opacity"
         >
           <div className="w-10 h-10 rounded-full bg-blue-600 text-white font-bold flex items-center justify-center border-2 border-blue-500 shadow-sm text-sm">
-            {name.split(" ")[0].charAt(0)}
+            {name.split(" ")[0]?.charAt(0) || ""}
+            {name.split(" ")[1]?.charAt(0) || ""}
           </div>
         </div>
       </div>
