@@ -14,6 +14,10 @@ def get_one_receptionist(id, db) :
 
 def update_receptionist(id, rec, db) :
     return receptionist_crud.update_receptionist(id, rec, db)
+    
+def update_receptionist_status(id, status, db) :
+    return receptionist_crud.update_receptionist_status(id, status, db)
 
 def delete_receptionist(id, db) :
     return receptionist_crud.delete_receptionist(id, db)
+

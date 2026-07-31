@@ -2,7 +2,7 @@
 //  ReceptionistHeader.jsx – Reusable Receptionist Header Component
 // ============================================================
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import '../../style/receptionist/ReceptionistLayout.css';
 
@@ -14,6 +14,20 @@ export default function ReceptionistHeader({
 }) {
   const navigate = useNavigate();
   const [notificationsOpen, setNotificationsOpen] = useState(false);
+  const [name, setName] = useState("");
+
+  const id = localStorage.getItem("receptionistId");
+
+  useEffect(() => {
+    fetch(`http://localhost:8000/receptionist/${id}`)
+    .then((res) => res.json())
+    .then((data) => {
+      setName(data.name);
+    })
+    .catch((err) => {
+      console.log(err)
+    })
+  })
 
   return (
     <header className="bg-white border-b border-slate-200 px-8 py-5 flex items-center justify-between sticky top-0 z-40 shadow-sm">
@@ -81,7 +95,8 @@ export default function ReceptionistHeader({
           title="Click to manage profile &amp; portal options"
         >
           <div className="w-10 h-10 rounded-full bg-blue-600 text-white font-bold flex items-center justify-center border-2 border-blue-500 shadow-sm text-sm">
-            SJ
+            {name.split(" ")[0]?.charAt(0) || ""}
+            {name.split(" ")[1]?.charAt(0) || ""}
           </div>
         </div>
       </div>

@@ -13,7 +13,7 @@ def validate_receptionist(rec : ReceptionistLoginValidate, db : Session = Depend
     if not success :
         return {"message" : "Login failed"}
     
-    return {"message" : "Login successful", "id" : success.rid}
+    return {"message" : "Login successful", "id" : success.rid, "status" : success.status}
 
 
 @router.post("/receptionist")
@@ -44,6 +44,11 @@ def update_receptionist(id : int, rec : ReceptionistValidate, db : Session = Dep
         return {"message" : "something wrong.."}
         
     return {"message" : "Receptionist Updated !"}
+
+
+@router.patch("/receptionist/{id}/{status}")
+def update_receptionist_status(id: int, status: str, db: Session = Depends(get_db)):
+    return receptionist_services.update_receptionist_status(id, status, db)
 
 
 @router.delete("/receptionist/{id}")

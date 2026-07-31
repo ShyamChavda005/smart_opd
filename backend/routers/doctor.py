@@ -13,7 +13,7 @@ def validate_doctor(doc : DoctorLoginValidate, db: Session = Depends(get_db)) :
     if not success :
         return {"message" : "Login failed"}
     
-    return {"message" : "Login successful", "id": success.did}
+    return {"message" : "Login successful", "id": success.did, "status" : success.status}
         
 
 @router.post("/doctor")
@@ -44,6 +44,11 @@ def update_doctor(id: int, doc: DoctorValidate, db : Session = Depends(get_db)) 
         return {"message" : "something wrong.."}
         
     return {"message" : "Doctor Updated !"}
+
+
+@router.patch("/doctor/{id}/{status}")
+def update_doctor_status(id : int, status: str, db : Session = Depends(get_db)) :
+    return doctor_services.update_doctor_status(id, status, db)
 
 
 @router.delete("/doctor/{id}")

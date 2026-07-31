@@ -3,7 +3,8 @@ from models import Receptionist
 def validate_receptionist(rec, db) :
     return db.query(Receptionist).filter(
         Receptionist.username == rec.username,
-        Receptionist.password == rec.password
+        Receptionist.password == rec.password,
+        Receptionist.status == "Active"
     ).first()
     
 
@@ -68,3 +69,16 @@ def delete_receptionist(rid, db) :
     
     return exist_rec
     
+    
+def update_receptionist_status(rid, status, db) :
+    exist_rec = db.query(Receptionist).filter(Receptionist.rid == rid).first()
+    
+    if exist_rec is None:
+        return {"message" : "No receptionist found"}
+
+    exist_rec.status = status
+    
+    db.commit()
+    db.refresh(exist_rec)
+        
+    return exist_rec
