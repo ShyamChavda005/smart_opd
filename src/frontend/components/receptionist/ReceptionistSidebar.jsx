@@ -19,6 +19,7 @@ export default function ReceptionistSidebar({ activeTab = 'Dashboard', showToast
 
   const handleLogout = () => {
     localStorage.removeItem('isReceptionistLoggedIn');
+    localStorage.removeItem('receptionistId');
     navigate('/');
   };
 
