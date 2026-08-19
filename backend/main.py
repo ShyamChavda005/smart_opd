@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from routers import admin, doctor, receptionist, patient
+from routers import admin, doctor, receptionist, patient, symptoms, visit, queue, opd
 
 app = FastAPI()
 
@@ -23,3 +23,16 @@ app.include_router(receptionist.router)
 
 #patient route
 app.include_router(patient.router)
+
+#symptoms route
+app.include_router(symptoms.router)
+
+#visit route
+app.include_router(visit.router)
+
+#queue route
+app.include_router(queue.router)
+
+#opd route
+app.include_router(opd.router)
+

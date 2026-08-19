@@ -8,10 +8,11 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import '../../style/admin/AdminDashboard.css';
 
 const NAV_ITEMS = [
-  { label: 'Dashboard',     icon: 'dashboard',        path: '/admin/dashboard' },
-  { label: 'Doctors',       icon: 'medical_services',  path: '/admin/doctors' },
-  { label: 'Receptionists', icon: 'badge',             path: '/admin/receptionists' },
-  { label: 'Reports',       icon: 'analytics',         path: '/admin/reports' },
+  { label: 'Dashboard', icon: 'dashboard', path: '/admin/dashboard' },
+  { label: 'Doctors', icon: 'medical_services', path: '/admin/doctors' },
+  { label: 'Receptionists', icon: 'badge', path: '/admin/receptionists' },
+  { label: 'Symptoms Master', icon: 'coronavirus', path: '/admin/symptoms' },
+  { label: 'Reports', icon: 'analytics', path: '/admin/reports' },
 ];
 
 function AdminSidebar({ isCollapsed }) {
@@ -21,15 +22,16 @@ function AdminSidebar({ isCollapsed }) {
 
   useEffect(() => {
     fetch("http://localhost:8000/admin")
-    .then((res) => res.json())
-    .then((data) => {
-      // console.log(data)
-      setName(data[0].name)
-    })
-    .catch((err) => {
-      console.log(err)
-    })
-  })
+      .then((res) => res.json())
+      .then((data) => {
+        if (Array.isArray(data) && data.length > 0) {
+          setName(data[0].name);
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
 
   const handleLogout = () => {
     localStorage.removeItem('isAdminLoggedIn');
@@ -53,7 +55,8 @@ function AdminSidebar({ isCollapsed }) {
           const isActive =
             location.pathname === item.path ||
             (item.path === '/admin/doctors' && location.pathname === '/admin/add-doctor') ||
-            (item.path === '/admin/receptionists' && location.pathname === '/admin/add-receptionist');
+            (item.path === '/admin/receptionists' && location.pathname === '/admin/add-receptionist') ||
+            (item.path === '/admin/symptoms' && (location.pathname === '/admin/symptoms' || location.pathname === '/admin/add-symptom'));
 
           return (
             <button
