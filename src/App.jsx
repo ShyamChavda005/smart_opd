@@ -13,6 +13,8 @@ import Receptionists from './frontend/pages/admin/Receptionists';
 import AddReceptionist from './frontend/pages/admin/AddReceptionist';
 import AdminProfile from './frontend/pages/admin/AdminProfile';
 import AdminReports from './frontend/pages/admin/AdminReports';
+import AdminSymptoms from './frontend/pages/admin/AdminSymptoms';
+import AddSymptom from './frontend/pages/admin/AddSymptom';
 
 // Landing Page & New Panels
 import LandingPage from './frontend/pages/landing/LandingPage';
@@ -209,6 +211,22 @@ function App() {
           element={
             <ProtectedAdminRoute>
               <AdminReports />
+            </ProtectedAdminRoute>
+          }
+        />
+        <Route
+          path="/admin/symptoms"
+          element={
+            <ProtectedAdminRoute>
+              <AdminSymptoms />
+            </ProtectedAdminRoute>
+          }
+        />
+        <Route
+          path="/admin/add-symptom"
+          element={
+            <ProtectedAdminRoute>
+              <AddSymptom />
             </ProtectedAdminRoute>
           }
         />

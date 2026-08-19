@@ -1,5 +1,7 @@
 from pydantic import BaseModel, Field
 from datetime import date
+from typing import Optional
+
 
 class AdminValidate(BaseModel) :
     name : str
@@ -56,5 +58,47 @@ class PatientValidate(BaseModel) :
     email : str
     contact : str
     address : str
+
+
+class Symptoms_masterValidate(BaseModel) :
+    symptom_name : str
+    priority : str
+    priority_score : int
+    specialization : str
+    is_active : str
+
     
-    
+class VisitValidate(BaseModel) :
+    pid : int
+    did : int
+    rid : int
+    sid : int
+    token : int
+    visit_date : date
+    status : str
+
+
+class QueueValidate(BaseModel) :
+    vid : int
+    queue_position : int
+    priority_score : int
+    waiting_bonus : int
+    final_score : int
+    estimated_wait_time : int
+    status : str
+
+
+class OPDRegisterValidate(BaseModel) :
+    name : str
+    dob : date
+    age : int
+    gender : str
+    email : str
+    contact : str
+    address : str
+    specialization : str
+    sid : int
+    rid : int = 1
+    did : Optional[int] = None
+
+

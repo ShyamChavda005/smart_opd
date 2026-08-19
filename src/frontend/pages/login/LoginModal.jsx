@@ -8,55 +8,60 @@ export default function LoginModal({ isOpen, onClose, onLogin }) {
   const [showPassword, setShowPassword] = useState(false);
 
   if (!isOpen) return null;
-  
+
   const handleRoleChange = (newRole) => {
     setRole(newRole);
   };
-  
+
   let url = "", localName = "";
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (role === "receptionist") {
-      url = "http://localhost:8000/login/receptionist";
-      localName = "receptionist";
-    } else if (role === "doctor") {
-      url = "http://localhost:8000/login/doctor";
-      localName = "doctor";
-    } else if (role === "admin") {
-      url = "http://localhost:8000/login/admin";
-      localName = "admin";
+    try {
+      if (role === "receptionist") {
+        url = "http://localhost:8000/login/receptionist";
+        localName = "receptionist";
+      } else if (role === "doctor") {
+        url = "http://localhost:8000/login/doctor";
+        localName = "doctor";
+      } else if (role === "admin") {
+        url = "http://localhost:8000/login/admin";
+        localName = "admin";
+      }
+
+      const user = {
+        "username": username,
+        "password": password
+      }
+
+      const response = await fetch(url, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(user)
+      })
+
+      const data = await response.json();
+
+      // console.log(response.status);
+      console.log(data);
+
+
+      if (data.message === "Login successful") {
+        localStorage.setItem(`${localName}Id`, JSON.stringify(data.id));
+        onLogin(role, username, password);
+      }
+      else if (data.status !== "Active") {
+        alert("Your Account is Suspended by Administrator !")
+      }
+      else {
+        alert(`${role} - login failed `)
+      }
     }
-
-    const user = {
-      "username": username,
-      "password": password
-    }
-
-    const response = await fetch(url, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify(user)
-    })
-
-    const data = await response.json();
-
-    // console.log(response.status);
-    console.log(data);
-
-    
-    if (data.message === "Login successful") {
-      localStorage.setItem(`${localName}Id`, JSON.stringify(data.id));
-      onLogin(role, username, password);
-    } 
-    else if (data.status != "Active") {
-      alert("Your Account is Suspended by Administrator !")
-    }
-    else {
-      alert(`${role} - login failed `)
+    catch(e) {
+      alert("Backend Not start !")
     }
 
   };
@@ -94,8 +99,8 @@ export default function LoginModal({ isOpen, onClose, onLogin }) {
               type="button"
               onClick={() => handleRoleChange('receptionist')}
               className={`flex flex-col sm:flex-row items-center justify-center gap-1.5 py-2.5 px-3 rounded-xl font-bold text-xs sm:text-sm transition-all ${role === 'receptionist'
-                  ? 'bg-white text-primary shadow-md border border-blue-100'
-                  : 'text-text-body hover:text-text-heading'
+                ? 'bg-white text-primary shadow-md border border-blue-100'
+                : 'text-text-body hover:text-text-heading'
                 }`}
             >
               <span className="material-symbols-outlined text-lg">how_to_reg</span>
@@ -105,8 +110,8 @@ export default function LoginModal({ isOpen, onClose, onLogin }) {
               type="button"
               onClick={() => handleRoleChange('doctor')}
               className={`flex flex-col sm:flex-row items-center justify-center gap-1.5 py-2.5 px-3 rounded-xl font-bold text-xs sm:text-sm transition-all ${role === 'doctor'
-                  ? 'bg-white text-primary shadow-md border border-blue-100'
-                  : 'text-text-body hover:text-text-heading'
+                ? 'bg-white text-primary shadow-md border border-blue-100'
+                : 'text-text-body hover:text-text-heading'
                 }`}
             >
               <span className="material-symbols-outlined text-lg">medical_services</span>
@@ -116,8 +121,8 @@ export default function LoginModal({ isOpen, onClose, onLogin }) {
               type="button"
               onClick={() => handleRoleChange('admin')}
               className={`flex flex-col sm:flex-row items-center justify-center gap-1.5 py-2.5 px-3 rounded-xl font-bold text-xs sm:text-sm transition-all ${role === 'admin'
-                  ? 'bg-white text-primary shadow-md border border-blue-100'
-                  : 'text-text-body hover:text-text-heading'
+                ? 'bg-white text-primary shadow-md border border-blue-100'
+                : 'text-text-body hover:text-text-heading'
                 }`}
             >
               <span className="material-symbols-outlined text-lg">admin_panel_settings</span>
