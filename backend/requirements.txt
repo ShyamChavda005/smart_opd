@@ -1,0 +1,8 @@
+fastapi
+pymysql
+jwt
+argon2
+uvicorn
+sqlalchemy
+pydantic
+

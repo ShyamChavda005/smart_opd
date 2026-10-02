@@ -51,6 +51,30 @@ def update_visit(vid, vis, db) :
     return exits_visit
 
 
+def update_visit_symptom(vid, sid, db) :
+    from models import Queue, Symptoms_master
+    exits_visit = db.query(Visit).filter(Visit.vid == vid).first()
+
+    if exits_visit is None :
+        return None
+
+    exits_visit.sid = sid
+    db.add(exits_visit)
+    db.commit()
+    db.refresh(exits_visit)
+
+    # Real-world fix: symptom edit while Waiting must re-score the queue lane.
+    # Otherwise an upgraded Emergency patient keeps their old Low priority.
+    try:
+        from crud import queue_crud
+        if str(exits_visit.status or "").strip().lower() == "waiting":
+            queue_crud.recalculate_doctor_queue(exits_visit.did, db)
+    except Exception:
+        pass
+
+    return exits_visit
+
+
 def delete_visit(vid, db) :
     exits_visit = db.query(Visit).filter(Visit.vid == vid).first()
     

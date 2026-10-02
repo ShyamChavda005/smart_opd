@@ -12,5 +12,9 @@ def get_one_visit(id, db) :
 def update_visit(id, vis, db) :
     return visit_crud.update_visit(id, vis, db)
 
+def update_visit_symptom(id, sid, db) :
+    return visit_crud.update_visit_symptom(id, sid, db)
+
+
 def delete_visit(id, db) :
     return visit_crud.delete_visit(id, db)
