@@ -78,6 +78,10 @@ class VisitValidate(BaseModel) :
     status : str
 
 
+class VisitSymptomValidate(BaseModel) :
+    sid : int
+
+
 class QueueValidate(BaseModel) :
     vid : int
     queue_position : int

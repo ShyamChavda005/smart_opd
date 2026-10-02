@@ -25,5 +25,4 @@ def update_admin(id, newData, db) :
 
 
 def validate_admin(ad, db) :
-    return db.query(Admin).filter(Admin.username == ad.username, 
-                                  Admin.password == ad.password).first()
+    return db.query(Admin).filter(Admin.username == ad.username, Admin.password == ad.password).first()
