@@ -1,10 +1,11 @@
 from models import Doctor
+from mail import *
 
 def validate_doctor(doc, db) :
     return db.query(Doctor).filter(
         Doctor.username == doc.username,
         Doctor.password == doc.password,
-        Doctor.status == "Active"
+        Doctor.status == "active"
         ).first()
 
 
@@ -26,7 +27,9 @@ def add_doctor(doc, db) :
     db.commit()
     db.refresh(newDoc)
     
-    return newDoc
+    email_sent = send_credentials_email( to_email=newDoc.email, name=newDoc.name, role="Doctor", username=newDoc.username, password=newDoc.password)
+    
+    return { "message": "Doctor added successfully", "email_sent": email_sent }
 
 
 def get_doctors(db) :

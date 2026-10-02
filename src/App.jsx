@@ -6,62 +6,60 @@ import React from 'react';
 import { BrowserRouter, Routes, Route, Navigate, useNavigate } from 'react-router-dom';
 
 // Admin Pages
-import AdminDashboard from './frontend/pages/admin/AdminDashboard';
-import Doctors from './frontend/pages/admin/Doctors';
-import AddDoctor from './frontend/pages/admin/AddDoctor';
-import Receptionists from './frontend/pages/admin/Receptionists';
-import AddReceptionist from './frontend/pages/admin/AddReceptionist';
-import AdminProfile from './frontend/pages/admin/AdminProfile';
-import AdminReports from './frontend/pages/admin/AdminReports';
-import AdminSymptoms from './frontend/pages/admin/AdminSymptoms';
-import AddSymptom from './frontend/pages/admin/AddSymptom';
+import AdminDashboard from './utilities/pages/admin/AdminDashboard';
+import Doctors from './utilities/pages/admin/Doctors';
+import AddDoctor from './utilities/pages/admin/AddDoctor';
+import Receptionists from './utilities/pages/admin/Receptionists';
+import AddReceptionist from './utilities/pages/admin/AddReceptionist';
+import AdminProfile from './utilities/pages/admin/AdminProfile';
+import AdminReports from './utilities/pages/admin/AdminReports';
+import AdminSymptoms from './utilities/pages/admin/AdminSymptoms';
+import AddSymptom from './utilities/pages/admin/AddSymptom';
 
 // Landing Page & New Panels
-import LandingPage from './frontend/pages/landing/LandingPage';
+import LandingPage from './utilities/pages/landing/LandingPage';
 // Doctor Pages
-import DoctorOverview from './frontend/pages/doctor/DoctorOverview';
-import DoctorLiveQueue from './frontend/pages/doctor/DoctorLiveQueue';
-import DoctorAppointments from './frontend/pages/doctor/DoctorAppointments';
-import DoctorAnalytics from './frontend/pages/doctor/DoctorAnalytics';
+import DoctorOverview from './utilities/pages/doctor/DoctorOverview';
+import DoctorLiveQueue from './utilities/pages/doctor/DoctorLiveQueue';
+import DoctorAppointments from './utilities/pages/doctor/DoctorAppointments';
+import DoctorAnalytics from './utilities/pages/doctor/DoctorAnalytics';
 // Receptionist Pages
-import ReceptionistDashboard from './frontend/pages/receptionist/ReceptionistDashboard';
-import ReceptionistQueueBoard from './frontend/pages/receptionist/ReceptionistQueueBoard';
-import ReceptionistPatients from './frontend/pages/receptionist/ReceptionistPatients';
-import ReceptionistStats from './frontend/pages/receptionist/ReceptionistStats';
+import ReceptionistDashboard from './utilities/pages/receptionist/ReceptionistDashboard';
+import ReceptionistQueueBoard from './utilities/pages/receptionist/ReceptionistQueueBoard';
+import ReceptionistTokens from './utilities/pages/receptionist/ReceptionistTokens';
+import ReceptionistPatients from './utilities/pages/receptionist/ReceptionistPatients';
+import ReceptionistStats from './utilities/pages/receptionist/ReceptionistStats';
+
+// Authentication Helper
+import { isAuthenticated } from './utilities/auth';
 
 // ---------- Protected Route Helpers ----------
 
-/** Redirects to landing page if admin is not authenticated */
+/** Redirects to landing page if admin is not authenticated via JWT */
 function ProtectedAdminRoute({ children }) {
-  const isLoggedIn = localStorage.getItem('isAdminLoggedIn') === 'true';
-  return isLoggedIn ? children : <Navigate to="/" replace />;
+  return isAuthenticated('admin') ? children : <Navigate to="/" replace />;
 }
 
-/** Redirects to landing page if doctor is not authenticated */
+/** Redirects to landing page if doctor is not authenticated via JWT */
 function ProtectedDoctorRoute({ children }) {
-  const isLoggedIn = localStorage.getItem('isDoctorLoggedIn') === 'true';
-  return isLoggedIn ? children : <Navigate to="/" replace />;
+  return isAuthenticated('doctor') ? children : <Navigate to="/" replace />;
 }
 
-/** Redirects to landing page if receptionist is not authenticated */
+/** Redirects to landing page if receptionist is not authenticated via JWT */
 function ProtectedReceptionistRoute({ children }) {
-  const isLoggedIn = localStorage.getItem('isReceptionistLoggedIn') === 'true';
-  return isLoggedIn ? children : <Navigate to="/" replace />;
+  return isAuthenticated('receptionist') ? children : <Navigate to="/" replace />;
 }
 
 // ---------- Landing Page Container Component ----------
 function LandingPageWrapper() {
   const navigate = useNavigate();
 
-  const handleLogin = (role, username, password) => {
+  const handleLogin = (role) => {
     if (role === 'admin') {
-      localStorage.setItem('isAdminLoggedIn', 'true');
       navigate('/admin/dashboard');
     } else if (role === 'doctor') {
-      localStorage.setItem('isDoctorLoggedIn', 'true');
       navigate('/doctor/dashboard');
     } else if (role === 'receptionist') {
-      localStorage.setItem('isReceptionistLoggedIn', 'true');
       navigate('/receptionist/dashboard');
     }
   };
@@ -132,6 +130,14 @@ function App() {
           element={
             <ProtectedReceptionistRoute>
               <ReceptionistQueueBoard />
+            </ProtectedReceptionistRoute>
+          }
+        />
+        <Route
+          path="/receptionist/tokens"
+          element={
+            <ProtectedReceptionistRoute>
+              <ReceptionistTokens />
             </ProtectedReceptionistRoute>
           }
         />
