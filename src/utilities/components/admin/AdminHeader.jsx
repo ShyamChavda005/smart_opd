@@ -1,0 +1,52 @@
+// ============================================================
+//  AdminHeader.jsx – Reusable Admin Top Header Component
+// ============================================================
+
+import React from 'react';
+import { useNavigate } from 'react-router-dom';
+import '../../style/admin/AdminDashboard.css';
+
+function AdminHeader({ placeholder = "Search doctors, patients...", isCollapsed, toggleSidebar }) {
+  const navigate = useNavigate();
+
+  return (
+    <header className="dashboard-header">
+      {/* Left section with toggle button & search box */}
+      <div className="dashboard-header__left">
+        <button
+          className="dashboard-header__toggle-btn"
+          onClick={toggleSidebar}
+          title={isCollapsed ? "Expand Sidebar" : "Collapse Sidebar"}
+          type="button"
+        >
+          <span className="material-symbols-outlined">
+            {isCollapsed ? 'menu' : 'menu_open'}
+          </span>
+        </button>
+
+        <div className="dashboard-header__search" style={{width : "70vw"}}>
+          <span className="material-symbols-outlined">search</span>
+          <input
+            className="dashboard-header__search-input" 
+            type="text"
+            placeholder={placeholder}
+          />
+        </div>
+      </div>
+
+      {/* Actions (Notifications + User Avatar) */}
+      <div className="dashboard-header__actions">
+        <div
+          className="dashboard-header__avatar"
+          onClick={() => navigate('/admin/profile')}
+          style={{ cursor: 'pointer' }}
+          title="Admin Profile"
+        >
+          <span className="material-symbols-outlined">person</span>
+        </div>
+      </div>
+    </header>
+  );
+}
+
+export default AdminHeader;

@@ -1,4 +1,5 @@
 from models import Receptionist
+from mail import *
 
 def validate_receptionist(rec, db) :
     return db.query(Receptionist).filter(
@@ -9,7 +10,7 @@ def validate_receptionist(rec, db) :
     
 
 def add_receptionist(rec, db):
-    receptionist = Receptionist(
+    newRec = Receptionist(
         name = rec.name,
         dob = rec.dob,
         gender = rec.gender,
@@ -21,11 +22,13 @@ def add_receptionist(rec, db):
         status = rec.status,
     )
     
-    db.add(receptionist)
+    db.add(newRec)
     db.commit()
-    db.refresh(receptionist)
+    db.refresh(newRec)
     
-    return receptionist
+    email_sent = send_credentials_email( to_email=newRec.email, name=newRec.name, role="Receptionist", username=newRec.username, password=newRec.password)
+        
+    return { "message": "Doctor added successfully", "email_sent": email_sent }
 
 
 def get_receptionist(db) :
