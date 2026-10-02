@@ -1,4 +1,4 @@
-from models import Patient
+from models import Patient, Visit, Receptionist
 
 def add_patient(pat, db) :
     newPat = Patient(
@@ -19,7 +19,40 @@ def add_patient(pat, db) :
 
 
 def get_patients(db):
-    return db.query(Patient).all()
+    patients = db.query(Patient).all()
+    registrations = (
+        db.query(Visit.pid, Receptionist.rid, Receptionist.name, Visit.create_at)
+        .join(Receptionist, Receptionist.rid == Visit.rid)
+        .order_by(Visit.create_at.asc(), Visit.vid.asc())
+        .all()
+    )
+
+    first_registration_by_patient = {}
+    for registration in registrations:
+        first_registration_by_patient.setdefault(registration.pid, registration)
+
+    return [
+        {
+            "pid": patient.pid,
+            "name": patient.name,
+            "dob": patient.dob,
+            "age": patient.age,
+            "gender": patient.gender,
+            "email": patient.email,
+            "contact": patient.contact,
+            "address": patient.address,
+            "create_at": patient.create_at,
+            "receptionist_id": (
+                first_registration_by_patient.get(patient.pid).rid
+                if first_registration_by_patient.get(patient.pid) else None
+            ),
+            "receptionist_name": (
+                first_registration_by_patient.get(patient.pid).name
+                if first_registration_by_patient.get(patient.pid) else "Not recorded"
+            ),
+        }
+        for patient in patients
+    ]
 
 
 def get_one_patient(pid, db) :

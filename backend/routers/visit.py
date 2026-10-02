@@ -2,7 +2,7 @@ from fastapi import APIRouter, Depends
 from services import visit_services
 from sqlalchemy.orm import Session
 from database import get_db
-from schemas import VisitValidate
+from schemas import VisitSymptomValidate, VisitValidate
 
 router = APIRouter()
 
@@ -34,6 +34,16 @@ def update_visit(id : int, vis : VisitValidate, db : Session = Depends(get_db)) 
         return {"message" : "something wrong.."}
         
     return {"message" : "Visit Updated !"}
+
+
+@router.patch("/visit/{id}/symptom")
+def update_visit_symptom(id : int, symptom : VisitSymptomValidate, db : Session = Depends(get_db)) :
+    success = visit_services.update_visit_symptom(id, symptom.sid, db)
+
+    if not success :
+        return {"message" : "something wrong.."}
+
+    return {"message" : "Visit Symptom Updated !"}
 
 
 @router.delete("/visit/{id}")
