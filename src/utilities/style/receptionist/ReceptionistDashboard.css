@@ -14,3 +14,21 @@
   transform: translateY(-2px);
   box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05);
 }
+
+/* Slim, subtle scrollbars for queue panels */
+.receptionist-dashboard-container ::-webkit-scrollbar {
+  width: 6px;
+}
+
+.receptionist-dashboard-container ::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.receptionist-dashboard-container ::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 999px;
+}
+
+.receptionist-dashboard-container ::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}

@@ -112,111 +112,106 @@ export default function LoginModal({ isOpen, onClose, onLogin }) {
   };
 
   return (
-    <div className="fixed inset-0 z-[150] flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-sm animate-fade-in">
-      <div className="login-modal-card bg-white rounded-3xl p-6 sm:p-8 max-w-md w-full shadow-2xl border border-border-subtle relative transition-all">
+    <div className="login-overlay">
+      <div className="login-modal-card" role="dialog" aria-modal="true" aria-label="System Login">
         {/* Close button */}
         <button
-          onClick={onClose} type="button" className="absolute top-6 right-6 text-text-muted hover:text-text-heading p-2 rounded-full hover:bg-surface transition-colors">
+          onClick={onClose} type="button" className="login-close" aria-label="Close login">
           <span className="material-symbols-outlined">close</span>
         </button>
 
         {/* Modal Header */}
-        <div className="flex items-center gap-3 mb-6">
-          <div className="p-3 bg-blue-50 rounded-2xl text-primary border border-blue-100">
-            <span className="material-symbols-outlined text-3xl">lock_open</span>
+        <div className="login-header">
+          <div className="login-header-icon">
+            <span className="material-symbols-outlined">lock_open</span>
           </div>
-          <div>
-            <h3 className="text-2xl font-extrabold text-text-heading">System Login</h3>
+          <div className="login-header-text">
+            <h3>System Login</h3>
+            <p>Access your MediQueue portal</p>
           </div>
         </div>
 
         {/* Role Selection Tabs */}
-        <div className="mb-6">
-          <label className="block text-xs font-bold text-text-muted uppercase tracking-wider mb-2">
+        <div className="login-section">
+          <label className="login-section-label">
             Select Your Role
           </label>
-          <div className="grid grid-cols-3 gap-2 p-1.5 bg-slate-100/80 rounded-2xl border border-slate-200">
+          <div className="login-role-group" role="tablist" aria-label="Select your role">
             <button
               type="button"
+              role="tab"
+              aria-selected={role === 'receptionist'}
               onClick={() => handleRoleChange('receptionist')}
-              className={`flex flex-col sm:flex-row items-center justify-center gap-1.5 py-2.5 px-3 rounded-xl font-bold text-xs sm:text-sm transition-all ${role === 'receptionist'
-                ? 'bg-white text-primary shadow-md border border-blue-100'
-                : 'text-text-body hover:text-text-heading'
-                }`}
+              className={`login-role-tab${role === 'receptionist' ? ' login-role-tab--active' : ''}`}
             >
-              <span className="material-symbols-outlined text-lg">how_to_reg</span>
+              <span className="material-symbols-outlined">how_to_reg</span>
               <span>Receptionist</span>
             </button>
             <button
               type="button"
+              role="tab"
+              aria-selected={role === 'doctor'}
               onClick={() => handleRoleChange('doctor')}
-              className={`flex flex-col sm:flex-row items-center justify-center gap-1.5 py-2.5 px-3 rounded-xl font-bold text-xs sm:text-sm transition-all ${role === 'doctor'
-                ? 'bg-white text-primary shadow-md border border-blue-100'
-                : 'text-text-body hover:text-text-heading'
-                }`}
+              className={`login-role-tab${role === 'doctor' ? ' login-role-tab--active' : ''}`}
             >
-              <span className="material-symbols-outlined text-lg">medical_services</span>
+              <span className="material-symbols-outlined">medical_services</span>
               <span>Doctor</span>
             </button>
             <button
               type="button"
+              role="tab"
+              aria-selected={role === 'admin'}
               onClick={() => handleRoleChange('admin')}
-              className={`flex flex-col sm:flex-row items-center justify-center gap-1.5 py-2.5 px-3 rounded-xl font-bold text-xs sm:text-sm transition-all ${role === 'admin'
-                ? 'bg-white text-primary shadow-md border border-blue-100'
-                : 'text-text-body hover:text-text-heading'
-                }`}
+              className={`login-role-tab${role === 'admin' ? ' login-role-tab--active' : ''}`}
             >
-              <span className="material-symbols-outlined text-lg">admin_panel_settings</span>
+              <span className="material-symbols-outlined">admin_panel_settings</span>
               <span>Admin</span>
             </button>
           </div>
         </div>
 
         {/* Login Form */}
-        <form onSubmit={handleSubmit} className="space-y-5">
-          <div>
-            <label className="block text-xs font-semibold text-text-heading uppercase mb-1.5">
-              {role === 'admin' ? 'Username' : 'Username'}
+        <form onSubmit={handleSubmit} className="login-form">
+          <div className="login-field">
+            <label className="login-field-label" htmlFor="login-username">
+              Username
             </label>
-            <div className="relative">
-              <span className="material-symbols-outlined absolute left-3.5 top-3.5 text-text-muted text-xl">
-                person
-              </span>
+            <div className="login-input-wrap">
+              <span className="material-symbols-outlined login-input-icon">person</span>
               <input
+                id="login-username"
                 required
-                type={role === 'admin' ? 'text' : 'text'}
+                type="text"
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
-                placeholder={role === 'admin' ? 'Enter Admin Username' : 'Enter Username'}
-                className="w-full pl-11 pr-4 py-3 rounded-xl border border-border-subtle focus:ring-2 focus:ring-primary focus:outline-none text-slate-800 font-medium"
+                placeholder="Enter username"
+                autoComplete="username"
               />
             </div>
           </div>
 
-          <div>
-            <div className="flex items-center justify-between mb-1.5">
-              <label className="block text-xs font-semibold text-text-heading uppercase">
-                Password
-              </label>
-            </div>
-            <div className="relative">
-              <span className="material-symbols-outlined absolute left-3.5 top-3.5 text-text-muted text-xl">
-                lock
-              </span>
+          <div className="login-field">
+            <label className="login-field-label" htmlFor="login-password">
+              Password
+            </label>
+            <div className="login-input-wrap">
+              <span className="material-symbols-outlined login-input-icon">lock</span>
               <input
+                id="login-password"
                 required
                 type={showPassword ? 'text' : 'password'}
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                placeholder="Password"
-                className="w-full pl-11 pr-11 py-3 rounded-xl border border-border-subtle focus:ring-2 focus:ring-primary focus:outline-none text-slate-800 font-medium"
+                placeholder="Enter password"
+                autoComplete="current-password"
               />
               <button
                 type="button"
                 onClick={() => setShowPassword(!showPassword)}
-                className="absolute right-3.5 top-3.5 text-slate-400 hover:text-slate-600"
+                className="login-visibility"
+                aria-label={showPassword ? 'Hide password' : 'Show password'}
               >
-                <span className="material-symbols-outlined text-xl">
+                <span className="material-symbols-outlined">
                   {showPassword ? 'visibility_off' : 'visibility'}
                 </span>
               </button>
@@ -225,12 +220,12 @@ export default function LoginModal({ isOpen, onClose, onLogin }) {
 
           <button
             type="submit"
-            className="w-full py-4 bg-primary text-on-primary rounded-xl font-bold shadow-lg shadow-blue-500/25 hover:bg-blue-700 transition-all flex items-center justify-center gap-2 text-base mt-4"
+            className="login-submit"
           >
             <span>
               Login as {role === 'receptionist' ? 'Receptionist' : role === 'doctor' ? 'Doctor' : 'Admin'}
             </span>
-            <span className="material-symbols-outlined text-lg">arrow_forward</span>
+            <span className="material-symbols-outlined">arrow_forward</span>
           </button>
         </form>
       </div>

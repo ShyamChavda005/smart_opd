@@ -1,6 +1,6 @@
 fastapi
 psycopg
-jwt
+PyJWT
 argon2
 uvicorn
 sqlalchemy

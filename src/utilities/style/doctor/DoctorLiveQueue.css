@@ -1,17 +1,81 @@
 /* ============================================================
    DoctorLiveQueue.css – Dedicated Styles for Doctor Live Queue
+   Scoped to .doctor-live-queue-container to avoid leaking into
+   other role panels.
    ============================================================ */
 
 .doctor-live-queue-container {
   width: 100%;
 }
 
-.queue-card-consulting {
-  border-color: #93c5fd;
-  box-shadow: 0 0 0 2px rgba(96, 165, 250, 0.2);
+/* ============================================================
+   Queue cards stay on neutral surfaces. Status is communicated
+   through a left accent rail plus the badge, which keeps the
+   board calm and scannable instead of fully tinted.
+   ============================================================ */
+
+.doctor-live-queue-container li[class*="queue-card"],
+.doctor-live-queue-container .queue-card-consulting,
+.doctor-live-queue-container .queue-card-called,
+.doctor-live-queue-container .queue-card-urgent,
+.doctor-live-queue-container .queue-card-skipped {
+  position: relative;
+  transition:
+    transform 0.2s cubic-bezier(0.4, 0, 0.2, 1),
+    box-shadow 0.2s cubic-bezier(0.4, 0, 0.2, 1),
+    border-color 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.queue-card-urgent {
-  border-color: #fca5a5;
-  background-color: rgba(254, 242, 242, 0.8);
+.doctor-live-queue-container li[class*="queue-card"]:hover {
+  transform: translateY(-2px);
+}
+
+.doctor-live-queue-container .queue-card-consulting::before,
+.doctor-live-queue-container .queue-card-called::before,
+.doctor-live-queue-container .queue-card-urgent::before,
+.doctor-live-queue-container .queue-card-skipped::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: 4px;
+  border-top-left-radius: 1rem;
+  border-bottom-left-radius: 1rem;
+}
+
+/* Currently serving – primary healthcare blue */
+.doctor-live-queue-container .queue-card-consulting::before {
+  background: linear-gradient(180deg, #2563eb 0%, #1d4ed8 100%);
+}
+
+/* Called and awaiting start – sky */
+.doctor-live-queue-container .queue-card-called::before {
+  background: linear-gradient(180deg, #0ea5e9 0%, #0284c7 100%);
+}
+
+/* Emergency / Urgent – red */
+.doctor-live-queue-container .queue-card-urgent::before {
+  background: linear-gradient(180deg, #ef4444 0%, #dc2626 100%);
+}
+
+/* Skipped – neutral */
+.doctor-live-queue-container .queue-card-skipped::before {
+  background: #cbd5e1;
+}
+
+/* Skipped rows are de-emphasised but still readable */
+.doctor-live-queue-container .queue-card-skipped {
+  opacity: 0.8;
+}
+
+/* Respect users who prefer reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .doctor-live-queue-container *,
+  .doctor-live-queue-container *::before,
+  .doctor-live-queue-container *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
 }
