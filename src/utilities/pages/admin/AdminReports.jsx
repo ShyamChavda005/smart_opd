@@ -6,6 +6,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import AdminLayout from "../../components/admin/AdminLayout";
+import GlassSelect from "../../components/controls/GlassSelect";
 import "../../style/admin/AdminDashboard.css";
 
 const API_BASE_URL =
@@ -223,10 +224,11 @@ function AdminReports() {
 
             {/* TIME RANGE */}
 
-            <select
+            <GlassSelect
+              inline
               value={timeRange}
               onChange={(e) => setTimeRange(e.target.value)}
-              className="px-4 py-2 bg-white border border-slate-200 rounded-xl text-xs font-bold text-slate-700 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-600"
+              ariaLabel="Time range"
             >
 
               <option value="Today">
@@ -245,7 +247,7 @@ function AdminReports() {
                 This Quarter
               </option>
 
-            </select>
+            </GlassSelect>
 
 
             {/* EXPORT */}

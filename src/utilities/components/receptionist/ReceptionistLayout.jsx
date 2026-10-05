@@ -6,6 +6,8 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import ReceptionistSidebar from './ReceptionistSidebar';
 import ReceptionistHeader from './ReceptionistHeader';
+import GlassSelect from '../controls/GlassSelect';
+import GlassDatePicker from '../controls/GlassDatePicker';
 import '../../style/receptionist/ReceptionistLayout.css';
 
 import { getAuthPayload, getAuthHeaders, logout } from '../../auth';
@@ -146,15 +148,15 @@ export default function ReceptionistLayout({ children, activeTab = 'Dashboard' }
                   </div>
                   <div>
                     <label className="block text-xs font-bold text-slate-600 mb-1">Thermal Printer Model</label>
-                    <select
+                    <GlassSelect
                       value={printerModel}
                       onChange={(e) => setPrinterModel(e.target.value)}
-                      className="w-full px-3 py-2 bg-white border border-slate-200 rounded-xl text-xs font-semibold focus:ring-2 focus:ring-blue-600 focus:outline-none"
+                      ariaLabel="Thermal Printer Model"
                     >
                       <option>POS-80 Thermal Receipt Printer</option>
                       <option>Epson TM-T82III Direct Thermal</option>
                       <option>Zebra ZD220 Direct Thermal</option>
-                    </select>
+                    </GlassSelect>
                   </div>
                 </div>
 
@@ -280,11 +282,11 @@ export default function ReceptionistLayout({ children, activeTab = 'Dashboard' }
                 </div>
                 <div>
                   <label className="block text-xs font-bold text-slate-700 uppercase mb-1">Date Of Birth</label>
-                  <input
-                    type="date"
+                  <GlassDatePicker
                     value={profile.dob}
                     onChange={(e) => setProfile({ ...profile, dob: e.target.value })}
-                    className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-800 text-xs font-medium focus:bg-white focus:ring-2 focus:ring-blue-600 focus:outline-none"
+                    placeholder="Select date of birth"
+                    ariaLabel="Date Of Birth"
                   />
                 </div>
                 <div>
@@ -355,16 +357,17 @@ export default function ReceptionistLayout({ children, activeTab = 'Dashboard' }
                 <div>
                   <label className="block text-xs font-bold text-slate-700 uppercase mb-1">Shift</label>
 
-                  <select
+                  <GlassSelect
                     value={profile.shift || ''}
                     onChange={(e) => setProfile({ ...profile, shift: e.target.value })}
-                    className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-800 text-xs font-medium focus:bg-white focus:ring-2 focus:ring-blue-600 focus:outline-none"
+                    placeholder="Select shift"
+                    ariaLabel="Shift"
                   >
                     <option value="Morning"> Morning </option>
                     <option value="Evening"> Evening </option>
                     <option value="Afternoon"> Afternoon </option>
                     <option value="Night"> Night </option>
-                  </select>
+                  </GlassSelect>
                 </div>
               </div>
               <div className="mt-6 pt-4 border-t border-slate-100 flex items-center justify-between">

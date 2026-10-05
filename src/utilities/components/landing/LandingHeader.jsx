@@ -1,5 +1,6 @@
 // ============================================================
-//  LandingHeader.jsx – Modern & Glassmorphic Landing Header Component
+//  LandingHeader.jsx – Elegant, modern header bar
+//  Same props / nav IDs / behaviour, visual polish only.
 // ============================================================
 
 import React, { useState, useEffect } from 'react';
@@ -9,16 +10,10 @@ export default function LandingHeader({ onOpenLogin, onOpenBooking }) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [activeSection, setActiveSection] = useState('home');
 
-  // Handle scroll detection for glassmorphism header height & shadow
   useEffect(() => {
     const handleScroll = () => {
-      if (window.scrollY > 20) {
-        setIsScrolled(true);
-      } else {
-        setIsScrolled(false);
-      }
+      setIsScrolled(window.scrollY > 16);
 
-      // Track active section for navigation highlight
       const sections = ['home', 'features', 'technology', 'benefits'];
       const scrollPosition = window.scrollY + 200;
 
@@ -35,7 +30,7 @@ export default function LandingHeader({ onOpenLogin, onOpenBooking }) {
       }
     };
 
-    window.addEventListener('scroll', handleScroll);
+    window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
@@ -50,128 +45,134 @@ export default function LandingHeader({ onOpenLogin, onOpenBooking }) {
     <header
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
         isScrolled
-          ? 'py-3 bg-white/85 backdrop-blur-xl shadow-lg border-b border-slate-200/60'
-          : 'py-5 bg-white/60 backdrop-blur-md border-b border-transparent'
+          ? 'bg-white/90 backdrop-blur-xl shadow-[0_8px_30px_rgba(0,74,198,0.10)]'
+          : 'bg-white/70 backdrop-blur-md'
       }`}
     >
-      <div className="max-w-[1440px] mx-auto px-6 lg:px-12 flex items-center justify-between">
-        
-        {/* Brand Logo & Tag */}
-        <a href="#home" className="flex items-center gap-3 group">
-          <div className="w-10 h-10 rounded-2xl bg-gradient-to-br from-blue-600 via-indigo-600 to-teal-500 flex items-center justify-center shadow-md shadow-blue-500/20 group-hover:scale-105 transition-transform duration-300">
-            <span className="material-symbols-outlined text-white text-2xl">medical_services</span>
-          </div>
-          <div className="flex flex-col">
-            <div className="flex items-center gap-2">
-              <span className="font-extrabold text-2xl tracking-tight bg-gradient-to-r from-slate-900 via-blue-900 to-indigo-900 bg-clip-text text-transparent">
-                Medi<span className="bg-gradient-to-r from-blue-600 to-teal-500 bg-clip-text text-transparent">Q</span>
-              </span>
-              <span className="hidden sm:inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-extrabold uppercase tracking-wider bg-blue-50 text-blue-700 border border-blue-200">
-                Smart OPD
-              </span>
-            </div>
-          </div>
-        </a>
+      {/* Gradient hairline */}
+      <div className="h-[2.5px] w-full bg-gradient-to-r from-[#004ac6] via-[#6366f1] to-[#0ea5a4]"></div>
 
-        {/* Desktop Navigation Links */}
-        <nav className="hidden lg:flex items-center gap-1 p-1.5 rounded-2xl bg-slate-100/70 border border-slate-200/80 shadow-inner">
-          {navLinks.map((link) => {
-            const isActive = activeSection === link.id;
-            return (
-              <a
-                key={link.id}
-                href={link.href}
-                className={`px-5 py-2 rounded-xl text-xs font-bold transition-all duration-200 ${
-                  isActive
-                    ? 'bg-white text-blue-600 shadow-sm border border-slate-200/60'
-                    : 'text-slate-600 hover:text-slate-900 hover:bg-white/50'
-                }`}
-              >
-                {link.name}
-              </a>
-            );
-          })}
-        </nav>
+      <div className="border-b border-slate-200/70">
+        <div className="max-w-6xl mx-auto px-6 flex items-center justify-between h-[68px]">
+          {/* Brand */}
+          <a href="#home" className="group flex items-center gap-3">
+            <span className="relative flex h-10 w-10 items-center justify-center rounded-2xl bg-gradient-to-br from-[#004ac6] via-[#1d4ed8] to-[#0ea5a4] text-white shadow-[0_8px_20px_rgba(0,74,198,0.35)] transition-transform duration-300 group-hover:scale-105">
+              <span className="material-symbols-outlined text-[22px]">medical_services</span>
+              <span className="absolute -right-0.5 -top-0.5 flex h-3 w-3">
+                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75"></span>
+                <span className="relative inline-flex h-3 w-3 rounded-full border-2 border-white bg-emerald-500"></span>
+              </span>
+            </span>
+            <span className="leading-none">
+              <span className="block font-headline-md text-[21px] font-bold tracking-tight text-on-surface">
+                Medi<span className="text-primary">Queue</span>
+              </span>
+              <span className="mt-1 flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-[0.18em] text-on-surface-variant">
+                <span className="inline-block h-1 w-4 rounded-full bg-gradient-to-r from-[#004ac6] to-[#0ea5a4]"></span>
+                Smart OPD Suite
+              </span>
+            </span>
+          </a>
 
-        {/* Action Controls */}
-        <div className="hidden sm:flex items-center gap-3">
+          {/* Desktop nav — floating pill */}
+          <nav className="hidden lg:flex items-center gap-0.5 rounded-full border border-slate-200/80 bg-slate-100/70 p-1 shadow-inner">
+            {navLinks.map((link) => {
+              const isActive = activeSection === link.id;
+              return (
+                <a
+                  key={link.id}
+                  href={link.href}
+                  className={`relative px-5 py-2 rounded-full text-[13px] font-bold tracking-wide transition-all duration-200 ${
+                    isActive
+                      ? 'bg-white text-primary shadow-[0_2px_10px_rgba(0,74,198,0.15)]'
+                      : 'text-on-surface-variant hover:text-on-surface hover:bg-white/70'
+                  }`}
+                >
+                  {link.name}
+                  {isActive && (
+                    <span className="absolute -bottom-[1px] left-1/2 h-[3px] w-8 -translate-x-1/2 rounded-full bg-gradient-to-r from-[#004ac6] to-[#0ea5a4]"></span>
+                  )}
+                </a>
+              );
+            })}
+          </nav>
+
+          {/* Actions */}
+          <div className="hidden sm:flex items-center gap-2">
+            <button
+              onClick={() => onOpenBooking && onOpenBooking('booking')}
+              className="group inline-flex items-center gap-1.5 rounded-xl px-4 py-2.5 text-[13px] font-bold text-primary transition-colors hover:bg-[#e8efff]"
+            >
+              <span className="material-symbols-outlined text-lg">confirmation_number</span>
+              Book Token
+            </button>
+            <span className="h-6 w-px bg-slate-200"></span>
+            <button
+              onClick={() => onOpenLogin && onOpenLogin('login')}
+              className="group inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-[#004ac6] to-[#1d4ed8] px-5 py-2.5 text-[13px] font-bold text-white shadow-[0_8px_20px_rgba(0,74,198,0.35)] transition-all hover:shadow-[0_10px_26px_rgba(0,74,198,0.45)] hover:brightness-110 active:scale-[0.98]"
+            >
+              <span className="material-symbols-outlined text-[18px]">login</span>
+              Staff Login
+              <span className="material-symbols-outlined text-base transition-transform group-hover:translate-x-0.5">arrow_forward</span>
+            </button>
+          </div>
+
+          {/* Mobile toggle */}
           <button
-            onClick={() => onOpenLogin && onOpenLogin('login')}
-            className="px-6 py-2.5 rounded-xl text-xs font-extrabold text-white bg-gradient-to-r from-blue-600 via-indigo-600 to-blue-700 hover:from-blue-700 hover:to-indigo-800 shadow-md shadow-blue-500/25 hover:shadow-lg hover:shadow-blue-500/35 hover:-translate-y-0.5 transition-all duration-200 flex items-center gap-2 active:translate-y-0"
+            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            className="lg:hidden inline-flex h-10 w-10 items-center justify-center rounded-xl border border-slate-200 bg-white text-on-surface shadow-sm transition-colors hover:bg-slate-50"
+            aria-label="Toggle Navigation Menu"
           >
-            <span className="material-symbols-outlined text-base">login</span>
-            Portal Login
+            <span className="material-symbols-outlined text-2xl">
+              {mobileMenuOpen ? 'close' : 'menu'}
+            </span>
           </button>
         </div>
-
-        {/* Mobile Hamburger Menu Toggle */}
-        <button
-          onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-          className="lg:hidden p-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 transition-colors"
-          aria-label="Toggle Navigation Menu"
-        >
-          <span className="material-symbols-outlined text-2xl">
-            {mobileMenuOpen ? 'close' : 'menu'}
-          </span>
-        </button>
       </div>
 
-      {/* Mobile Menu Dropdown Drawer */}
+      {/* Mobile menu */}
       {mobileMenuOpen && (
-        <div className="lg:hidden mt-3 px-6 pb-6 pt-4 bg-white/95 backdrop-blur-2xl border-b border-slate-200 shadow-2xl animate-fadeIn space-y-4">
-          {/* Status Badge Mobile */}
-          <div className="flex items-center justify-between p-3 bg-emerald-50 rounded-xl border border-emerald-200 text-emerald-800 text-xs font-bold">
-            <div className="flex items-center gap-2">
-              <span className="relative flex h-2.5 w-2.5">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-                <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-500"></span>
-              </span>
-              <span>OPD Live Queue</span>
-            </div>
-            <span className="text-[10px] bg-emerald-600 text-white px-2 py-0.5 rounded-full font-bold">
-              Online
-            </span>
-          </div>
-
-          <nav className="flex flex-col gap-1">
-            {navLinks.map((link) => (
+        <div className="lg:hidden border-b border-slate-200 bg-white/95 backdrop-blur-xl px-6 py-4 shadow-xl animate-fadeIn">
+          <nav className="space-y-1">
+            {navLinks.map((link, i) => (
               <a
                 key={link.id}
                 href={link.href}
                 onClick={() => setMobileMenuOpen(false)}
-                className={`p-3 rounded-xl text-sm font-bold flex items-center justify-between ${
+                className={`flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-bold transition-colors ${
                   activeSection === link.id
-                    ? 'bg-blue-50 text-blue-600 font-extrabold'
-                    : 'text-slate-700 hover:bg-slate-50'
+                    ? 'bg-[#e8efff] text-primary'
+                    : 'text-on-surface-variant hover:bg-slate-50'
                 }`}
               >
-                <span>{link.name}</span>
-                <span className="material-symbols-outlined text-base text-slate-400">chevron_right</span>
+                <span className="flex h-7 w-7 items-center justify-center rounded-lg bg-slate-100 text-xs font-bold text-on-surface-variant">
+                  0{i + 1}
+                </span>
+                <span className="flex-1">{link.name}</span>
+                <span className="material-symbols-outlined text-base text-slate-300">chevron_right</span>
               </a>
             ))}
           </nav>
-
-          <div className="pt-2 border-t border-slate-100 flex flex-col gap-2.5">
+          <div className="pt-3 mt-3 border-t border-slate-100 grid gap-2">
             <button
               onClick={() => {
                 setMobileMenuOpen(false);
                 onOpenBooking && onOpenBooking('booking');
               }}
-              className="w-full py-3 rounded-xl text-xs font-bold text-slate-700 bg-slate-100 hover:bg-slate-200 transition-all flex items-center justify-center gap-2"
+              className="inline-flex w-full items-center justify-center gap-2 rounded-xl border border-primary/30 bg-[#e8efff] py-2.5 text-sm font-bold text-primary transition-colors hover:bg-[#dbe7ff]"
             >
-              <span className="material-symbols-outlined text-base text-blue-600">calendar_month</span>
+              <span className="material-symbols-outlined text-lg">confirmation_number</span>
               Book Appointment Token
             </button>
-
             <button
               onClick={() => {
                 setMobileMenuOpen(false);
                 onOpenLogin && onOpenLogin('login');
               }}
-              className="w-full py-3 rounded-xl text-xs font-extrabold text-white bg-gradient-to-r from-blue-600 to-indigo-600 shadow-md flex items-center justify-center gap-2"
+              className="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-[#004ac6] to-[#1d4ed8] py-2.5 text-sm font-bold text-white shadow-md"
             >
-              <span className="material-symbols-outlined text-base">login</span>
-              Portal Login
+              <span className="material-symbols-outlined text-lg">login</span>
+              Staff Login
             </button>
           </div>
         </div>

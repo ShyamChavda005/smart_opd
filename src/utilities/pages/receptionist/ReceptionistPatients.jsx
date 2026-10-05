@@ -4,6 +4,7 @@
 
 import React, { useState, useEffect } from 'react';
 import ReceptionistLayout from '../../components/receptionist/ReceptionistLayout';
+import GlassSelect from '../../components/controls/GlassSelect';
 import '../../style/receptionist/ReceptionistPatients.css';
 import { getAuthHeaders } from '../../auth';
 
@@ -268,16 +269,17 @@ export default function ReceptionistPatients() {
           <div className="flex items-center justify-between text-xs text-slate-500 font-medium print:hidden">
             <div className="flex items-center gap-2">
               <span>Show</span>
-              <select
+              <GlassSelect
+                inline
                 value={entriesPerPage}
                 onChange={(e) => setEntriesPerPage(Number(e.target.value))}
-                className="px-2 py-1.5 bg-slate-50 border border-slate-200 rounded-lg text-slate-800 font-bold focus:outline-none focus:ring-2 focus:ring-blue-600"
+                ariaLabel="Entries per page"
               >
                 <option value={5}>5</option>
                 <option value={10}>10</option>
                 <option value={25}>25</option>
                 <option value={50}>50</option>
-              </select>
+              </GlassSelect>
               <span>entries per page</span>
             </div>
 

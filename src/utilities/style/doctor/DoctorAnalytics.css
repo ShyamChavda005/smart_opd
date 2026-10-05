@@ -1,15 +1,33 @@
 /* ============================================================
    DoctorAnalytics.css – Dedicated Styles for Doctor Analytics
+   Scoped to .doctor-analytics-container to avoid leaking into
+   other role panels.
    ============================================================ */
 
 .doctor-analytics-container {
   width: 100%;
 }
 
-.analytics-stat-card {
-  transition: transform 0.2s ease, border-color 0.2s ease;
+.doctor-analytics-container .analytics-stat-card {
+  transition:
+    transform 0.2s cubic-bezier(0.4, 0, 0.2, 1),
+    box-shadow 0.2s cubic-bezier(0.4, 0, 0.2, 1),
+    border-color 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.analytics-stat-card:hover {
+.doctor-analytics-container .analytics-stat-card:hover {
   transform: translateY(-2px);
+  border-color: #cbd5e1;
+  box-shadow: 0 10px 25px -5px rgba(15, 23, 42, 0.08), 0 8px 10px -6px rgba(15, 23, 42, 0.04);
+}
+
+/* Respect users who prefer reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .doctor-analytics-container *,
+  .doctor-analytics-container *::before,
+  .doctor-analytics-container *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
 }

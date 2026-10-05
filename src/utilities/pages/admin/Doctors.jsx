@@ -5,6 +5,7 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import AdminLayout from '../../components/admin/AdminLayout';
+import GlassSelect from '../../components/controls/GlassSelect';
 import '../../style/admin/Doctors.css';
 
 
@@ -367,21 +368,19 @@ function Doctors() {
           <div className="doctors-search-bar__dropdown">
             <div className="doctors-search-bar__dropdown-labels">
               <span className="doctors-search-bar__dropdown-caption">Specialty</span>
-              <span className="doctors-search-bar__dropdown-value">{selectedSpecialty === 'All' ? 'All Specialization' : selectedSpecialty}</span>
+              <GlassSelect
+                variant="bare"
+                value={selectedSpecialty}
+                onChange={(event) => setSelectedSpecialty(event.target.value)}
+                ariaLabel="Filter doctors by specialty"
+              >
+                {specialties.map((specialty) => (
+                  <option key={specialty} value={specialty}>
+                    {specialty === 'All' ? 'All Specialization' : specialty}
+                  </option>
+                ))}
+              </GlassSelect>
             </div>
-            <select
-              className="doctors-search-bar__select"
-              value={selectedSpecialty}
-              onChange={(event) => setSelectedSpecialty(event.target.value)}
-              aria-label="Filter doctors by specialty"
-            >
-              {specialties.map((specialty) => (
-                <option key={specialty} value={specialty}>
-                  {specialty === 'All' ? 'All Specialization' : specialty}
-                </option>
-              ))}
-            </select>
-            <span className="material-symbols-outlined doctors-search-bar__arrow">expand_more</span>
           </div>
         </div>
 
@@ -860,25 +859,18 @@ function Doctors() {
                       <span style={{ fontSize: '13px', fontWeight: 700, color: '#334155' }}>
                         Gender
                       </span>
-                      <select
+                      <GlassSelect
                         name="gender"
                         value={editForm.gender}
                         onChange={handleEditChange}
                         required
-                        style={{
-                          height: '42px',
-                          border: '1px solid #cbd5e1',
-                          borderRadius: '10px',
-                          padding: '0 12px',
-                          color: '#0f172a',
-                          background: '#fff',
-                        }}
+                        ariaLabel="Gender"
                       >
                         <option value="">Select gender</option>
                         <option value="Male">Male</option>
                         <option value="Female">Female</option>
                         <option value="Other">Other</option>
-                      </select>
+                      </GlassSelect>
                     </label>
 
                     <label
@@ -891,23 +883,16 @@ function Doctors() {
                       <span style={{ fontSize: '13px', fontWeight: 700, color: '#334155' }}>
                         Status
                       </span>
-                      <select
+                      <GlassSelect
                         name="status"
                         value={editForm.status}
                         onChange={handleEditChange}
                         required
-                        style={{
-                          height: '42px',
-                          border: '1px solid #cbd5e1',
-                          borderRadius: '10px',
-                          padding: '0 12px',
-                          color: '#0f172a',
-                          background: '#fff',
-                        }}
+                        ariaLabel="Status"
                       >
                         <option value="Active">Active</option>
                         <option value="Inactive">Inactive</option>
-                      </select>
+                      </GlassSelect>
                     </label>
                   </div>
 

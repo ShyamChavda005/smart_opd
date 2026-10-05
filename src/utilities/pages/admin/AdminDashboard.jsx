@@ -2,6 +2,7 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import AdminLayout from "../../components/admin/AdminLayout";
+import GlassSelect from "../../components/controls/GlassSelect";
 import "../../style/admin/AdminDashboard.css";
 
 const API_BASE_URL =
@@ -627,12 +628,13 @@ export default function AdminDashboard() {
                 />
 
 
-                <select
+                <GlassSelect
+                  inline
                   value={doctorDeptFilter}
                   onChange={(e) =>
                     setDoctorDeptFilter(e.target.value)
                   }
-                  className="px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold text-slate-700 focus:outline-none focus:ring-2 focus:ring-blue-600"
+                  ariaLabel="Filter by specialty"
                 >
 
                   {specialties.map((specialty) => (
@@ -648,7 +650,7 @@ export default function AdminDashboard() {
 
                   ))}
 
-                </select>
+                </GlassSelect>
 
               </div>
 
