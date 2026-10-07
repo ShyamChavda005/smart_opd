@@ -5,7 +5,7 @@ def validate_receptionist(rec, db) :
     return db.query(Receptionist).filter(
         Receptionist.username == rec.username,
         Receptionist.password == rec.password,
-        Receptionist.status == "Active"
+        Receptionist.status == "active"
     ).first()
     
 

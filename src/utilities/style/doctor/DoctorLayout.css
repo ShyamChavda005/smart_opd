@@ -16,3 +16,47 @@
 .animate-fadeIn {
   animation: fadeIn 0.25s ease-out forwards;
 }
+
+.doctor-header {
+  box-shadow: 0 1px 8px rgba(15, 23, 42, 0.04);
+}
+
+.profile-overlay {
+  background: rgba(15, 23, 42, 0.42);
+  backdrop-filter: blur(5px);
+}
+
+.profile-modal {
+  overflow: hidden;
+}
+
+.profile-modal-header {
+  background: linear-gradient(135deg, #eff6ff 0%, #f8fafc 72%);
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.profile-modal-body {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem 1.25rem;
+  padding-top: 1.25rem;
+}
+
+.profile-modal-body > div:first-child {
+  grid-column: 1 / -1;
+}
+
+.profile-input {
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
+}
+
+.profile-input:focus {
+  border-color: #93c5fd;
+  box-shadow: 0 0 0 3px rgba(147, 197, 253, 0.22);
+}
+
+@media (max-width: 640px) {
+  .profile-modal-body {
+    grid-template-columns: 1fr;
+  }
+}

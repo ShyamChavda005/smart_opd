@@ -1,7 +1,3 @@
-// ============================================================
-//  FeaturesSection.jsx – Modern & Interactive Features Grid
-// ============================================================
-
 import React from 'react';
 
 export default function FeaturesSection({ onOpenFeature }) {
@@ -9,137 +5,100 @@ export default function FeaturesSection({ onOpenFeature }) {
     {
       id: 'registration',
       icon: 'qr_code_scanner',
-      iconBg: 'from-blue-500 to-indigo-600 shadow-blue-500/20',
-      title: 'Smart Patient Registration',
-      description: 'Contactless check-in with instant QR code scanning, automated digital health record (EHR) creation, and self-service kiosk support.',
-      tags: ['Instant QR', 'Digital EHR', 'Self Kiosk'],
+      iconBg: 'bg-blue-50 text-blue-700',
+      audience: 'For front desk teams',
+      title: 'Register patients in minutes',
+      description: 'Create a patient profile, capture the visit details, and issue a token without repeating the same information.',
+      outcome: 'Less paperwork at reception',
     },
     {
       id: 'appointment',
       icon: 'calendar_month',
-      iconBg: 'from-teal-500 to-emerald-600 shadow-teal-500/20',
-      title: 'Appointment Management',
-      description: 'Centralized multi-doctor schedule hub. Easily book, reschedule, or cancel tokens in real-time with automatic slot conflict detection.',
-      tags: ['Live Sync', 'Multi-Doctor', 'Auto Slot'],
+      iconBg: 'bg-teal-50 text-teal-700',
+      audience: 'For coordinators',
+      title: 'Keep every schedule on track',
+      description: 'See doctor availability, manage appointments, and handle changes from one shared calendar.',
+      outcome: 'Fewer clashes and callbacks',
     },
     {
       id: 'ai_prediction',
       icon: 'psychology',
-      iconBg: 'from-indigo-500 to-purple-600 shadow-indigo-500/20',
-      title: 'AI Waiting Time Prediction',
-      description: 'Hyper-accurate wait time forecasting powered by machine learning algorithms that adapt to live doctor speeds and daily patient footfall.',
-      tags: ['99.4% Accuracy', 'Neural Engine', 'Dynamic ETA'],
+      iconBg: 'bg-indigo-50 text-indigo-700',
+      audience: 'For patients and staff',
+      title: 'Make waiting feel predictable',
+      description: 'Use live queue activity to share realistic wait times and help patients plan their visit with confidence.',
+      outcome: 'Calmer waiting rooms',
     },
     {
       id: 'monitoring',
       icon: 'monitoring',
-      iconBg: 'from-amber-500 to-orange-600 shadow-amber-500/20',
-      title: 'Real-Time OPD Monitoring',
-      description: 'Live visual analytics dashboard for hospital administrators to track patient throughput, bottlenecks, and active department loads.',
-      tags: ['Admin Dashboard', 'Live Track', 'Heatmaps'],
-    },
-    {
-      id: 'triage',
-      icon: 'priority_high',
-      iconBg: 'from-rose-500 to-red-600 shadow-rose-500/20',
-      title: 'Priority Triage Scheduling',
-      description: 'Automated clinical triage categorization. High-risk, elderly, or emergency cases automatically fast-tracked with instant alerts.',
-      tags: ['Emergency Triage', 'Fast Track', 'Clinical Alert'],
-    },
-    {
-      id: 'tokens',
-      icon: 'confirmation_number',
-      iconBg: 'from-cyan-500 to-blue-600 shadow-cyan-500/20',
-      title: 'Smart Token Generation',
-      description: 'Automated token queue system connected with waiting lounge TV displays, mobile SMS notifications, and live status pages.',
-      tags: ['SMS Notification', 'TV Display', 'App Token'],
+      iconBg: 'bg-amber-50 text-amber-700',
+      audience: 'For hospital leaders',
+      title: 'Know what needs attention',
+      description: 'Track patient flow, busy departments, and bottlenecks in one simple view before small delays become bigger problems.',
+      outcome: 'Better decisions, every day',
     },
   ];
 
   return (
-    <section className="py-24 lg:py-32 bg-slate-50/70 border-y border-slate-200/80 relative" id="features">
-      {/* Subtle Background Glow Orbs */}
-      <div className="absolute top-1/2 left-0 w-96 h-96 bg-blue-400/10 blur-3xl pointer-events-none rounded-full -translate-y-1/2"></div>
-      <div className="absolute bottom-0 right-0 w-96 h-96 bg-indigo-400/10 blur-3xl pointer-events-none rounded-full"></div>
-
-      <div className="max-w-[1440px] mx-auto px-6 lg:px-12 relative z-10">
-        
-        {/* Section Header */}
-        <div className="text-center max-w-3xl mx-auto mb-16 space-y-4">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-blue-50 border border-blue-200/90 text-blue-700 text-xs font-extrabold uppercase tracking-wider shadow-sm">
-            <span className="material-symbols-outlined text-sm">grid_view</span>
-            <span>Modular OPD Architecture</span>
+    <section className="border-y border-slate-200 bg-white py-20 lg:py-28" id="features">
+      <div className="mx-auto max-w-[1280px] px-6 lg:px-12">
+        <div className="mb-12 max-w-2xl justify-center text-center lg:mx-auto lg:mb-16 lg:max-w-3xl">
+          <div className="mb-4 inline-flex items-center gap-2 text-xs font-bold uppercase tracking-[0.16em] text-blue-700">
+            <span className="h-1.5 w-1.5 rounded-full bg-blue-600" />
+            One connected OPD workflow
           </div>
 
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-slate-900 tracking-tight leading-tight">
-            Powerful Features Built for{' '}
-            <span className="bg-gradient-to-r from-blue-600 via-indigo-600 to-teal-500 bg-clip-text text-transparent">
-              Modern Hospitals
-            </span>
+          <h2 className="text-3xl font-bold leading-tight tracking-tight text-slate-900 sm:text-4xl lg:text-5xl">
+            Everything your team needs to keep care moving
           </h2>
 
-          <p className="text-sm sm:text-base text-slate-600 font-medium leading-relaxed">
-            Comprehensive AI-powered modules designed to handle every stage of the patient journey and hospital OPD administration seamlessly.
-          </p>
+          <div className="flex justify-center mt-5">
+            <p className="text-sm text-slate-500">
+              From the first check-in to the final consultation, MediQ gives every team member a
+              clear next step and gives every patient a smoother visit.
+            </p>
+          </div>
         </div>
 
-        {/* Feature Cards Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-7">
+        <div className="grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-4">
           {features.map((item) => (
-            <div
+            <article
               key={item.id}
-              className="bg-white rounded-3xl p-7 border border-slate-200/80 shadow-md hover:shadow-2xl hover:shadow-blue-500/10 hover:-translate-y-1.5 transition-all duration-300 group flex flex-col justify-between relative overflow-hidden"
+              className="group flex flex-col rounded-2xl border border-slate-200 bg-slate-50/60 p-6 transition-all duration-300 hover:-translate-y-1 hover:border-blue-200 hover:bg-white hover:shadow-xl hover:shadow-slate-900/5"
             >
-              {/* Top Accent Gradient Line on Hover */}
-              <div className="absolute top-0 left-0 right-0 h-1.5 bg-gradient-to-r from-blue-600 via-indigo-600 to-teal-400 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-
-              <div>
-                {/* Icon Box */}
-                <div className="flex items-center justify-between mb-6">
-                  <div className={`w-14 h-14 rounded-2xl bg-gradient-to-br ${item.iconBg} text-white flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform duration-300`}>
-                    <span className="material-symbols-outlined text-2xl">{item.icon}</span>
-                  </div>
-                  <span className="text-[10px] font-extrabold uppercase tracking-wider text-slate-400 bg-slate-100 px-2.5 py-1 rounded-full group-hover:bg-blue-50 group-hover:text-blue-600 transition-colors">
-                    Active Module
-                  </span>
-                </div>
-
-                {/* Title & Description */}
-                <h3 className="text-lg font-extrabold text-slate-900 mb-2.5 group-hover:text-blue-600 transition-colors">
-                  {item.title}
-                </h3>
-                
-                <p className="text-xs text-slate-500 font-medium leading-relaxed mb-6">
-                  {item.description}
-                </p>
-
-                {/* Feature Mini Tags */}
-                <div className="flex flex-wrap gap-1.5 mb-6">
-                  {item.tags.map((tag, idx) => (
-                    <span
-                      key={idx}
-                      className="text-[10px] font-bold text-slate-600 bg-slate-100/90 px-2.5 py-1 rounded-lg border border-slate-200/60"
-                    >
-                      {tag}
-                    </span>
-                  ))}
-                </div>
+              <div className={`mb-7 flex h-12 w-12 items-center justify-center rounded-xl ${item.iconBg}`}>
+                <span className="material-symbols-outlined text-2xl">{item.icon}</span>
               </div>
 
-              {/* Action Button */}
-              <button
-                onClick={() => onOpenFeature && onOpenFeature('feature')}
-                className="w-full py-2.5 px-4 rounded-xl text-xs font-bold text-slate-700 hover:text-blue-600 bg-slate-50 hover:bg-blue-50/80 border border-slate-200/80 group-hover:border-blue-200 transition-all flex items-center justify-between mt-auto"
-              >
-                <span>Explore Capabilities</span>
-                <span className="material-symbols-outlined text-base group-hover:translate-x-1 transition-transform">
-                  arrow_forward
-                </span>
-              </button>
-            </div>
+              <p className="text-xs font-bold uppercase tracking-wider text-slate-400">{item.audience}</p>
+              <h3 className="mt-2 text-lg font-bold leading-snug text-slate-900">{item.title}</h3>
+              <p className="mt-3 text-sm leading-6 text-slate-600">{item.description}</p>
+
+              <div className="mt-auto border-t border-slate-200 pt-5">
+                <p className="flex items-center gap-2 text-xs font-bold text-slate-700">
+                  <span className="material-symbols-outlined text-base text-emerald-600">check_circle</span>
+                  {item.outcome}
+                </p>
+              </div>
+            </article>
           ))}
         </div>
 
+        <div className="mt-10 flex flex-col items-start justify-between gap-4 rounded-2xl bg-slate-900 px-6 py-5 sm:flex-row sm:items-center sm:px-8">
+          <div>
+            <p className="text-sm font-bold text-white">A smoother OPD starts with one shared view.</p>
+            <p className="mt-1 text-sm text-slate-300">Give your team the clarity to focus on patients, not paperwork.</p>
+          </div>
+          <button
+            type="button"
+            onClick={() => onOpenFeature?.('feature')}
+            className="inline-flex shrink-0 items-center gap-2 rounded-lg bg-white px-4 py-2.5 text-sm font-bold text-slate-900 transition-colors hover:bg-blue-50 hover:text-blue-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-slate-900"
+          >
+            See how it works
+            <span className="material-symbols-outlined text-base">arrow_forward</span>
+          </button>
+        </div>
       </div>
     </section>
   );

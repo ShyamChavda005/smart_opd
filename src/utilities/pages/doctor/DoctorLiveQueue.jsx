@@ -183,8 +183,8 @@ export default function DoctorLiveQueue() {
       <div className="doctor-live-queue-container bg-white rounded-3xl p-8 border border-slate-200 shadow-sm space-y-6 animate-fadeIn">
         <div className="flex items-center justify-between pb-4 border-b border-slate-100">
           <div>
-            <h3 className="text-2xl font-extrabold text-slate-900">Live OPD Queue Board</h3>
-            <p className="text-sm text-slate-500 font-bold mt-0.5">
+            <h3 className="text-2xl font-bold text-slate-900">Live OPD Queue Board</h3>
+            <p className="text-sm text-slate-500 font-semibold font-bold mt-0.5">
               Real-time queue • {doctorData?.specialization || 'General'} • {allCards.length} total entries
             </p>
           </div>

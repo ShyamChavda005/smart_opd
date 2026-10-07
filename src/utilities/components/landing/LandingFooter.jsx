@@ -1,75 +1,82 @@
-// ============================================================
-//  LandingFooter.jsx – Modern Landing Page Footer
-// ============================================================
-
 import React from 'react';
+
+const platformLinks = [
+  { label: 'Patient registration', href: '#features' },
+  { label: 'Appointments and tokens', href: '#features' },
+  { label: 'Live queue visibility', href: '#features' },
+  { label: 'OPD analytics', href: '#features' },
+];
+
+const companyLinks = [
+  { label: 'How it works', href: '#how-it-works' },
+  { label: 'ML roadmap', href: '#technology' },
+  { label: 'Benefits', href: '#benefits' },
+  { label: 'Contact us', href: 'mailto:support@mediqueue.io' },
+];
 
 export default function LandingFooter() {
   return (
-    <footer className="w-full bg-slate-900 text-slate-400 border-t border-slate-800 pt-16 pb-12">
-      <div className="max-w-[1440px] mx-auto px-6 lg:px-12">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-10 mb-12">
-          
-          {/* Col 1: Brand Info */}
-          <div className="space-y-4">
-            <div className="flex items-center gap-3">
-              <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-blue-600 via-indigo-600 to-teal-500 flex items-center justify-center text-white shadow-md">
+    <footer className="border-t border-slate-800 bg-slate-950 text-slate-400">
+      <div className="mx-auto max-w-[1280px] px-6 py-14 lg:px-12 lg:py-16">
+        <div className="grid grid-cols-1 gap-12 lg:grid-cols-[1.5fr_1fr_1fr_1.1fr] lg:gap-16">
+          <div>
+            <a href="#home" className="inline-flex items-center gap-3">
+              <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-blue-700 text-white shadow-lg shadow-blue-700/20">
                 <span className="material-symbols-outlined text-xl">medical_services</span>
-              </div>
-              <span className="font-black text-2xl tracking-tight text-white">
-                Medi<span className="text-blue-500">Queue</span>
               </span>
-            </div>
-            <p className="text-xs font-medium text-slate-400 leading-relaxed">
-              Revolutionizing hospital OPD intake and clinic efficiency with intelligent queue management solutions and AI wait time predictions.
+              <span className="text-xl font-bold tracking-tight text-white">
+                Medi<span className="text-blue-400">Q</span>
+              </span>
+            </a>
+            <p className="mt-5 max-w-sm text-sm leading-6 text-slate-400">
+              A calmer, more connected way to manage outpatient care—from check-in to consultation.
             </p>
           </div>
 
-          {/* Col 2: Solutions */}
-          <div className="flex flex-col gap-3">
-            <span className="text-xs font-extrabold text-white uppercase tracking-wider">Platform Modules</span>
-            <a className="text-xs font-semibold text-slate-400 hover:text-blue-400 transition-colors" href="#features">Smart Registration Kiosks</a>
-            <a className="text-xs font-semibold text-slate-400 hover:text-blue-400 transition-colors" href="#features">AI Wait Time Engine</a>
-            <a className="text-xs font-semibold text-slate-400 hover:text-blue-400 transition-colors" href="#features">Multi-Room Queue Dispatch</a>
-            <a className="text-xs font-semibold text-slate-400 hover:text-blue-400 transition-colors" href="#features">Hospital Admin Board</a>
+          <div>
+            <h2 className="text-xs font-bold uppercase tracking-[0.14em] text-white">Platform</h2>
+            <nav className="mt-5 flex flex-col gap-3" aria-label="Platform links">
+              {platformLinks.map((link) => (
+                <a key={link.label} href={link.href} className="w-fit text-sm transition-colors hover:text-blue-300">
+                  {link.label}
+                </a>
+              ))}
+            </nav>
           </div>
 
-          {/* Col 3: Company */}
-          <div className="flex flex-col gap-3">
-            <span className="text-xs font-extrabold text-white uppercase tracking-wider">Company</span>
-            <a className="text-xs font-semibold text-slate-400 hover:text-blue-400 transition-colors" href="#home">About MediQueue</a>
-            <a className="text-xs font-semibold text-slate-400 hover:text-blue-400 transition-colors" href="#technology">AI Architecture</a>
-            <a className="text-xs font-semibold text-slate-400 hover:text-blue-400 transition-colors" href="#benefits">Impact Stats</a>
-            <a className="text-xs font-semibold text-slate-400 hover:text-blue-400 transition-colors" href="#how-it-works">Patient Workflow</a>
+          <div>
+            <h2 className="text-xs font-bold uppercase tracking-[0.14em] text-white">Explore</h2>
+            <nav className="mt-5 flex flex-col gap-3" aria-label="Explore links">
+              {companyLinks.map((link) => (
+                <a key={link.label} href={link.href} className="w-fit text-sm transition-colors hover:text-blue-300">
+                  {link.label}
+                </a>
+              ))}
+            </nav>
           </div>
 
-          {/* Col 4: Support & Contact */}
-          <div className="flex flex-col gap-3">
-            <span className="text-xs font-extrabold text-white uppercase tracking-wider">Connect &amp; Support</span>
-            <a className="text-xs font-semibold text-slate-400 hover:text-blue-400 transition-colors flex items-center gap-2" href="mailto:support@mediqueue.io">
-              <span className="material-symbols-outlined text-base text-blue-500">mail</span>
-              support@mediqueue.io
+          <div>
+            <h2 className="text-xs font-bold uppercase tracking-[0.14em] text-white">Stay connected</h2>
+            <p className="mt-5 text-sm leading-6 text-slate-400">
+              Have questions about bringing MediQueue to your hospital?
+            </p>
+            <a
+              href="mailto:support@mediqueue.io"
+              className="mt-4 inline-flex items-center gap-2 text-sm font-semibold text-blue-300 transition-colors hover:text-blue-200"
+            >
+              <span className="material-symbols-outlined text-lg">mail</span>
+              mediqnew@gmail.com
             </a>
-            <div className="flex gap-3 pt-2">
-              <div className="w-8 h-8 rounded-lg bg-slate-800 hover:bg-blue-600 text-slate-300 hover:text-white flex items-center justify-center cursor-pointer transition-colors">
-                <span className="material-symbols-outlined text-base">share</span>
-              </div>
-              <div className="w-8 h-8 rounded-lg bg-slate-800 hover:bg-blue-600 text-slate-300 hover:text-white flex items-center justify-center cursor-pointer transition-colors">
-                <span className="material-symbols-outlined text-base">alternate_email</span>
-              </div>
-            </div>
           </div>
-
         </div>
 
-        {/* Bottom Bar */}
-        <div className="flex flex-col sm:flex-row justify-between items-center pt-8 border-t border-slate-800 text-xs font-semibold text-slate-500 gap-4">
-          <span>© 2026 MediQueue Systems. All rights reserved.</span>
-          <div className="flex gap-6">
-            <a className="hover:text-slate-300 transition-colors" href="#privacy">Privacy Policy</a>
-            <a className="hover:text-slate-300 transition-colors" href="#terms">Terms of Service</a>
-            <a className="hover:text-slate-300 transition-colors" href="#hipaa">HIPAA Compliance</a>
-          </div>
+        <div className="mt-12 flex flex-col gap-4 border-t border-slate-800 pt-6 text-sm text-slate-500 sm:flex-row sm:items-center sm:justify-between">
+          <p>© 2026 MediQ Systems. All rights reserved.</p>
+          <nav className="flex flex-wrap gap-x-5 gap-y-2" aria-label="Legal links">
+            <a href="#privacy" className="transition-colors hover:text-slate-200">Privacy</a>
+            <a href="#terms" className="transition-colors hover:text-slate-200">Terms</a>
+            <a href="#accessibility" className="transition-colors hover:text-slate-200">Accessibility</a>
+          </nav>
         </div>
       </div>
     </footer>

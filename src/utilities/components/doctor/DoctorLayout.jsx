@@ -113,138 +113,67 @@ export default function DoctorLayout({ children, activeTab = 'Overview' }) {
           onOpenProfile={() => setProfileOpen(true)}
         />
 
-        {/* SETTINGS MODAL */}
-        {settingsOpen && (
-          <div className="fixed inset-0 z-[150] flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-sm animate-fade-in">
-            <div className="bg-white rounded-3xl p-6 sm:p-8 max-w-md w-full shadow-2xl border border-slate-200 relative transition-all">
-              <button
-                onClick={() => setSettingsOpen(false)}
-                className="absolute top-6 right-6 text-slate-400 hover:text-slate-700 p-2 rounded-full hover:bg-slate-100 transition-colors"
-              >
-                <span className="material-symbols-outlined">close</span>
-              </button>
-              <div className="flex items-center gap-3 mb-6">
-                <div className="p-3 bg-blue-50 rounded-2xl text-blue-600 border border-blue-100">
-                  <span className="material-symbols-outlined text-3xl">settings</span>
-                </div>
-                <div>
-                  <h3 className="text-2xl font-extrabold text-slate-900">Cabin Settings</h3>
-                  <p className="text-sm text-slate-500">Configure room number &amp; calling alerts</p>
-                </div>
-              </div>
-              <div className="space-y-4">
-                <div>
-                  <label className="block text-xs font-bold text-slate-700 uppercase mb-1">
-                    Consultation Room Number
-                  </label>
-                  <input
-                    type="text"
-                    value={roomNumber}
-                    onChange={(e) => setRoomNumber(e.target.value)}
-                    className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-800 text-xs font-bold focus:bg-white focus:ring-2 focus:ring-blue-600 focus:outline-none"
-                  />
-                </div>
-                <div className="flex items-center justify-between p-3 bg-slate-50 rounded-xl border border-slate-200/80">
-                  <div>
-                    <span className="text-xs font-bold text-slate-800 block">Auto-Advance Next Patient</span>
-                    <span className="text-[11px] text-slate-500">Call next patient automatically upon completing consultation</span>
-                  </div>
-                  <button
-                    type="button"
-                    onClick={() => setAutoNext(!autoNext)}
-                    className={`w-11 h-6 rounded-full transition-colors p-1 flex items-center ${autoNext ? 'bg-blue-600 justify-end' : 'bg-slate-300 justify-start'
-                      }`}
-                  >
-                    <span className="w-4 h-4 rounded-full bg-white shadow-md"></span>
-                  </button>
-                </div>
-                <div className="flex items-center justify-between p-3 bg-slate-50 rounded-xl border border-slate-200/80">
-                  <div>
-                    <span className="text-xs font-bold text-slate-800 block">Voice Queue Announcement</span>
-                    <span className="text-[11px] text-slate-500">Chime speaker in waiting lounge when calling</span>
-                  </div>
-                  <button
-                    type="button"
-                    onClick={() => setAudioChime(!audioChime)}
-                    className={`w-11 h-6 rounded-full transition-colors p-1 flex items-center ${audioChime ? 'bg-blue-600 justify-end' : 'bg-slate-300 justify-start'
-                      }`}
-                  >
-                    <span className="w-4 h-4 rounded-full bg-white shadow-md"></span>
-                  </button>
-                </div>
-              </div>
-              <div className="mt-6 pt-4 border-t border-slate-100 flex justify-end gap-3">
-                <button
-                  onClick={() => setSettingsOpen(false)}
-                  className="px-5 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs rounded-xl"
-                >
-                  Cancel
-                </button>
-                <button
-                  onClick={() => {
-                    setSettingsOpen(false);
-                    showToast('Cabin settings updated!');
-                  }}
-                  className="px-5 py-2 bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs rounded-xl shadow-md"
-                >
-                  Save Settings
-                </button>
-              </div>
-            </div>
-          </div>
-        )}
-
         {/* PROFILE MODAL */}
         {profileOpen && (
-          <div className="fixed inset-0 z-[150] flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-sm animate-fade-in">
-            <div className="bg-white rounded-3xl p-6 sm:p-8 max-w-md w-full shadow-2xl border border-slate-200 relative transition-all">
+          <div
+            className="profile-overlay fixed inset-0 z-[150] flex items-center justify-center p-4 animate-fade-in"
+            role="presentation"
+            onMouseDown={(event) => {
+              if (event.target === event.currentTarget) setProfileOpen(false);
+            }}
+          >
+            <div
+              className="profile-modal bg-white rounded-[28px] max-w-2xl w-full shadow-2xl border border-slate-200 relative transition-all"
+              role="dialog"
+              aria-modal="true"
+              aria-labelledby="doctor-profile-modal-title"
+            >
               <button
+                type="button"
                 onClick={() => setProfileOpen(false)}
-                className="absolute top-6 right-6 text-slate-400 hover:text-slate-700 p-2 rounded-full hover:bg-slate-100 transition-colors"
+                className="absolute top-5 right-5 z-10 text-slate-400 hover:text-slate-700 p-2 rounded-full hover:bg-white/80 transition-colors"
+                aria-label="Close doctor profile"
               >
                 <span className="material-symbols-outlined">close</span>
               </button>
-              <div className="flex items-center gap-4 mb-6 pb-6 border-b border-slate-100">
-                <div className="w-16 h-16 rounded-2xl bg-blue-600 text-white font-black text-xl flex items-center justify-center border-2 border-blue-500 shadow-md">
+              <div className="profile-modal-header flex items-center gap-4 px-6 py-6 sm:px-8">
+                <div className="w-14 h-14 rounded-2xl bg-white text-blue-700 font-black text-lg flex items-center justify-center border border-blue-100 shadow-sm">
                   {doctor.name.split(" ")[0]?.charAt(0) || ""}
                   {doctor.name.split(" ")[1]?.charAt(0) || ""}
                 </div>
                 <div>
-                  <h3 className="text-xl font-extrabold text-slate-900">{doctor.name}</h3>
-                  <span className="inline-block mt-1 px-2.5 py-0.5 bg-blue-50 text-blue-700 rounded text-[10px] font-bold">
-                    @{doctor.username || 'doctor'}
-                  </span> <br/>
-                  <span className="inline-block mt-1 px-2.5 py-0.5 bg-emerald-50 text-emerald-700 rounded text-[10px] font-bold">
-                    Status: {doctor.status || 'Active'}
+                  <h3 id="doctor-profile-modal-title" className="text-xl font-bold text-slate-900">{doctor.name}</h3>
+                  <p className="text-xs font-medium text-slate-500 mt-1">{doctor.specialization} profile</p>
+                  <span className="inline-flex items-center gap-1.5 mt-2 text-[11px] font-semibold text-emerald-700">
+                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+                    {doctor.status || 'Active'}
                   </span>
                 </div>
               </div>
-              <div className="space-y-4 max-h-[60vh] overflow-y-auto pr-2">
+              <div className="profile-modal-body px-6 pb-2 sm:px-8 max-h-[58vh] overflow-y-auto">
                 <div>
-                  <label className="block text-xs font-bold text-slate-700 uppercase mb-1">Doctor Name</label>
+                  <label className="block text-xs font-semibold text-slate-600 mb-1.5">Full name</label>
                   <input
                     type="text"
                     value={doctor.name}
                     onChange={(e) => setDoctor({ ...doctor, name: e.target.value })}
-                    className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-800 text-xs font-medium focus:bg-white focus:ring-2 focus:ring-blue-600 focus:outline-none"
+                    className="profile-input w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-800 text-xs font-medium focus:bg-white focus:ring-2 focus:ring-blue-600 focus:outline-none"
                   />
                 </div>
                 <div>
-                  <label className="block text-xs font-bold text-slate-700 uppercase mb-1">Date Of Birth</label>
+                  <label className="block text-xs font-semibold text-slate-600 mb-1.5">Date of birth</label>
                   <input
                     type="date"
                     value={doctor.dob}
                     onChange={(e) => setDoctor({ ...doctor, dob: e.target.value })}
-                    className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-800 text-xs font-medium focus:bg-white focus:ring-2 focus:ring-blue-600 focus:outline-none"
+                    className="profile-input w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-800 text-xs font-medium focus:bg-white focus:ring-2 focus:ring-blue-600 focus:outline-none"
                   />
                 </div>
                 <div>
-                  <label className="block text-xs font-bold text-slate-700 uppercase mb-1">
-                    Gender
-                  </label>
+                  <label className="block text-xs font-semibold text-slate-600 mb-1.5">Gender</label>
 
-                  <div className="flex gap-4">
-                    <label>
+                  <div className="flex gap-5 text-xs font-medium text-slate-600">
+                    <label className="flex items-center gap-2 cursor-pointer">
                       <input
                         type="radio"
                         name="gender"
@@ -255,7 +184,7 @@ export default function DoctorLayout({ children, activeTab = 'Overview' }) {
                       Male
                     </label>
 
-                    <label>
+                    <label className="flex items-center gap-2 cursor-pointer">
                       <input
                         type="radio"
                         name="gender"
@@ -268,62 +197,61 @@ export default function DoctorLayout({ children, activeTab = 'Overview' }) {
                   </div>
                 </div>
                 <div>
-                  <label className="block text-xs font-bold text-slate-700 uppercase mb-1">Specialization</label>
+                  <label className="block text-xs font-semibold text-slate-600 mb-1.5">Specialization</label>
                   <input
                     type="text"
                     value={doctor.specialization}
                     onChange={(e) => setDoctor({ ...doctor, specialization: e.target.value })}
-                    className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-800 text-xs font-medium focus:bg-white focus:ring-2 focus:ring-blue-600 focus:outline-none"
+                    className="profile-input w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-800 text-xs font-medium focus:bg-white focus:ring-2 focus:ring-blue-600 focus:outline-none"
                   />
                 </div>
                 <div>
-                  <label className="block text-xs font-bold text-slate-700 uppercase mb-1">Email</label>
+                  <label className="block text-xs font-semibold text-slate-600 mb-1.5">Email address</label>
                   <input
                     type="email"
                     value={doctor.email}
                     onChange={(e) => setDoctor({ ...doctor, email: e.target.value })}
-                    className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-800 text-xs font-medium focus:bg-white focus:ring-2 focus:ring-blue-600 focus:outline-none"
+                    className="profile-input w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-800 text-xs font-medium focus:bg-white focus:ring-2 focus:ring-blue-600 focus:outline-none"
                   />
                 </div>
                 <div>
-                  <label className="block text-xs font-bold text-slate-700 uppercase mb-1">Contact No.</label>
+                  <label className="block text-xs font-semibold text-slate-600 mb-1.5">Contact number</label>
                   <input
                     type="tel"
                     value={doctor.contact}
                     onChange={(e) => setDoctor({ ...doctor, contact: e.target.value })}
-                    className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-800 text-xs font-medium focus:bg-white focus:ring-2 focus:ring-blue-600 focus:outline-none"
+                    className="profile-input w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-800 text-xs font-medium focus:bg-white focus:ring-2 focus:ring-blue-600 focus:outline-none"
                   />
                 </div>
                 <div>
-                  <label className="block text-xs font-bold text-slate-700 uppercase mb-1">Avg_Constulant_Time</label>
+                  <label className="block text-xs font-semibold text-slate-600 mb-1.5">Average consultation time</label>
                   <input
                     type="number"
                     value={doctor.avg_time}
                     onChange={(e) => setDoctor({ ...doctor, avg_time: e.target.value })}
-                    className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-800 text-xs font-medium focus:bg-white focus:ring-2 focus:ring-blue-600 focus:outline-none"
+                    className="profile-input w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-800 text-xs font-medium focus:bg-white focus:ring-2 focus:ring-blue-600 focus:outline-none"
                   />
                 </div>
                 <div>
-                  <label className="block text-xs font-bold text-slate-700 uppercase mb-1">Username</label>
+                  <label className="block text-xs font-semibold text-slate-600 mb-1.5">Username</label>
                   <input
                     type="text"
                     value={doctor.username}
                     onChange={(e) => setDoctor({ ...doctor, username: e.target.value })}
-                    className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-800 text-xs font-medium focus:bg-white focus:ring-2 focus:ring-blue-600 focus:outline-none"
+                    className="profile-input w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-800 text-xs font-medium focus:bg-white focus:ring-2 focus:ring-blue-600 focus:outline-none"
                   />
                 </div>
                 <div>
-                  <label className="block text-xs font-bold text-slate-700 uppercase mb-1">Password</label>
+                  <label className="block text-xs font-semibold text-slate-600 mb-1.5">Password</label>
                   <input
                     type="password"
-                    value={doctor.password || ''}
-                    placeholder="Enter new password"
+                    placeholder={doctor.password || ''}
                     onChange={(e) => setDoctor({ ...doctor, password: e.target.value })}
-                    className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-800 text-xs font-medium focus:bg-white focus:ring-2 focus:ring-blue-600 focus:outline-none"
+                    className="profile-input w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-800 text-xs font-medium focus:bg-white focus:ring-2 focus:ring-blue-600 focus:outline-none"
                   />
                 </div>
               </div>
-              <div className="mt-6 pt-4 border-t border-slate-100 flex items-center justify-between">
+              <div className="mt-5 px-6 py-4 sm:px-8 border-t border-slate-100 flex items-center justify-between bg-slate-50/60 rounded-b-[28px]">
                 <button
                   type="button"
                   onClick={handleLogout}
@@ -423,7 +351,7 @@ export default function DoctorLayout({ children, activeTab = 'Overview' }) {
         <footer className="bg-white border-t border-slate-200 py-6 px-8 mt-auto">
           <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4 text-xs text-slate-500 font-medium">
             <div className="flex items-center gap-2">
-              <span className="font-bold text-slate-900">Smart OPD</span>
+              <span className="font-bold text-slate-900">MediQ</span>
               <span>© 2026 Smart OPD Healthcare Solutions. All rights reserved.</span>
             </div>
             <div className="flex items-center gap-6">
@@ -435,15 +363,6 @@ export default function DoctorLayout({ children, activeTab = 'Overview' }) {
           </div>
         </footer>
       </div>
-
-      {/* Floating Action Button */}
-      <button
-        onClick={() => setAddModalOpen(true)}
-        title="Directly Add Patient to Queue"
-        className="fixed bottom-8 right-8 w-14 h-14 bg-blue-600 text-white rounded-full shadow-2xl hover:bg-blue-700 hover:scale-110 transition-all flex items-center justify-center z-50"
-      >
-        <span className="material-symbols-outlined text-3xl font-bold">add</span>
-      </button>
     </div>
   );
 }

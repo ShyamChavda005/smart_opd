@@ -3,11 +3,9 @@ import LoginModal from '../login/LoginModal';
 import LandingHeader from '../../components/landing/LandingHeader';
 import HeroSection from '../../components/landing/HeroSection';
 import FeaturesSection from '../../components/landing/FeaturesSection';
-import ProcessSection from '../../components/landing/ProcessSection';
 import AIIntelligenceSection from '../../components/landing/AIIntelligenceSection';
 import TechSection from '../../components/landing/TechSection';
 import BenefitsSection from '../../components/landing/BenefitsSection';
-import CtaSection from '../../components/landing/CtaSection';
 import LandingFooter from '../../components/landing/LandingFooter';
 import '../../style/landing_page/LandingPage.css';
 
@@ -47,20 +45,14 @@ export default function LandingPage({ onLogin }) {
           {/* Features Grid Section */}
           <FeaturesSection onOpenFeature={openModal} />
 
-          {/* Patient Flow Timeline Section */}
-          <ProcessSection />
-
           {/* AI Intelligence Section */}
           <AIIntelligenceSection onOpenDemo={openModal} />
 
-          {/* AI Technology Deep Dive */}
+          {/* Coming Soon: AI Technology Deep Dive */}
           <TechSection />
 
           {/* Benefits Section */}
           <BenefitsSection />
-
-          {/* Final CTA Banner */}
-          <CtaSection onOpenBooking={openModal} onOpenLogin={openModal} />
         </div>
       </main>
 

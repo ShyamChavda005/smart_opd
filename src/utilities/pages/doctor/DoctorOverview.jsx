@@ -206,37 +206,6 @@ export default function DoctorOverview() {
   return (
     <DoctorLayout activeTab="Overview">
       <div className="doctor-overview-container space-y-6">
-        {/* Live Queue Banner */}
-        <div className="bg-blue-50/70 border border-blue-200/80 rounded-2xl p-4 flex flex-col md:flex-row items-center justify-between gap-4 shadow-sm">
-          <div className="flex items-center gap-3 flex-wrap text-sm">
-            <div className="flex items-center gap-2 font-black text-blue-600 tracking-wider text-xs bg-blue-100/80 px-3 py-1.5 rounded-full">
-              <span className="w-2 h-2 rounded-full bg-blue-600 animate-ping"></span>
-              LIVE QUEUE
-            </div>
-            <span className="text-slate-700 font-bold">
-              Now Serving: <strong className="text-slate-900 font-black">{currentPatient ? `T-${currentPatient.token} (${currentPatient.patient_name})` : 'None'}</strong>
-            </span>
-            <span className="text-slate-300">•</span>
-            <span className="text-slate-700 font-bold">
-              Next Up: <strong className="text-slate-900 font-black">{nextWaiting ? `T-${nextWaiting.token} (${nextWaiting.patient_name})` : 'None'}</strong>
-            </span>
-            <span className="text-slate-300">•</span>
-            <span className="text-slate-700 font-bold">
-              Pending: <strong className="text-slate-900 font-black">{pendingCount} patients</strong>
-            </span>
-          </div>
-          <div className="flex items-center gap-3">
-            <button
-              onClick={handleCallNext}
-              disabled={actionLoading}
-              className="px-6 py-2.5 bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs rounded-xl shadow-md shadow-blue-500/25 transition-all flex items-center gap-2 shrink-0 disabled:opacity-50"
-            >
-              <span>Call Next Patient</span>
-              <span className="material-symbols-outlined text-sm">play_arrow</span>
-            </button>
-          </div>
-        </div>
-
         {/* 4 Metric Cards Row */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
           <div className="bg-white rounded-2xl p-6 border border-slate-200 shadow-sm relative overview-card-hover">
@@ -246,7 +215,7 @@ export default function DoctorOverview() {
               </div>
             </div>
             <p className="text-xs font-bold text-slate-400 mb-1">Today's Visits</p>
-            <h3 className="text-3xl font-black text-slate-900">{totalToday}</h3>
+            <h3 className="text-3xl font-semibold font-black text-slate-900">{totalToday}</h3>
           </div>
 
           <div className="bg-white rounded-2xl p-6 border border-slate-200 shadow-sm relative overview-card-hover">
@@ -261,7 +230,7 @@ export default function DoctorOverview() {
               )}
             </div>
             <p className="text-xs font-bold text-slate-400 mb-1">Pending Queue</p>
-            <h3 className="text-3xl font-black text-slate-900">{pendingCount}</h3>
+            <h3 className="text-3xl font-semibold font-black text-slate-900">{pendingCount}</h3>
           </div>
 
           <div className="bg-white rounded-2xl p-6 border border-slate-200 shadow-sm relative overview-card-hover">
@@ -271,7 +240,7 @@ export default function DoctorOverview() {
               </div>
             </div>
             <p className="text-xs font-bold text-slate-400 mb-1">Completed Cases</p>
-            <h3 className="text-3xl font-black text-slate-900">{completedCount}</h3>
+            <h3 className="text-3xl font-semibold font-black text-slate-900">{completedCount}</h3>
           </div>
 
           <div className="bg-white rounded-2xl p-6 border border-slate-200 shadow-sm relative overview-card-hover">
@@ -281,7 +250,7 @@ export default function DoctorOverview() {
               </div>
             </div>
             <p className="text-xs font-bold text-slate-400 mb-1">Avg. Consultation</p>
-            <h3 className="text-3xl font-black text-slate-900">
+            <h3 className="text-3xl font-semibold font-black text-slate-900">
               {avgTime} <span className="text-lg font-semibold text-slate-500">min</span>
             </h3>
           </div>

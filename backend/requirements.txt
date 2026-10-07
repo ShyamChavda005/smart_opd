@@ -1,5 +1,5 @@
 fastapi
-psycopg
+pymysql
 jwt
 argon2
 uvicorn

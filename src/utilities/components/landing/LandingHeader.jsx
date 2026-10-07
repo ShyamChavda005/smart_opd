@@ -19,7 +19,7 @@ export default function LandingHeader({ onOpenLogin, onOpenBooking }) {
       }
 
       // Track active section for navigation highlight
-      const sections = ['home', 'features', 'technology', 'benefits'];
+      const sections = ['home', 'features', 'technology', 'ai-intelligence', 'benefits'];
       const scrollPosition = window.scrollY + 200;
 
       for (const sectionId of sections) {
@@ -42,24 +42,47 @@ export default function LandingHeader({ onOpenLogin, onOpenBooking }) {
   const navLinks = [
     { name: 'Home', href: '#home', id: 'home' },
     { name: 'Features', href: '#features', id: 'features' },
-    { name: 'Technology', href: '#technology', id: 'technology' },
+    { name: 'Technology', href: '#ai-intelligence', id: 'ai-intelligence' },
+    { name: 'Coming Soon', href: '#technology', id: 'technology' },
     { name: 'Benefits', href: '#benefits', id: 'benefits' },
   ];
 
   return (
     <header
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        isScrolled
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${isScrolled
           ? 'py-3 bg-white/85 backdrop-blur-xl shadow-lg border-b border-slate-200/60'
           : 'py-5 bg-white/60 backdrop-blur-md border-b border-transparent'
-      }`}
+        }`}
     >
       <div className="max-w-[1440px] mx-auto px-6 lg:px-12 flex items-center justify-between">
-        
+
         {/* Brand Logo & Tag */}
         <a href="#home" className="flex items-center gap-3 group">
-          <div className="w-10 h-10 rounded-2xl bg-gradient-to-br from-blue-600 via-indigo-600 to-teal-500 flex items-center justify-center shadow-md shadow-blue-500/20 group-hover:scale-105 transition-transform duration-300">
-            <span className="material-symbols-outlined text-white text-2xl">medical_services</span>
+          <div className="w-10 h-10 rounded-2xl flex items-center justify-center shadow-md shadow-blue-500/20 group-hover:scale-105 transition-transform duration-300">
+            <div className="relative w-10 h-10 flex items-center justify-center shrink-0">
+              <div className="absolute inset-0 bg-blue-600/25 rounded-xl blur-sm group-hover:bg-blue-600/40 transition-all"></div>
+              <div className="relative w-10 h-10 rounded-xl bg-gradient-to-br from-blue-600 via-blue-600 to-cyan-500 p-[1.5px] shadow-md group-hover:scale-105 transition-all">
+                <div className="w-full h-full bg-slate-900 rounded-[10.5px] flex items-center justify-center overflow-hidden">
+                  <svg className="w-6 h-6" viewBox="0 0 24 24" fill="none">
+                    <path
+                      d="M12 2L4 6v5c0 5.25 3.4 10.15 8 11.5 4.6-1.35 8-6.25 8-11.5V6l-8-4z"
+                      fill="#0284c7"
+                      fillOpacity="0.25"
+                      stroke="#38bdf8"
+                      strokeWidth="1.5"
+                    />
+                    <path d="M12 7v10M7 12h10" stroke="#ffffff" strokeWidth="2.2" strokeLinecap="round" />
+                    <path
+                      d="M9 12l2 2.2 4-4.2"
+                      stroke="#38bdf8"
+                      strokeWidth="2.2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                  </svg>
+                </div>
+              </div>
+            </div>
           </div>
           <div className="flex flex-col">
             <div className="flex items-center gap-2">
@@ -81,11 +104,10 @@ export default function LandingHeader({ onOpenLogin, onOpenBooking }) {
               <a
                 key={link.id}
                 href={link.href}
-                className={`px-5 py-2 rounded-xl text-xs font-bold transition-all duration-200 ${
-                  isActive
+                className={`px-5 py-2 rounded-xl text-xs font-bold transition-all duration-200 ${isActive
                     ? 'bg-white text-blue-600 shadow-sm border border-slate-200/60'
                     : 'text-slate-600 hover:text-slate-900 hover:bg-white/50'
-                }`}
+                  }`}
               >
                 {link.name}
               </a>
@@ -139,11 +161,10 @@ export default function LandingHeader({ onOpenLogin, onOpenBooking }) {
                 key={link.id}
                 href={link.href}
                 onClick={() => setMobileMenuOpen(false)}
-                className={`p-3 rounded-xl text-sm font-bold flex items-center justify-between ${
-                  activeSection === link.id
+                className={`p-3 rounded-xl text-sm font-bold flex items-center justify-between ${activeSection === link.id
                     ? 'bg-blue-50 text-blue-600 font-extrabold'
                     : 'text-slate-700 hover:bg-slate-50'
-                }`}
+                  }`}
               >
                 <span>{link.name}</span>
                 <span className="material-symbols-outlined text-base text-slate-400">chevron_right</span>
