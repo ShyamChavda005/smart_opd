@@ -407,7 +407,7 @@ export default function ReceptionistQueueBoard() {
         )}
 
         {/* Top 5 Metric Cards */}
-        <div className="grid grid-cols-2 lg:grid-cols-5 gap-4">
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
           <div className="bg-white rounded-2xl border border-slate-200 p-5 shadow-sm">
             <p className="text-xs font-bold uppercase tracking-wider text-slate-400">
               Waiting in Queue

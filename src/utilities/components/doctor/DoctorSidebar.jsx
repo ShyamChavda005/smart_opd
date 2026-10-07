@@ -55,10 +55,10 @@ export default function DoctorSidebar({ activeTab = 'Overview', showToast }) {
               </div>
             </div>
             <div className="flex flex-col">
-              <span className="font-extrabold text-xl text-slate-900 tracking-tight leading-none">
-                Medi<span className="text-blue-600">Queue</span>
+              <span className="font-bold text-xl text-slate-900 tracking-tight leading-none">
+                Medi<span className="text-blue-600">Q</span>
               </span>
-              <span className="text-[9px] font-extrabold tracking-widest text-blue-600 uppercase mt-0.5">
+              <span className="text-[9px] font-bold tracking-widest text-blue-600 uppercase mt-0.5">
                 Doctor Portal
               </span>
             </div>
@@ -72,7 +72,7 @@ export default function DoctorSidebar({ activeTab = 'Overview', showToast }) {
               <button
                 key={item.name}
                 onClick={() => navigate(item.path)}
-                className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl font-bold text-sm transition-all ${
+                className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl font-semibold text-sm transition-all ${
                   isActive
                     ? 'bg-blue-50/80 text-blue-600 border-l-4 border-blue-600 shadow-sm'
                     : 'text-slate-500 hover:text-slate-900 hover:bg-slate-50'

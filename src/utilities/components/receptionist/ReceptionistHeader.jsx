@@ -16,10 +16,10 @@ export default function ReceptionistHeader({
   const displayName = profileName || "";
 
   return (
-    <header className="bg-white border-b border-slate-200 px-8 py-5 flex items-center justify-between sticky top-0 z-40 shadow-sm">
+    <header className="receptionist-header bg-white border-b border-slate-200 px-8 py-5 flex items-center justify-between sticky top-0 z-40">
       <div>
-        <h2 className="text-2xl font-bold  font-black text-slate-900">Welcome, {profileName}</h2>
-        <p className="text-xs text-slate-400 mt-0.5">
+        <h2 className="text-2xl font-bold font-black text-slate-900">Welcome, {profileName}</h2>
+        <p className="text-xs text-slate-400 mt-1">
           {stationName} • Smart OPD Registration Desk
         </p>
       </div>
@@ -38,16 +38,21 @@ export default function ReceptionistHeader({
           Register Patient
         </button>
 
-        <div
+        <button
+          type="button"
           onClick={onOpenProfile}
-          className="flex items-center gap-2 pl-2 cursor-pointer hover:opacity-90 transition-opacity"
-          title="Click to manage profile &amp; portal options"
+          className="flex items-center gap-3 pl-3 border-l border-slate-200 cursor-pointer hover:opacity-90 transition-opacity text-left"
+          title="Open receptionist profile"
         >
-          <div className="w-10 h-10 rounded-full bg-blue-600 text-white font-bold flex items-center justify-center border-2 border-blue-500 shadow-sm text-sm">
+          <span className="hidden lg:block">
+            <span className="block text-xs font-semibold text-slate-700">{displayName}</span>
+            <span className="block text-[11px] text-slate-400 mt-0.5">Profile</span>
+          </span>
+          <span className="w-10 h-10 rounded-full bg-blue-50 text-blue-700 font-bold flex items-center justify-center border border-blue-100 text-sm">
             {displayName.split(" ")[0]?.charAt(0) || "R"}
             {displayName.split(" ")[1]?.charAt(0) || ""}
-          </div>
-        </div>
+          </span>
+        </button>
       </div>
     </header>
   );

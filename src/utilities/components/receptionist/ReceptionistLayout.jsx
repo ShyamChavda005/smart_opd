@@ -244,56 +244,65 @@ export default function ReceptionistLayout({ children, activeTab = 'Dashboard' }
 
         {/* USER PROFILE MODAL */}
         {profileOpen && (
-          <div className="fixed inset-0 z-[150] flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-sm animate-fade-in">
-            <div className="bg-white rounded-3xl p-6 sm:p-8 max-w-md w-full shadow-2xl border border-slate-200 relative transition-all">
+          <div
+            className="profile-overlay fixed inset-0 z-[150] flex items-center justify-center p-4 animate-fade-in"
+            role="presentation"
+            onMouseDown={(event) => {
+              if (event.target === event.currentTarget) setProfileOpen(false);
+            }}
+          >
+            <div
+              className="profile-modal bg-white rounded-[28px] max-w-2xl w-full shadow-2xl border border-slate-200 relative transition-all"
+              role="dialog"
+              aria-modal="true"
+              aria-labelledby="profile-modal-title"
+            >
               <button
+                type="button"
                 onClick={() => setProfileOpen(false)}
-                className="absolute top-6 right-6 text-slate-400 hover:text-slate-700 p-2 rounded-full hover:bg-slate-100 transition-colors"
+                className="absolute top-5 right-5 z-10 text-slate-400 hover:text-slate-700 p-2 rounded-full hover:bg-white/80 transition-colors"
+                aria-label="Close profile"
               >
                 <span className="material-symbols-outlined">close</span>
               </button>
-              <div className="flex items-center gap-4 mb-6 pb-6 border-b border-slate-100">
-                <div className="w-16 h-16 rounded-2xl bg-blue-600 text-white font-black text-xl flex items-center justify-center border-2 border-blue-500 shadow-md">
+              <div className="profile-modal-header flex items-center gap-4 px-6 py-6 sm:px-8">
+                <div className="w-14 h-14 rounded-2xl bg-white text-blue-700 font-black text-lg flex items-center justify-center border border-blue-100 shadow-sm">
                   {profile.name.split(" ")[0]?.charAt(0) || ""}
                   {profile.name.split(" ")[1]?.charAt(0) || ""}
                 </div>
                 <div>
-                  <h3 className="text-xl font-extrabold text-slate-900">{profile.name}</h3>
-                  <p className="text-xs font-semibold text-blue-600">Receptionist</p>
-                  <span className="inline-block mt-1 px-2.5 py-0.5 bg-slate-100 text-slate-600 rounded text-[10px] font-bold">
-                    ID : 1
-                  </span> <br />
-                  <span className="inline-block mt-1 px-2.5 py-0.5 bg-slate-100 text-slate-600 rounded text-[10px] font-bold">
-                    Status : {profile.status}
+                  <h3 id="profile-modal-title" className="text-xl font-bold text-slate-900">{profile.name}</h3>
+                  <p className="text-xs font-medium text-slate-500 mt-1">Receptionist profile</p>
+                  <span className="inline-flex items-center gap-1.5 mt-2 text-[11px] font-semibold text-emerald-700">
+                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+                    {profile.status}
                   </span>
                 </div>
               </div>
-              <div className="space-y-4 max-h-[60vh] overflow-y-auto pr-2">
+              <div className="profile-modal-body px-6 pb-2 sm:px-8 max-h-[58vh] overflow-y-auto">
                 <div>
-                  <label className="block text-xs font-bold text-slate-700 uppercase mb-1">Name</label>
+                  <label className="block text-xs font-semibold text-slate-600 mb-1.5">Full name</label>
                   <input
                     type="text"
                     value={profile.name}
                     onChange={(e) => setProfile({ ...profile, name: e.target.value })}
-                    className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-800 text-xs font-medium focus:bg-white focus:ring-2 focus:ring-blue-600 focus:outline-none"
+                    className="profile-input w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-800 text-xs font-medium focus:bg-white focus:ring-2 focus:ring-blue-600 focus:outline-none"
                   />
                 </div>
                 <div>
-                  <label className="block text-xs font-bold text-slate-700 uppercase mb-1">Date Of Birth</label>
+                  <label className="block text-xs font-semibold text-slate-600 mb-1.5">Date of birth</label>
                   <input
                     type="date"
                     value={profile.dob}
                     onChange={(e) => setProfile({ ...profile, dob: e.target.value })}
-                    className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-800 text-xs font-medium focus:bg-white focus:ring-2 focus:ring-blue-600 focus:outline-none"
+                    className="profile-input w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-800 text-xs font-medium focus:bg-white focus:ring-2 focus:ring-blue-600 focus:outline-none"
                   />
                 </div>
                 <div>
-                  <label className="block text-xs font-bold text-slate-700 uppercase mb-1">
-                    Gender
-                  </label>
+                  <label className="block text-xs font-semibold text-slate-600 mb-1.5">Gender</label>
 
-                  <div className="flex gap-4">
-                    <label>
+                  <div className="flex gap-5 text-xs font-medium text-slate-600">
+                    <label className="flex items-center gap-2 cursor-pointer">
                       <input
                         type="radio"
                         name="gender"
@@ -304,7 +313,7 @@ export default function ReceptionistLayout({ children, activeTab = 'Dashboard' }
                       Male
                     </label>
 
-                    <label>
+                    <label className="flex items-center gap-2 cursor-pointer">
                       <input
                         type="radio"
                         name="gender"
@@ -317,48 +326,48 @@ export default function ReceptionistLayout({ children, activeTab = 'Dashboard' }
                   </div>
                 </div>
                 <div>
-                  <label className="block text-xs font-bold text-slate-700 uppercase mb-1">Email Address</label>
+                  <label className="block text-xs font-semibold text-slate-600 mb-1.5">Email address</label>
                   <input
                     type="email"
                     value={profile.email}
                     onChange={(e) => setProfile({ ...profile, email: e.target.value })}
-                    className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-800 text-xs font-medium focus:bg-white focus:ring-2 focus:ring-blue-600 focus:outline-none"
+                    className="profile-input w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-800 text-xs font-medium focus:bg-white focus:ring-2 focus:ring-blue-600 focus:outline-none"
                   />
                 </div>
                 <div>
-                  <label className="block text-xs font-bold text-slate-700 uppercase mb-1">Mobile Number</label>
+                  <label className="block text-xs font-semibold text-slate-600 mb-1.5">Mobile number</label>
                   <input
                     type="tel"
                     value={profile.contact}
                     onChange={(e) => setProfile({ ...profile, contact: e.target.value })}
-                    className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-800 text-xs font-medium focus:bg-white focus:ring-2 focus:ring-blue-600 focus:outline-none"
+                    className="profile-input w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-800 text-xs font-medium focus:bg-white focus:ring-2 focus:ring-blue-600 focus:outline-none"
                   />
                 </div>
                 <div>
-                  <label className="block text-xs font-bold text-slate-700 uppercase mb-1">Username</label>
+                  <label className="block text-xs font-semibold text-slate-600 mb-1.5">Username</label>
                   <input
                     type="text"
                     value={profile.username}
                     onChange={(e) => setProfile({ ...profile, username: e.target.value })}
-                    className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-800 text-xs font-medium focus:bg-white focus:ring-2 focus:ring-blue-600 focus:outline-none"
+                    className="profile-input w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-800 text-xs font-medium focus:bg-white focus:ring-2 focus:ring-blue-600 focus:outline-none"
                   />
                 </div>
                 <div>
-                  <label className="block text-xs font-bold text-slate-700 uppercase mb-1">Password</label>
+                  <label className="block text-xs font-semibold text-slate-600 mb-1.5">Password</label>
                   <input
                     type="password"
                     placeholder={profile.password || ''}
                     onChange={(e) => setProfile({ ...profile, password: e.target.value })}
-                    className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-800 text-xs font-medium focus:bg-white focus:ring-2 focus:ring-blue-600 focus:outline-none"
+                    className="profile-input w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-800 text-xs font-medium focus:bg-white focus:ring-2 focus:ring-blue-600 focus:outline-none"
                   />
                 </div>
                 <div>
-                  <label className="block text-xs font-bold text-slate-700 uppercase mb-1">Shift</label>
+                  <label className="block text-xs font-semibold text-slate-600 mb-1.5">Shift</label>
 
                   <select
                     value={profile.shift || ''}
                     onChange={(e) => setProfile({ ...profile, shift: e.target.value })}
-                    className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-800 text-xs font-medium focus:bg-white focus:ring-2 focus:ring-blue-600 focus:outline-none"
+                    className="profile-input w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-800 text-xs font-medium focus:bg-white focus:ring-2 focus:ring-blue-600 focus:outline-none"
                   >
                     <option value="Morning"> Morning </option>
                     <option value="Evening"> Evening </option>
@@ -367,7 +376,7 @@ export default function ReceptionistLayout({ children, activeTab = 'Dashboard' }
                   </select>
                 </div>
               </div>
-              <div className="mt-6 pt-4 border-t border-slate-100 flex items-center justify-between">
+              <div className="mt-5 px-6 py-4 sm:px-8 border-t border-slate-100 flex items-center justify-between bg-slate-50/60 rounded-b-[28px]">
                 <button
                   type="button"
                   onClick={handleLogout}
@@ -402,7 +411,7 @@ export default function ReceptionistLayout({ children, activeTab = 'Dashboard' }
         <footer className="bg-white border-t border-slate-200 py-6 px-6 mt-12">
           <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4 text-xs text-slate-500 font-medium">
             <div className="flex items-center gap-2">
-              <span className="font-bold text-slate-900">Smart OPD</span>
+              <span className="font-bold text-slate-900">MediQ</span>
               <span>© 2026 Smart OPD Healthcare Solutions. All rights reserved.</span>
             </div>
             <div className="flex items-center gap-6">

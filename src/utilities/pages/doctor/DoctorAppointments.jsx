@@ -94,7 +94,7 @@ export default function DoctorAppointments() {
     <DoctorLayout activeTab="Appointments">
       <div className="doctor-appointments-container bg-white rounded-3xl p-8 border border-slate-200 shadow-sm space-y-6 animate-fadeIn">
         <div className="flex items-center justify-between pb-4 border-b border-slate-100">
-          <h3 className="text-2xl font-extrabold text-slate-900">Today's Appointment Schedule</h3>
+          <h3 className="text-2xl font-bold text-slate-900">Today's Appointment Schedule</h3>
           <div className="flex items-center gap-3">
             <span className="text-xs font-bold text-slate-500">{appointments.length} Active</span>
             <span className="text-xs font-bold text-emerald-700 bg-emerald-50 px-2.5 py-1 rounded-full border border-emerald-200">
