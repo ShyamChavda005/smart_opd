@@ -2,11 +2,12 @@
 //  AddDoctor.jsx  â€“  Add New Doctor Page Component
 // ============================================================
 
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import AdminLayout from '../../components/admin/AdminLayout';
 import GlassSelect from '../../components/controls/GlassSelect';
 import GlassDatePicker from '../../components/controls/GlassDatePicker';
+import { getAuthHeaders } from '../../auth';
 import '../../style/admin/AddDoctor.css';
 
 
@@ -64,7 +65,7 @@ function AddDoctor() {
       dob: "",
       gender: "",
       email: "",
-      phone: "",
+      contact: "",
       specialization: "",
       avg_time: "",
       username: "",
@@ -98,16 +99,14 @@ function AddDoctor() {
         {
           method: "POST",
 
-          headers: {
-            "Content-Type": "application/json"
-          },
+          headers: getAuthHeaders(),
 
           body: JSON.stringify(formData)
         }
       );
 
 
-      const data = await response.json();
+      const data = await response.json().catch(() => ({}));
 
 
       console.log("API Response:", data);

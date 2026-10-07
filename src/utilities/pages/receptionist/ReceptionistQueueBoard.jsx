@@ -187,27 +187,27 @@ export default function ReceptionistQueueBoard() {
     }
   };
 
-  const handleCancel = async (qid) => {
-    if (!window.confirm("Cancel this token? Patient left / wrong entry. This frees the lane.")) return;
-    try {
-      setActionLoading(true);
-      const res = await fetch(`${API_BASE_URL}/queue/cancel/${qid}`, {
-        method: "POST",
-      });
-      const data = await res.json();
-      if (res.ok && data.status === "success") {
-        notify(data.message, "info");
-      } else {
-        notify(data.message || "Could not cancel token", "error");
-      }
-      await fetchBoard();
-    } catch (err) {
-      console.error("Cancel error:", err);
-      notify("Network error cancelling token", "error");
-    } finally {
-      setActionLoading(false);
-    }
-  };
+  // const handleCancel = async (qid) => {
+  //   if (!window.confirm("Cancel this token? Patient left / wrong entry. This frees the lane.")) return;
+  //   try {
+  //     setActionLoading(true);
+  //     const res = await fetch(`${API_BASE_URL}/queue/cancel/${qid}`, {
+  //       method: "POST",
+  //     });
+  //     const data = await res.json();
+  //     if (res.ok && data.status === "success") {
+  //       notify(data.message, "info");
+  //     } else {
+  //       notify(data.message || "Could not cancel token", "error");
+  //     }
+  //     await fetchBoard();
+  //   } catch (err) {
+  //     console.error("Cancel error:", err);
+  //     notify("Network error cancelling token", "error");
+  //   } finally {
+  //     setActionLoading(false);
+  //   }
+  // };
 
   const toggleSkippedList = (did) => {
     setShowSkippedFor((prev) => ({

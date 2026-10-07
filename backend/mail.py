@@ -1,33 +1,57 @@
 import os
+import re
+import time
+from pathlib import Path
 import requests
 from dotenv import load_dotenv
 
-load_dotenv()
+load_dotenv(dotenv_path=Path(__file__).resolve().parent / ".env")
 
-BREVO_API_KEY = os.getenv("BREVO_API_KEY")
-BREVO_SENDER_EMAIL = os.getenv("BREVO_SENDER_EMAIL")
-BREVO_SENDER_NAME = os.getenv("BREVO_SENDER_NAME")
+ENV_PATH = Path(__file__).resolve().parent / ".env"
+
+
+def _get_brevo_config():
+    load_dotenv(dotenv_path=ENV_PATH, override=True)
+    return (
+        os.getenv("BREVO_API_KEY", "").strip(),
+        os.getenv("BREVO_SENDER_EMAIL", "").strip(),
+        os.getenv("BREVO_SENDER_NAME", "MediQ").strip() or "MediQ",
+    )
 
 
 def send_credentials_email(to_email: str, name: str, role: str, username: str, password: str):
     try:
+        brevo_api_key, sender_email, sender_name = _get_brevo_config()
+        recipient = (to_email or "").strip()
+        if (
+            not recipient
+            or not re.fullmatch(r"[^@\s]+@[^@\s]+\.[^@\s]+", recipient)
+            or not brevo_api_key
+            or not sender_email
+        ):
+            print(
+                "CREDENTIAL EMAIL ERROR: invalid recipient or missing Brevo "
+                "configuration (check backend/.env)"
+            )
+            return False
+
         url = "https://api.brevo.com/v3/smtp/email"
 
         headers = {
             "accept": "application/json",
-            "api-key": BREVO_API_KEY,
+            "api-key": brevo_api_key,
             "content-type": "application/json"
         }
 
         data = {
             "sender": {
-                "name": BREVO_SENDER_NAME,
-                "email": BREVO_SENDER_EMAIL
+                "name": sender_name,
+                "email": sender_email
             },
             "to": [
                 {
-                    "email": to_email,
-                    "name": name
+                    "email": recipient,
+                    "name": (name or "").strip()
                 }
             ],
             "subject": "MediQ Account Credentials",
@@ -49,30 +73,43 @@ Please use these credentials to log in to the MediQ system. For security purpose
 If you have any issues while accessing your account, please contact the system administrator.
 
 Regards,
-{BREVO_SENDER_NAME}
+{sender_name}
 """
         }
 
-        response = requests.post(
-            url,
-            headers=headers,
-            json=data,
-            timeout=15
-        )
+        for attempt in range(2):
+            try:
+                response = requests.post(
+                    url,
+                    headers=headers,
+                    json=data,
+                    timeout=15,
+                )
+                if response.ok:
+                    try:
+                        message_id = response.json().get("messageId")
+                    except ValueError:
+                        message_id = None
+                    print("Credential email sent:", message_id or "accepted by Brevo")
+                    return True
 
-        print("Brevo HTTP status:", response.status_code)
-        print("Brevo response:", response.text)
+                print(
+                    "CREDENTIAL EMAIL ERROR: Brevo rejected the request "
+                    f"(HTTP {response.status_code}): {response.text}"
+                )
+                if response.status_code < 500:
+                    return False
+            except requests.RequestException as error:
+                print(f"CREDENTIAL EMAIL ATTEMPT {attempt + 1} FAILED:", repr(error))
+                if attempt == 1:
+                    return False
+            if attempt == 0:
+                time.sleep(1)
 
-        response.raise_for_status()
-
-        result = response.json()
-
-        print("Brevo message ID:", result.get("messageId"))
-
-        return True
+        return False
 
     except Exception as e:
-        print("EMAIL ERROR:", repr(e))
+        print("CREDENTIAL EMAIL ERROR:", repr(e))
         return False
 
 
@@ -87,23 +124,23 @@ def send_token_email(
     priority: str,
 ):
     try:
-        if not to_email or not BREVO_API_KEY or not BREVO_SENDER_EMAIL:
-            print("TOKEN EMAIL ERROR: email configuration or recipient is missing")
+        brevo_api_key, sender_email, sender_name = _get_brevo_config()
+        recipient = (to_email or "").strip()
+        if not recipient or not brevo_api_key or not sender_email:
+            print(
+                "TOKEN EMAIL ERROR: recipient or Brevo configuration is missing "
+                "(check backend/.env)"
+            )
             return False
 
         response = requests.post(
             "https://api.brevo.com/v3/smtp/email",
-            headers={
-                "accept": "application/json",
-                "api-key": BREVO_API_KEY,
-                "content-type": "application/json",
-            },
             json={
                 "sender": {
-                    "name": BREVO_SENDER_NAME or "MediQ",
-                    "email": BREVO_SENDER_EMAIL,
+                    "name": sender_name,
+                    "email": sender_email,
                 },
-                "to": [{"email": to_email, "name": patient_name}],
+                "to": [{"email": recipient, "name": patient_name}],
                 "subject": f"MediQ OPD Token #{token}",
                 "textContent": f"""Hello {patient_name},
 
@@ -119,8 +156,13 @@ Priority: {priority}
 Please keep this email for your visit.
 
 Regards,
-{BREVO_SENDER_NAME or "MediQ"}
+{sender_name}
 """,
+            },
+            headers={
+                "accept": "application/json",
+                "api-key": brevo_api_key,
+                "content-type": "application/json",
             },
             timeout=15,
         )

@@ -34,7 +34,7 @@ export default function ReceptionistHeader({
           }}
           className="px-5 py-2.5 bg-blue-600 text-white text-sm rounded-xl shadow-md hover:bg-blue-700 transition-all flex items-center gap-2"
         >
-          <span className="material-symbols-outlined text-lg">person_add</span>
+          <span className="material-symbols-outlined text-sm">person_add</span>
           Register Patient
         </button>
 
