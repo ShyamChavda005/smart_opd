@@ -5,6 +5,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import AdminLayout from '../../components/admin/AdminLayout';
+import GlassSelect from '../../components/controls/GlassSelect';
 import '../../style/admin/AddDoctor.css';
 
 export default function AddSymptom() {
@@ -147,19 +148,19 @@ export default function AddSymptom() {
                   <label className="form-input-group__label">
                     Specialization <span className="required-star">*</span>
                   </label>
-                  <select
-                    className="form-input-group__control text-sm font-bold"
+                  <GlassSelect
                     name="specialization"
                     value={formData.specialization}
                     onChange={handleChange}
                     required
+                    ariaLabel="Specialization"
                   >
                     <option value="General Medicine">General Medicine</option>
                     <option value="Cardiology">Cardiology</option>
                     <option value="Orthopedics">Orthopedics</option>
                     <option value="Neurology">Neurology</option>
                     <option value="Pediatrics">Pediatrics</option>
-                  </select>
+                  </GlassSelect>
                   <span className="material-symbols-outlined form-input-group__icon">medical_services</span>
                 </div>
               </div>

@@ -1,5 +1,6 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import ReceptionistLayout from "../../components/receptionist/ReceptionistLayout";
+import GlassSelect from "../../components/controls/GlassSelect";
 import "../../style/receptionist/ReceptionistQueueBoard.css";
 
 const API_BASE_URL =
@@ -881,11 +882,12 @@ export default function ReceptionistQueueBoard() {
               ))}
                 <label className="text-xs font-bold text-slate-600 sm:col-span-2">
                   Symptom
-                  <select
+                  <GlassSelect
                     required
                     value={editForm.symptom_sid}
                     onChange={(event) => setEditForm((current) => ({ ...current, symptom_sid: event.target.value }))}
-                    className="mt-1 w-full rounded-xl border border-slate-200 px-3 py-2 text-sm font-medium text-slate-800 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-100"
+                    placeholder="Select symptom"
+                    ariaLabel="Symptom"
                   >
                     <option value="">Select symptom</option>
                     {symptoms.map((symptom) => (
@@ -893,21 +895,22 @@ export default function ReceptionistQueueBoard() {
                         {symptom.symptom_name}
                       </option>
                     ))}
-                  </select>
+                  </GlassSelect>
                 </label>
               <label className="text-xs font-bold text-slate-600">
                 Gender
-                <select
+                <GlassSelect
                   required
                   value={editForm.gender}
                   onChange={(event) => setEditForm((current) => ({ ...current, gender: event.target.value }))}
-                  className="mt-1 w-full rounded-xl border border-slate-200 px-3 py-2 text-sm font-medium text-slate-800 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-100"
+                  placeholder="Select gender"
+                  ariaLabel="Gender"
                 >
                   <option value="">Select gender</option>
                   <option value="Male">Male</option>
                   <option value="Female">Female</option>
                   <option value="Other">Other</option>
-                </select>
+                </GlassSelect>
               </label>
             </div>
 

@@ -7,6 +7,32 @@ import { useNavigate } from 'react-router-dom';
 import ReceptionistLayout from '../../components/receptionist/ReceptionistLayout';
 import '../../style/receptionist/ReceptionistDashboard.css';
 import { getAuthHeaders } from '../../auth';
+import GlassSelect from '../../components/controls/GlassSelect';
+import GlassDatePicker from '../../components/controls/GlassDatePicker';
+
+// Display-only animated counter (no data logic changes).
+function CountUp({ value, padStart = 0 }) {
+  const [display, setDisplay] = useState(0);
+  useEffect(() => {
+    if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      setDisplay(Number(value) || 0);
+      return;
+    }
+    let raf;
+    const target = Number(value) || 0;
+    const t0 = performance.now();
+    const tick = (t) => {
+      const p = Math.min(1, (t - t0) / 700);
+      setDisplay(Math.round(target * (1 - Math.pow(1 - p, 3))));
+      if (p < 1) raf = requestAnimationFrame(tick);
+    };
+    raf = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(raf);
+  }, [value]);
+  const str = String(display);
+  return <>{padStart > 0 ? str.padStart(padStart, '0') : str}</>;
+}
+
 
 const getWaitingDetails = (createdAt) => {
   if (!createdAt) return { waitingMinutes: 0, nextBonusIn: 10 };
@@ -494,55 +520,142 @@ export default function ReceptionistDashboard() {
     <ReceptionistLayout activeTab="Dashboard">
       <div className="receptionist-dashboard-container space-y-8 animate-fadeIn">
         {/* Top Stat Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-          <div className="bg-white rounded-2xl p-6 border border-slate-200 shadow-sm flex items-center justify-between relative overflow-hidden reception-card-hover">
-            <div>
-              <p className="text-xs font-semibold uppercase tracking-wider text-slate-400 mb-1">
-                TOTAL REGISTERED TODAY
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+          {/* Card 1 — Registered Today */}
+          <div className="group relative flex min-h-[188px] flex-col overflow-hidden rounded-3xl border border-[#dbe7ff] bg-gradient-to-b from-[#f4f8ff] to-white p-5 shadow-[0_2px_14px_rgba(0,74,198,0.06)] transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_20px_45px_rgba(0,74,198,0.16)]">
+            <div className="pointer-events-none absolute inset-x-10 top-0 h-[3px] rounded-full bg-gradient-to-r from-[#004ac6] via-[#4f8cff] to-[#0ea5a4] opacity-0 transition-opacity duration-300 group-hover:opacity-100"></div>
+            <span className="material-symbols-outlined pointer-events-none absolute -bottom-5 -right-3 select-none text-[92px] text-[#004ac6]/[.06] transition-transform duration-500 group-hover:scale-110 group-hover:-rotate-6">how_to_reg</span>
+            <div className="relative flex items-center justify-between gap-3">
+              <p className="text-[10px] font-bold uppercase tracking-[0.18em] text-slate-500">
+                Registered today
               </p>
-              <h4 className="text-3xl font-bold font-black text-slate-900 mb-2">{totalToday}</h4>
+              <span className="flex h-10 w-10 items-center justify-center rounded-2xl bg-gradient-to-br from-[#004ac6] to-[#4f8cff] text-white shadow-[0_8px_18px_rgba(0,74,198,0.4)] transition-transform duration-300 group-hover:scale-110 group-hover:-rotate-3">
+                <span className="material-symbols-outlined text-[22px]">person_add</span>
+              </span>
             </div>
-            <div className="w-12 h-12 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center">
-              <span className="material-symbols-outlined text-2xl">person_add</span>
+            <h4 className="relative mt-2 bg-gradient-to-br from-[#0b1c30] to-[#004ac6] bg-clip-text font-headline-md text-[2.6rem] font-bold leading-none tracking-tight text-transparent"><CountUp value={totalToday} /></h4>
+            <p className="relative mt-1.5 inline-flex items-center gap-1.5 text-[11px] font-bold text-emerald-600">
+              <span className="relative flex h-1.5 w-1.5">
+                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75"></span>
+                <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-emerald-500"></span>
+              </span>
+              Live OPD flow
+            </p>
+            <div className="relative mt-auto flex items-end gap-1 pt-3" aria-hidden="true">
+              {[35, 55, 42, 68, 52, 80, 62].map((h, i) => (
+                <span key={i} className="w-full rounded-sm bg-gradient-to-t from-[#004ac6]/25 to-[#004ac6]/60" style={{ height: `${h * 0.32}px` }}></span>
+              ))}
+              <span className="ml-1 shrink-0 text-[10px] font-bold uppercase tracking-wider text-slate-400">today</span>
             </div>
           </div>
 
-          <div className="bg-white rounded-2xl p-6 border border-slate-200 shadow-sm flex items-center justify-between reception-card-hover">
-            <div>
-              <p className="text-xs font-semibold uppercase tracking-wider text-slate-400 mb-1">
-                EMERGENCY CASES
+          {/* Card 2 — Emergency Cases */}
+          <div className="group relative flex min-h-[188px] flex-col overflow-hidden rounded-3xl border border-[#ffe1de] bg-gradient-to-b from-[#fff5f4] to-white p-5 shadow-[0_2px_14px_rgba(220,38,38,0.06)] transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_20px_45px_rgba(220,38,38,0.16)]">
+            <div className="pointer-events-none absolute inset-x-10 top-0 h-[3px] rounded-full bg-gradient-to-r from-[#e11d48] via-[#f43f5e] to-[#fb923c] opacity-0 transition-opacity duration-300 group-hover:opacity-100"></div>
+            <span className="material-symbols-outlined pointer-events-none absolute -bottom-5 -right-3 select-none text-[92px] text-[#e11d48]/[.06] transition-transform duration-500 group-hover:scale-110 group-hover:rotate-6">ecg_heart</span>
+            <div className="relative flex items-center justify-between gap-3">
+              <p className="text-[10px] font-bold uppercase tracking-[0.18em] text-slate-500">
+                Emergency cases
               </p>
-              <h4 className="text-3xl font-black font-bold text-slate-900 mb-2">{emergencyCases.toString().padStart(2, '0')}</h4>
+              <span className="relative flex h-10 w-10 items-center justify-center rounded-2xl bg-gradient-to-br from-[#e11d48] to-[#fb7185] text-white shadow-[0_8px_18px_rgba(225,29,72,0.4)] transition-transform duration-300 group-hover:scale-110 group-hover:rotate-3">
+                <span className="material-symbols-outlined text-[22px]">e911_emergency</span>
+                {emergencyCases > 0 && (
+                  <span className="absolute -right-1 -top-1 flex h-3.5 w-3.5">
+                    <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-red-400 opacity-75"></span>
+                    <span className="relative inline-flex h-3.5 w-3.5 items-center justify-center rounded-full bg-red-600 text-[8px] font-bold text-white ring-2 ring-white">{emergencyCases > 9 ? '9+' : emergencyCases}</span>
+                  </span>
+                )}
+              </span>
             </div>
-            <div className="w-12 h-12 rounded-xl bg-red-50 text-red-500 flex items-center justify-center">
-              <span className="material-symbols-outlined text-2xl">e911_emergency</span>
+            <h4 className="relative mt-2 bg-gradient-to-br from-[#0b1c30] to-[#e11d48] bg-clip-text font-headline-md text-[2.6rem] font-bold leading-none tracking-tight text-transparent"><CountUp value={emergencyCases} padStart={2} /></h4>
+            <p className={`relative mt-1.5 inline-flex items-center gap-1.5 text-[11px] font-bold ${emergencyCases > 0 ? 'text-[#e11d48]' : 'text-slate-400'}`}>
+              <span className={`h-1.5 w-1.5 rounded-full ${emergencyCases > 0 ? 'animate-pulse bg-[#e11d48]' : 'bg-slate-300'}`}></span>
+              {emergencyCases > 0 ? 'Needs triage focus' : 'No active emergencies'}
+            </p>
+            <div className="relative mt-auto flex items-center gap-1.5 pt-3" aria-hidden="true">
+              {['Low', 'Med', 'High', 'Crit'].map((t, i) => (
+                <span key={t} className={`flex-1 rounded-md px-1 py-1 text-center text-[9px] font-bold uppercase tracking-wide ${i === 3 && emergencyCases > 0 ? 'bg-[#e11d48] text-white shadow-sm' : 'bg-slate-100 text-slate-400'}`}>{t}</span>
+              ))}
+              <span className="ml-1 shrink-0 text-[10px] font-bold uppercase tracking-wider text-slate-400">triage</span>
             </div>
           </div>
 
-          <div className="bg-white rounded-2xl p-6 border border-slate-200 shadow-sm flex items-center justify-between reception-card-hover">
-            <div>
-              <p className="text-xs font-semibold uppercase tracking-wider text-slate-400 mb-1">
-                AVG. WAIT TIME
+          {/* Card 3 — Average Wait Time */}
+          <div className="group relative flex min-h-[188px] flex-col overflow-hidden rounded-3xl border border-[#fde9c8] bg-gradient-to-b from-[#fffaf0] to-white p-5 shadow-[0_2px_14px_rgba(245,158,11,0.07)] transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_20px_45px_rgba(245,158,11,0.18)]">
+            <div className="pointer-events-none absolute inset-x-10 top-0 h-[3px] rounded-full bg-gradient-to-r from-[#d97706] via-[#f59e0b] to-[#fbbf24] opacity-0 transition-opacity duration-300 group-hover:opacity-100"></div>
+            <span className="material-symbols-outlined pointer-events-none absolute -bottom-5 -right-3 select-none text-[92px] text-[#d97706]/[.07] transition-transform duration-500 group-hover:rotate-12">schedule</span>
+            <div className="relative flex items-center justify-between gap-3">
+              <p className="text-[10px] font-bold uppercase tracking-[0.18em] text-slate-500">
+                Avg. wait time
               </p>
-              <h4 className="text-3xl font-bold font-black text-slate-900 mb-2">
-                {avgWaitTime}<span className="text-xl font-semibold text-slate-600">m</span>
+              <span className="flex h-10 w-10 items-center justify-center rounded-2xl bg-gradient-to-br from-[#d97706] to-[#f59e0b] text-white shadow-[0_8px_18px_rgba(217,119,6,0.4)] transition-transform duration-300 group-hover:scale-110 group-hover:rotate-3">
+                <span className="material-symbols-outlined text-[22px]">pace</span>
+              </span>
+            </div>
+            <div className="relative mt-2 flex items-end gap-3">
+              <h4 className="bg-gradient-to-br from-[#0b1c30] to-[#b45309] bg-clip-text font-headline-md text-[2.6rem] font-bold leading-none tracking-tight text-transparent">
+                <CountUp value={avgWaitTime} /><span className="text-xl font-bold">m</span>
               </h4>
+              <svg viewBox="0 0 36 36" className="mb-1 h-10 w-10 -rotate-90" aria-hidden="true">
+                <circle cx="18" cy="18" r="15.5" fill="none" stroke="#f1e3c8" strokeWidth="4" />
+                <circle cx="18" cy="18" r="15.5" fill="none" stroke="url(#waitGrad)" strokeWidth="4" strokeLinecap="round" strokeDasharray="97.4" strokeDashoffset={97.4 - Math.min(97.4, (Number(avgWaitTime) || 0) / 60 * 97.4)} className="transition-all duration-700" />
+                <defs>
+                  <linearGradient id="waitGrad" x1="0" y1="0" x2="1" y2="1">
+                    <stop offset="0%" stopColor="#d97706" />
+                    <stop offset="100%" stopColor="#f59e0b" />
+                  </linearGradient>
+                </defs>
+              </svg>
             </div>
-            <div className="w-12 h-12 rounded-xl bg-amber-50 text-amber-500 flex items-center justify-center">
-              <span className="material-symbols-outlined text-2xl">schedule</span>
+            <p className="relative mt-1.5 inline-flex items-center gap-1.5 text-[11px] font-bold text-[#b45309]">
+              <span className="material-symbols-outlined text-sm">insights</span>
+              Across active queues
+            </p>
+            <div className="relative mt-auto flex items-center gap-2 pt-3" aria-hidden="true">
+              <div className="h-1.5 flex-1 overflow-hidden rounded-full bg-[#f7e8cf]">
+                <div className="h-full rounded-full bg-gradient-to-r from-[#d97706] to-[#f59e0b] transition-all duration-700" style={{ width: `${Math.min(100, (Number(avgWaitTime) || 0) / 45 * 100)}%` }}></div>
+              </div>
+              <span className="shrink-0 text-[10px] font-bold uppercase tracking-wider text-slate-400">target &lt;15m</span>
             </div>
           </div>
 
-          <div className="bg-gradient-to-br from-blue-600 to-blue-700 rounded-2xl p-6 text-white shadow-md relative overflow-hidden flex flex-col justify-between">
-            <div>
-              <p className="text-xs font-semibold tracking-wider uppercase text-blue-200 mb-1">
-                RECEPTION STATION
+          {/* Card 4 — Reception Station */}
+          <div className="group relative flex min-h-[188px] flex-col overflow-hidden rounded-3xl bg-[#0a1730] p-5 text-white shadow-[0_14px_36px_rgba(6,20,50,0.45)] ring-1 ring-white/10 transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_22px_55px_rgba(6,20,50,0.55)]">
+            <div className="pointer-events-none absolute inset-0 bg-gradient-to-br from-[#004ac6]/35 via-transparent to-[#0ea5a4]/20"></div>
+            <div className="pointer-events-none absolute -right-12 -top-12 h-36 w-36 rounded-full bg-[#4f8cff]/25 blur-2xl transition-opacity duration-500 group-hover:opacity-100"></div>
+            <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/40 to-transparent"></div>
+            <div className="relative flex items-center justify-between gap-3">
+              <p className="text-[10px] font-bold uppercase tracking-[0.18em] text-slate-400">
+                Reception station
               </p>
-              <h4 className="text-2xl font-black font-bold mb-3">Main Reception</h4>
+              <span className="inline-flex items-center gap-1 rounded-full bg-emerald-400/10 px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider text-emerald-300 ring-1 ring-emerald-300/30">
+                <span className="relative flex h-1.5 w-1.5">
+                  <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75"></span>
+                  <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-emerald-400"></span>
+                </span>
+                Open
+              </span>
             </div>
-            <div className="flex items-center gap-2 text-xs font-semibold bg-white/10 w-fit px-3 py-1.5 rounded-full backdrop-blur-md">
-              <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
-              <span>Staff: {staffName}</span>
+            <h4 className="relative mt-2 text-[1.35rem] font-bold leading-tight tracking-tight">Main Reception</h4>
+            <div className="relative mt-2 space-y-1.5 text-[11px] font-semibold text-slate-300">
+              <p className="flex items-center gap-1.5">
+                <span className="material-symbols-outlined text-[15px] text-blue-300">location_on</span>
+                Counter A-01 · Ground floor
+              </p>
+              <p className="flex items-center gap-1.5">
+                <span className="material-symbols-outlined text-[15px] text-blue-300">schedule</span>
+                Morning shift · 08:00 – 14:00
+              </p>
+            </div>
+            <div className="relative mt-auto flex items-center gap-2.5 border-t border-white/10 pt-3">
+              <span className="flex h-8 w-8 items-center justify-center rounded-full bg-gradient-to-br from-[#4f8cff] to-[#0ea5a4] text-[11px] font-bold text-white ring-2 ring-white/20">
+                {(staffName || 'R').split(' ').map((w) => w.charAt(0)).slice(0, 2).join('')}
+              </span>
+              <div className="min-w-0">
+                <p className="truncate text-[13px] font-bold leading-tight">{staffName}</p>
+                <p className="text-[10px] font-semibold uppercase tracking-wider text-slate-400">On desk now</p>
+              </div>
+              <span className="material-symbols-outlined ml-auto text-lg text-slate-500 transition-all duration-300 group-hover:translate-x-0.5 group-hover:text-white">arrow_forward</span>
             </div>
           </div>
         </div>
@@ -550,34 +663,45 @@ export default function ReceptionistDashboard() {
         {/* Form and Live Queue Grid */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           <div className="lg:col-span-2 space-y-6">
-            <div id="patient-form" className="bg-white rounded-3xl p-8 border border-slate-200 shadow-sm">
-              <div className="flex items-center justify-between mb-6 pb-4 border-b border-slate-100">
-                <div>
-                  <h3 className="text-2xl font-semibold text-slate-900">Patient Registration</h3>
-                  <p className="text-sm text-slate-500 mt-0.5">
-                    Register new patient details to generate an instant OPD queue token.
-                  </p>
+            <div id="patient-form" className="overflow-hidden rounded-3xl border border-slate-200/80 bg-white shadow-[0_8px_30px_rgba(11,28,48,0.06)]">
+              <div className="flex flex-col gap-4 border-b border-slate-100 bg-gradient-to-r from-[#f3f7ff] to-white p-6 sm:flex-row sm:items-center sm:justify-between sm:p-7">
+                <div className="flex items-start gap-3.5">
+                  <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-gradient-to-br from-[#004ac6] to-[#1d4ed8] text-white shadow-[0_8px_20px_rgba(0,74,198,0.35)]">
+                    <span className="material-symbols-outlined text-2xl">how_to_reg</span>
+                  </span>
+                  <div>
+                    <h3 className="font-headline-md text-xl font-bold tracking-tight text-slate-900">Patient Registration</h3>
+                    <p className="mt-0.5 text-[13px] text-slate-500">
+                      Register patient details to generate an instant OPD queue token.
+                    </p>
+                  </div>
                 </div>
-                <div className="bg-slate-100 border border-slate-200 px-4 py-2 rounded-xl">
-                  <span className="text-xs font-semibold uppercase text-slate-400 block">NEXT OPD TOKEN</span>
-                  <span className="text-xl font-black text-blue-600">
+                <div className="relative overflow-hidden rounded-2xl bg-slate-900 px-5 py-3 text-white shadow-md sm:text-right">
+                  <div className="pointer-events-none absolute -right-8 -top-10 h-24 w-24 rounded-full bg-[#004ac6]/50 blur-2xl"></div>
+                  <span className="relative block text-[10px] font-bold uppercase tracking-[0.18em] text-slate-400">Next OPD token</span>
+                  <span className="relative font-headline-md text-2xl font-bold tracking-tight text-white">
                     {selectedDoctorId && availableDoctors.length > 0
                       ? `#${availableDoctors.find((d) => String(d.did) === String(selectedDoctorId))?.next_token ?? (totalToday + 101)}`
                       : '#000'}
                   </span>
-                  <span className="text-[10px] text-slate-400 block font-semibold">per-doctor daily sequence</span>
+                  <span className="relative block text-[10px] font-semibold text-slate-400">per-doctor daily sequence</span>
                 </div>
               </div>
 
-              <form onSubmit={handleGenerateToken} className="space-y-6">
+              <form onSubmit={handleGenerateToken} className="space-y-7 p-6 sm:p-7">
                 {/* SECTION 1: PATIENT DEMOGRAPHICS */}
-                <div className="space-y-4">
-                  <h4 className="text-xs font-bold uppercase tracking-wider text-slate-400 border-b border-slate-100 pb-2">
-                    1. Patient Demographic Information
+                <div className="space-y-5">
+                  <h4 className="flex items-center gap-2.5 text-xs font-bold uppercase tracking-[0.14em] text-slate-500">
+                    <span className="flex h-7 w-7 items-center justify-center rounded-lg bg-[#e8efff] text-primary">
+                      <span className="material-symbols-outlined text-base">person</span>
+                    </span>
+                    <span className="flex h-5 w-5 items-center justify-center rounded-full bg-primary text-[10px] font-bold text-white">1</span>
+                    Patient demographic information
+                    <span className="h-px flex-1 bg-slate-100"></span>
                   </h4>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div>
-                      <label className="block text-xs font-semibold text-slate-700 uppercase mb-2">
+                      <label className="block text-[11px] font-bold uppercase tracking-wider text-slate-500 mb-2">
                         Patient Full Name
                       </label>
                       <input
@@ -586,11 +710,11 @@ export default function ReceptionistDashboard() {
                         value={patientName}
                         onChange={(e) => setPatientName(e.target.value)}
                         placeholder="e.g. Priya Sharma"
-                        className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-slate-800 text-sm focus:bg-white focus:ring-2 focus:ring-blue-600 focus:outline-none"
+                        className="w-full px-4 py-3 bg-slate-50/70 border border-slate-200 rounded-xl text-slate-800 text-sm font-medium shadow-sm transition-all placeholder:font-normal placeholder:text-slate-400 hover:border-slate-300 focus:bg-white focus:ring-4 focus:ring-primary/10 focus:border-primary focus:outline-none"
                       />
                     </div>
                     <div>
-                      <label className="block text-xs font-semibold text-slate-700 uppercase mb-2">
+                      <label className="block text-[11px] font-bold uppercase tracking-wider text-slate-500 mb-2">
                         Mobile Number
                       </label>
                       <input
@@ -599,26 +723,26 @@ export default function ReceptionistDashboard() {
                         value={phoneNumber}
                         onChange={(e) => setPhoneNumber(e.target.value)}
                         placeholder="+91 98765 43210"
-                        className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-slate-800 text-sm focus:bg-white focus:ring-2 focus:ring-blue-600 focus:outline-none"
+                        className="w-full px-4 py-3 bg-slate-50/70 border border-slate-200 rounded-xl text-slate-800 text-sm font-medium shadow-sm transition-all placeholder:font-normal placeholder:text-slate-400 hover:border-slate-300 focus:bg-white focus:ring-4 focus:ring-primary/10 focus:border-primary focus:outline-none"
                       />
                     </div>
                   </div>
 
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                     <div>
-                      <label className="block text-xs font-semibold text-slate-700 uppercase mb-2">
+                      <label className="block text-[11px] font-bold uppercase tracking-wider text-slate-500 mb-2">
                         Date of Birth
                       </label>
-                      <input
+                      <GlassDatePicker
                         required
-                        type="date"
                         value={dob}
                         onChange={handleDobChange}
-                        className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-slate-800 text-sm focus:bg-white focus:ring-2 focus:ring-blue-600 focus:outline-none"
+                        placeholder="Select birth date"
+                        ariaLabel="Date of Birth"
                       />
                     </div>
                     <div>
-                      <label className="block text-xs font-semibold text-slate-700 uppercase mb-2">
+                      <label className="block text-[11px] font-bold uppercase tracking-wider text-slate-500 mb-2">
                         Age
                       </label>
                       <input
@@ -627,27 +751,27 @@ export default function ReceptionistDashboard() {
                         value={age}
                         onChange={(e) => setAge(e.target.value)}
                         placeholder="Calculated from DOB"
-                        className="w-full px-4 py-3 bg-slate-100 border border-slate-200 rounded-xl text-slate-800 text-sm font-semibold focus:bg-white focus:ring-2 focus:ring-blue-600 focus:outline-none"
+                        className="w-full px-4 py-3 bg-slate-100/70 border border-slate-200 rounded-xl text-slate-800 text-sm font-semibold shadow-sm transition-all placeholder:font-normal placeholder:text-slate-400 hover:border-slate-300 focus:bg-white focus:ring-4 focus:ring-primary/10 focus:border-primary focus:outline-none"
                       />
                     </div>
                     <div>
-                      <label className="block text-xs font-semibold text-slate-700 uppercase mb-2">
+                      <label className="block text-[11px] font-bold uppercase tracking-wider text-slate-500 mb-2">
                         Gender
                       </label>
-                      <select
+                      <GlassSelect
                         value={gender}
                         onChange={(e) => setGender(e.target.value)}
-                        className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-slate-800 text-sm focus:bg-white focus:ring-2 focus:ring-blue-600 focus:outline-none"
+                        ariaLabel="Gender"
                       >
                         <option>Male</option>
                         <option>Female</option>
-                      </select>
+                      </GlassSelect>
                     </div>
                   </div>
 
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div>
-                      <label className="block text-xs font-semibold text-slate-700 uppercase mb-2">
+                      <label className="block text-[11px] font-bold uppercase tracking-wider text-slate-500 mb-2">
                         Email Address
                       </label>
                       <input
@@ -656,11 +780,11 @@ export default function ReceptionistDashboard() {
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
                         placeholder="john@gmail.com"
-                        className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-slate-800 text-sm focus:bg-white focus:ring-2 focus:ring-blue-600 focus:outline-none"
+                        className="w-full px-4 py-3 bg-slate-50/70 border border-slate-200 rounded-xl text-slate-800 text-sm font-medium shadow-sm transition-all placeholder:font-normal placeholder:text-slate-400 hover:border-slate-300 focus:bg-white focus:ring-4 focus:ring-primary/10 focus:border-primary focus:outline-none"
                       />
                     </div>
                     <div>
-                      <label className="block text-xs font-semibold text-slate-700 uppercase mb-2">
+                      <label className="block text-[11px] font-bold uppercase tracking-wider text-slate-500 mb-2">
                         Residential Address
                       </label>
                       <input
@@ -669,27 +793,32 @@ export default function ReceptionistDashboard() {
                         value={address}
                         onChange={(e) => setAddress(e.target.value)}
                         placeholder="House No, Area, City"
-                        className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-slate-800 text-sm focus:bg-white focus:ring-2 focus:ring-blue-600 focus:outline-none"
+                        className="w-full px-4 py-3 bg-slate-50/70 border border-slate-200 rounded-xl text-slate-800 text-sm font-medium shadow-sm transition-all placeholder:font-normal placeholder:text-slate-400 hover:border-slate-300 focus:bg-white focus:ring-4 focus:ring-primary/10 focus:border-primary focus:outline-none"
                       />
                     </div>
                   </div>
                 </div>
 
                 {/* SECTION 2: OPD CONSULTATION & ROUTING */}
-                <div className="space-y-4 pt-4 border-t border-slate-100">
-                  <h4 className="text-xs font-bold uppercase tracking-wider text-slate-400 border-b border-slate-100 pb-2">
-                    2. OPD Consultation & Doctor Routing
+                <div className="space-y-5 rounded-2xl border border-blue-100/70 bg-[#f8fbff] p-5 sm:p-6">
+                  <h4 className="flex items-center gap-2.5 text-xs font-bold uppercase tracking-[0.14em] text-slate-500">
+                    <span className="flex h-7 w-7 items-center justify-center rounded-lg bg-primary text-white">
+                      <span className="material-symbols-outlined text-base">stethoscope</span>
+                    </span>
+                    <span className="flex h-5 w-5 items-center justify-center rounded-full bg-primary text-[10px] font-bold text-white">2</span>
+                    OPD consultation & doctor routing
+                    <span className="h-px flex-1 bg-blue-100"></span>
                   </h4>
 
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div>
-                      <label className="block text-xs font-semibold text-slate-700 uppercase mb-2">
+                      <label className="block text-[11px] font-bold uppercase tracking-wider text-slate-500 mb-2">
                         Select Symptom (Primary Medical Trigger)
                       </label>
-                      <select
+                      <GlassSelect
                         value={selectedSymptom}
                         onChange={handleSymptomChange}
-                        className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-slate-800 text-sm focus:bg-white focus:ring-2 focus:ring-blue-600 focus:outline-none font-medium"
+                        ariaLabel="Select Symptom"
                       >
                         <option value="">Select Symptom</option>
                         {symptoms.map((sym) => (
@@ -697,7 +826,7 @@ export default function ReceptionistDashboard() {
                             {sym.symptom_name}
                           </option>
                         ))}
-                      </select>
+                      </GlassSelect>
                     </div>
 
                     <div>
@@ -711,24 +840,30 @@ export default function ReceptionistDashboard() {
                           </span>
                         )}
                       </div>
-                      <div className="grid grid-cols-4 gap-2">
+                      <div className="grid grid-cols-4 gap-2 rounded-2xl border border-slate-200/70 bg-white p-1.5 shadow-sm">
                         {['Low', 'Medium', 'High', 'Emergency'].map((p) => (
                           <button
                             key={p}
                             type="button"
                             onClick={() => setPriority(p)}
-                            className={`py-2.5 px-1 rounded-xl font-semibold text-xs border transition-all text-center ${priority === p
+                            className={`relative py-2.5 px-1 rounded-xl font-bold text-xs transition-all text-center ${priority === p
                               ? p === 'Emergency'
-                                ? 'bg-red-50 border-red-500 text-red-600 ring-1 ring-red-400/20'
+                                ? 'bg-gradient-to-b from-red-500 to-red-600 text-white shadow-[0_6px_16px_rgba(220,38,38,0.4)]'
                                 : p === 'Medium'
-                                  ? 'bg-amber-50 border-amber-500 text-amber-700 ring-1 ring-amber-400/20'
+                                  ? 'bg-gradient-to-b from-amber-400 to-amber-500 text-white shadow-[0_6px_16px_rgba(245,158,11,0.4)]'
                                   : p === 'Low'
-                                    ? 'bg-blue-50 border-blue-500 text-blue-700 ring-1 ring-blue-400/20'
-                                    : 'bg-yellow-50 border-yellow-600 text-yellow-600 ring-1 ring-yellow-400/20'
-                              : 'bg-white border-slate-200 text-slate-600 hover:bg-slate-50'
+                                    ? 'bg-gradient-to-b from-[#004ac6] to-[#1d4ed8] text-white shadow-[0_6px_16px_rgba(0,74,198,0.4)]'
+                                    : 'bg-gradient-to-b from-yellow-500 to-yellow-600 text-white shadow-[0_6px_16px_rgba(202,138,4,0.4)]'
+                              : 'text-slate-500 hover:bg-slate-100'
                               }`}
                             disabled
                           >
+                            {p === 'Emergency' && priority === p && (
+                              <span className="absolute -top-1 -right-1 flex h-3 w-3">
+                                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-red-400 opacity-75"></span>
+                                <span className="relative inline-flex h-3 w-3 rounded-full bg-red-500 ring-2 ring-white"></span>
+                              </span>
+                            )}
                             {p}
                           </button>
                         ))}
@@ -738,14 +873,14 @@ export default function ReceptionistDashboard() {
 
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div>
-                      <label className="block text-xs font-semibold text-slate-700 uppercase mb-2">
+                      <label className="block text-[11px] font-bold uppercase tracking-wider text-slate-500 mb-2">
                         Specialization / Department
                       </label>
-                      <select
+                      <GlassSelect
                         value={department}
                         onChange={(e) => setDepartment(e.target.value)}
-                        className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-slate-800 text-sm focus:bg-white focus:ring-2 focus:ring-blue-600 focus:outline-none font-medium"
                         disabled
+                        ariaLabel="Specialization / Department"
                       >
                         {!department && <option value="">Select symptom first</option>}
                         {department && !departmentsList.includes(department) && (
@@ -754,11 +889,11 @@ export default function ReceptionistDashboard() {
                         {departmentsList.map((dept) => (
                           <option key={dept} value={dept}>{dept}</option>
                         ))}
-                      </select>
+                      </GlassSelect>
                     </div>
 
                     <div>
-                      <label className="block text-xs font-semibold text-slate-700 uppercase mb-2 flex items-center justify-between">
+                      <label className="block text-[11px] font-bold uppercase tracking-wider text-slate-500 mb-2 flex items-center justify-between">
                         <span>Assigned Doctor ({department || 'Select symptom first'})</span>
                         {selectedDoctorId && availableDoctors.length > 0 && (
                           <span className="text-[10px] font-bold text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-full border border-emerald-200">
@@ -766,10 +901,11 @@ export default function ReceptionistDashboard() {
                           </span>
                         )}
                       </label>
-                      <select
+                      <GlassSelect
                         value={selectedDoctorId}
                         onChange={(e) => setSelectedDoctorId(e.target.value)}
-                        className="w-full px-4 py-3 bg-slate-50 border border-slate-200 disabled rounded-xl text-slate-800 text-sm focus:bg-white focus:ring-2 focus:ring-blue-600 focus:outline-none font-medium cursor-pointer"
+                        placeholder="Select symptom first"
+                        ariaLabel="Assigned Doctor"
                         disabled={availableDoctors.length === 0}
                       >
                         {availableDoctors.length === 0 ? (
@@ -783,48 +919,67 @@ export default function ReceptionistDashboard() {
                             </option>
                           ))
                         )}
-                      </select>
+                      </GlassSelect>
                     </div>
                   </div>
                 </div>
 
-                <div className="pt-4 flex items-center justify-end gap-3 border-t border-slate-100">
-                  <button
-                    type="button"
-                    onClick={handleClearForm}
-                    className="px-6 py-3 bg-white border border-slate-200 text-slate-700 font-semibold text-sm rounded-xl hover:bg-slate-50 transition-colors"
-                  >
-                    Clear Form
-                  </button>
-                  <button
-                    type="submit"
-                    className="px-6 py-3 bg-blue-600 text-white font-semibold text-sm rounded-xl shadow-lg shadow-blue-500/30 hover:bg-blue-700 flex items-center gap-2 transition-all"
-                  >
-                    <span className="material-symbols-outlined text-lg font-semibold">confirmation_number</span>
-                    Generate OPD Token
-                  </button>
+                <div className="flex flex-col-reverse gap-3 border-t border-slate-100 pt-5 sm:flex-row sm:items-center sm:justify-between">
+                  <p className="flex items-center gap-1.5 text-xs font-medium text-slate-400">
+                    <span className="material-symbols-outlined text-base text-emerald-500">verified_user</span>
+                    Details are validated before token generation
+                  </p>
+                  <div className="flex items-center gap-3">
+                    <button
+                      type="button"
+                      onClick={handleClearForm}
+                      className="inline-flex items-center gap-1.5 rounded-xl border border-slate-200 bg-white px-5 py-3 text-sm font-bold text-slate-600 shadow-sm transition-all hover:border-slate-300 hover:bg-slate-50 active:scale-[0.98]"
+                    >
+                      <span className="material-symbols-outlined text-lg">restart_alt</span>
+                      Clear
+                    </button>
+                    <button
+                      type="submit"
+                      className="inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-[#004ac6] to-[#1d4ed8] px-6 py-3 text-sm font-bold text-white shadow-[0_10px_26px_rgba(0,74,198,0.4)] transition-all hover:shadow-[0_14px_34px_rgba(0,74,198,0.5)] hover:brightness-110 active:scale-[0.98]"
+                    >
+                      <span className="material-symbols-outlined text-lg">confirmation_number</span>
+                      Generate OPD Token
+                    </button>
+                  </div>
                 </div>
               </form>
             </div>
           </div>
 
           <div className="space-y-6">
-            <div className="bg-white rounded-3xl p-6 border border-slate-200 shadow-sm">
-              <div className="flex items-center justify-between mb-4 pb-3 border-b border-slate-100">
-                <div className="flex items-center gap-2">
-                  <h4 className="text-xl font-bold font-black text-slate-900">Live Queue ({queueList.length})</h4>
-                  <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse" title="Live Auto-Sync Active" />
+            <div className="overflow-hidden rounded-3xl border border-slate-200/80 bg-white shadow-[0_8px_30px_rgba(11,28,48,0.06)] lg:sticky lg:top-24">
+              <div className="flex items-center justify-between gap-3 border-b border-slate-100 bg-gradient-to-r from-[#f3f7ff] to-white p-5">
+                <div className="flex items-center gap-2.5">
+                  <span className="relative flex h-9 w-9 items-center justify-center rounded-xl bg-slate-900 text-white shadow-md">
+                    <span className="material-symbols-outlined text-lg">live_tv</span>
+                    <span className="absolute -right-0.5 -top-0.5 flex h-2.5 w-2.5">
+                      <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75"></span>
+                      <span className="relative inline-flex h-2.5 w-2.5 rounded-full border-2 border-white bg-emerald-500"></span>
+                    </span>
+                  </span>
+                  <div>
+                    <h4 className="text-[15px] font-bold tracking-tight text-slate-900">
+                      Live Queue
+                      <span className="ml-2 rounded-full bg-primary px-2 py-0.5 text-[11px] font-bold text-white">{queueList.length}</span>
+                    </h4>
+                    <p className="text-[11px] font-medium text-slate-400">Auto-syncs every 8s</p>
+                  </div>
                 </div>
                 <button
                   type="button"
                   onClick={fetchDashboardData}
-                  className="p-1.5 hover:bg-slate-100 rounded-lg text-slate-500 hover:text-slate-800 transition-colors"
+                  className="flex h-9 w-9 items-center justify-center rounded-xl border border-slate-200 text-slate-500 transition-all hover:rotate-90 hover:border-primary/40 hover:text-primary"
                   title="Refresh Queue"
                 >
                   <span className="material-symbols-outlined text-lg">sync</span>
                 </button>
               </div>
-              <div className="space-y-3 max-h-[460px] overflow-y-auto pr-1">
+              <div className="max-h-[460px] space-y-2.5 overflow-y-auto p-4">
                 {queueList.map((item, idx) => {
                   const isEmergency = item.priority === 'Emergency';
                   const isHigh = item.priority === 'High';
@@ -832,66 +987,79 @@ export default function ReceptionistDashboard() {
                   return (
                     <div
                       key={item.qid || idx}
-                      className={`grid grid-cols-[auto_minmax(0,1fr)] items-center gap-4 rounded-2xl border p-4 transition-all sm:grid-cols-[auto_minmax(0,1fr)_auto] ${isEmergency
-                          ? 'bg-red-50 border-2 border-red-400 shadow-sm ring-1 ring-red-400/20'
+                      className={`flex items-center gap-3.5 rounded-2xl border p-3.5 transition-all hover:shadow-md ${
+                        isEmergency
+                          ? 'border-red-300 bg-gradient-to-r from-red-50 to-white shadow-[0_6px_20px_rgba(220,38,38,0.12)] ring-1 ring-red-200'
                           : isHigh
-                            ? 'bg-amber-50 border-2 border-amber-300'
-                            : 'bg-white border-slate-100 hover:bg-slate-50'
+                            ? 'border-amber-200 bg-gradient-to-r from-amber-50/70 to-white'
+                            : 'border-slate-100 bg-white hover:border-slate-200 hover:bg-slate-50/60'
                         }`}
                     >
-                      <div className="flex min-w-[64px] flex-col items-center border-r border-slate-200 pr-4">
-                        <span className="text-[10px] font-black uppercase tracking-wider text-slate-400">Token</span>
-                        <span className={`text-2xl font-black ${isEmergency ? 'text-red-600' : 'text-blue-600'}`}>
-                          {item.token}
-                        </span>
-                        <span className="mt-1 text-[10px] font-bold text-slate-400">
-                          Pos #{item.queuePos || idx + 1}
-                        </span>
+                      <div className={`flex h-14 w-14 shrink-0 flex-col items-center justify-center rounded-xl text-white shadow-md ${
+                        isEmergency ? 'bg-gradient-to-br from-red-500 to-red-600' : 'bg-gradient-to-br from-[#004ac6] to-[#1d4ed8]'
+                      }`}>
+                        <span className="text-[8px] font-bold uppercase tracking-widest opacity-80">Token</span>
+                        <span className="text-[15px] font-bold leading-none">{item.token}</span>
+                        <span className="mt-0.5 text-[8px] font-semibold opacity-80">#{item.queuePos || idx + 1}</span>
                       </div>
 
-                      <div className="min-w-0 space-y-1">
+                      <div className="min-w-0 flex-1">
                         <div className="flex min-w-0 items-center gap-2">
-                          <h5 className={`truncate text-base font-black ${isEmergency ? 'text-red-950' : 'text-slate-900'}`}>
+                          <h5 className="truncate text-sm font-bold text-slate-900">
                             {item.name}
                           </h5>
-                          <span className={`shrink-0 rounded-full px-2.5 py-0.5 text-xs font-black uppercase ${isEmergency
-                            ? 'bg-red-600 text-white'
-                            : isHigh
-                              ? 'bg-amber-500 text-white'
-                              : isMedium
-                                ? 'bg-yellow-500 text-white'
-                                : 'bg-blue-100 text-blue-800'
+                          <span className={`shrink-0 rounded-full px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide ${
+                            isEmergency
+                              ? 'bg-red-600 text-white'
+                              : isHigh
+                                ? 'bg-amber-500 text-white'
+                                : isMedium
+                                  ? 'bg-yellow-400 text-yellow-950'
+                                  : 'bg-blue-100 text-blue-700'
                             }`}>
                             {item.priority || 'Low'}
                           </span>
                         </div>
-                        <p className="truncate text-xs font-bold text-slate-700">{item.dept} • {item.doctorName}</p>
-                        <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-xs font-semibold text-slate-500">
-                          <span>Est. wait: {item.estWait ?? 0} min</span>
-                          <p className="text-xs font-bold text-emerald-600">
-                            {item.waitingMinutes} min waiting • +5 bonus in {item.nextBonusIn} min
-                          </p>
+                        <p className="mt-0.5 truncate text-[11px] font-semibold text-slate-500">{item.dept} • {item.doctorName}</p>
+                        <div className="mt-1 flex flex-wrap items-center gap-x-2.5 gap-y-0.5 text-[11px] font-semibold">
+                          <span className="inline-flex items-center gap-1 text-slate-500">
+                            <span className="material-symbols-outlined text-[13px]">schedule</span>
+                            {item.estWait ?? 0}m est.
+                          </span>
+                          <span className="inline-flex items-center gap-1 text-emerald-600">
+                            <span className="material-symbols-outlined text-[13px]">hourglass_top</span>
+                            {item.waitingMinutes}m waiting
+                          </span>
+                          <span className="text-slate-400">{item.time}</span>
                         </div>
                       </div>
-                      <div className="col-span-2 flex min-w-[104px] items-center justify-between gap-3 border-t border-slate-100 pt-3 sm:col-span-1 sm:flex-col sm:items-end sm:border-t-0 sm:pt-0">
-                        <span className="text-xs font-semibold text-slate-400">{item.time}</span>
-                        <span className="rounded-lg bg-slate-100 px-2.5 py-1 text-xs font-black text-slate-700">
-                          {item.status || 'Waiting'}
-                        </span>
-                      </div>
+                      <span className={`shrink-0 rounded-lg px-2 py-1 text-[10px] font-bold uppercase tracking-wide ${
+                        item.rawStatus === 'serving' ? 'bg-emerald-500 text-white' : 'bg-slate-100 text-slate-600'
+                      }`}>
+                        {item.status || 'Waiting'}
+                      </span>
                     </div>
                   );
                 })}
                 {queueList.length === 0 && (
-                  <p className="text-xs text-center text-slate-400 py-6">No patients currently in live queue.</p>
+                  <div className="flex flex-col items-center px-4 py-10 text-center">
+                    <span className="flex h-16 w-16 items-center justify-center rounded-3xl bg-gradient-to-br from-[#e8efff] to-[#e6faf6] text-primary">
+                      <span className="material-symbols-outlined text-3xl">event_available</span>
+                    </span>
+                    <p className="mt-4 text-sm font-bold text-slate-900">Queue is clear</p>
+                    <p className="mt-1 max-w-[220px] text-xs leading-relaxed text-slate-400">
+                      No patients waiting right now. New tokens will appear here instantly.
+                    </p>
+                  </div>
                 )}
               </div>
-              <div className="pt-4 mt-4 border-t border-slate-100 text-center">
+              <div className="border-t border-slate-100 bg-slate-50/60 p-3.5 text-center">
                 <button
                   onClick={() => navigate('/receptionist/queue-board')}
-                  className="text-xs font-semibold text-blue-600 hover:text-blue-800"
+                  className="group inline-flex items-center gap-1.5 text-xs font-bold text-primary transition-colors hover:text-[#003da3]"
                 >
-                  View Real-Time Queue Dashboard →
+                  View real-time queue dashboard
+                  <span className="material-symbols-outlined text-base transition-transform group-hover:translate-x-1">arrow_forward</span>
                 </button>
               </div>
             </div>

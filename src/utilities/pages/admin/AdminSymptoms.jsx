@@ -5,6 +5,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import AdminLayout from '../../components/admin/AdminLayout';
+import GlassSelect from '../../components/controls/GlassSelect';
 import axios from 'axios';
 
 export default function AdminSymptoms() {
@@ -258,17 +259,18 @@ export default function AdminSymptoms() {
 
             {/* Priority Filter & Search Bar */}
             <div className="flex items-center gap-3">
-              <select
+              <GlassSelect
+                inline
                 value={prioFilter}
                 onChange={(e) => setPrioFilter(e.target.value)}
-                className="px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold text-slate-800 focus:outline-none focus:ring-2 focus:ring-blue-600"
+                ariaLabel="Filter by priority"
               >
                 <option value="All">All Priorities</option>
                 <option value="Emergency">Emergency</option>
                 <option value="High">High</option>
                 <option value="Medium">Medium</option>
                 <option value="Low">Low</option>
-              </select>
+              </GlassSelect>
 
               <div className="relative w-full sm:w-64">
                 <input
@@ -420,33 +422,34 @@ export default function AdminSymptoms() {
                 <div className="grid grid-cols-2 gap-3">
                   <div>
                     <label className="block text-xs font-bold text-slate-700 uppercase mb-1">Department</label>
-                    <select
+                    <GlassSelect
                       value={formSpecialization}
                       onChange={(e) => setFormSpecialization(e.target.value)}
-                      className="w-full px-3 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold text-slate-700 focus:bg-white focus:ring-2 focus:ring-blue-600 focus:outline-none"
+                      ariaLabel="Department"
                     >
                       <option value="General Medicine">General Medicine</option>
                       <option value="Cardiology">Cardiology</option>
                       <option value="Pediatrics">Pediatrics</option>
                       <option value="Orthopedics">Orthopedics</option>
                       <option value="Neurology">Neurology</option>
-                    </select>
+                    </GlassSelect>
                   </div>
                   <div>
                     <label className="block text-xs font-bold text-slate-700 uppercase mb-1">Priority</label>
-                    <select
+                    <GlassSelect
                       value={formPriority}
                       onChange={(e) => {
                         const val = e.target.value;
                         setFormPriority(val);
                         setFormPriorityScore(val === 'Emergency' ? 100 : val === 'High' ? 80 : val === 'Medium' ? 60 : 40);
                       }}
-                      className="w-full px-3 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold text-slate-700 focus:bg-white focus:ring-2 focus:ring-blue-600 focus:outline-none">
+                      ariaLabel="Priority"
+                    >
                       <option value="Emergency">Emergency (Score: 100)</option>
                       <option value="High">High (Score: 80)</option>
                       <option value="Medium">Medium (Score: 60)</option>
                       <option value="Low">Low (Score: 40)</option>
-                    </select>
+                    </GlassSelect>
                   </div>
                 </div>
 

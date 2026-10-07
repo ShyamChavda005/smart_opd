@@ -1,16 +1,84 @@
 /* ============================================================
    DoctorOverview.css – Dedicated Styles for Doctor Overview
+   Scoped to .doctor-overview-container so nothing leaks into
+   other surfaces.
    ============================================================ */
 
 .doctor-overview-container {
   width: 100%;
 }
 
-.overview-card-hover {
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+/* ---------- Live queue status strip ---------- */
+/* Healthcare blue accent rail on the leading edge */
+.doctor-overview-container .dq-strip {
+  position: relative;
 }
 
-.overview-card-hover:hover {
+.doctor-overview-container .dq-strip::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: 4px;
+  background: linear-gradient(180deg, #2563eb 0%, #4f46e5 100%);
+  border-top-left-radius: 1rem;
+  border-bottom-left-radius: 1rem;
+}
+
+/* ---------- Metric card hover ---------- */
+.doctor-overview-container .overview-card-hover {
+  transition:
+    box-shadow 0.2s cubic-bezier(0.4, 0, 0.2, 1),
+    border-color 0.2s cubic-bezier(0.4, 0, 0.2, 1),
+    transform 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.doctor-overview-container .overview-card-hover:hover {
   transform: translateY(-2px);
-  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05);
+  border-color: #cbd5e1;
+  box-shadow: 0 10px 25px -5px rgba(15, 23, 42, 0.08), 0 8px 10px -6px rgba(15, 23, 42, 0.04);
+}
+
+/* ---------- Table ergonomics ---------- */
+.doctor-overview-container .overflow-x-auto {
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: thin;
+  scrollbar-color: #cbd5e1 transparent;
+}
+
+.doctor-overview-container .overflow-x-auto::-webkit-scrollbar {
+  height: 6px;
+}
+
+.doctor-overview-container .overflow-x-auto::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.doctor-overview-container .overflow-x-auto::-webkit-scrollbar-thumb {
+  background-color: #cbd5e1;
+  border-radius: 9999px;
+}
+
+.doctor-overview-container .overflow-x-auto::-webkit-scrollbar-thumb:hover {
+  background-color: #94a3b8;
+}
+
+/* ---------- Form control autofill ---------- */
+.doctor-overview-container input:-webkit-autofill,
+.doctor-overview-container textarea:-webkit-autofill {
+  -webkit-text-fill-color: #0f172a;
+  -webkit-box-shadow: 0 0 0 1000px #ffffff inset;
+  caret-color: #0f172a;
+}
+
+/* ---------- Accessibility ---------- */
+@media (prefers-reduced-motion: reduce) {
+  .doctor-overview-container *,
+  .doctor-overview-container *::before,
+  .doctor-overview-container *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
 }

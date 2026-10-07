@@ -1,278 +1,14 @@
 // ============================================================
-//  AddDoctor.jsx  –  Add New Doctor Page Component
+//  AddDoctor.jsx  â€“  Add New Doctor Page Component
 // ============================================================
 
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import AdminLayout from '../../components/admin/AdminLayout';
+import GlassSelect from '../../components/controls/GlassSelect';
+import GlassDatePicker from '../../components/controls/GlassDatePicker';
 import '../../style/admin/AddDoctor.css';
 
-// ---------- Custom Modern Date Picker ----------
-function ModernDatePicker({ value, onChange, label, required }) {
-  const [isOpen, setIsOpen] = useState(false);
-  const [viewDate, setViewDate] = useState(() => {
-    return value ? new Date(value) : new Date();
-  });
-  const datePickerRef = useRef(null);
-
-  // Close calendar popover on outside click
-  useEffect(() => {
-    function handleClickOutside(event) {
-      if (datePickerRef.current && !datePickerRef.current.contains(event.target)) {
-        setIsOpen(false);
-      }
-    }
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
-  }, []);
-
-  const year = viewDate.getFullYear();
-  const month = viewDate.getMonth();
-
-  const monthNames = [
-    'January', 'February', 'March', 'April', 'May', 'June',
-    'July', 'August', 'September', 'October', 'November', 'December'
-  ];
-
-  const daysInMonth = new Date(year, month + 1, 0).getDate();
-  const firstDayOfWeek = new Date(year, month, 1).getDay();
-
-  const prevMonth = () => {
-    setViewDate(new Date(year, month - 1, 1));
-  };
-
-  const nextMonth = () => {
-    setViewDate(new Date(year, month + 1, 1));
-  };
-
-  const handleSelectDay = (day) => {
-    const formattedMonth = String(month + 1).padStart(2, '0');
-    const formattedDay = String(day).padStart(2, '0');
-    const selectedDateStr = `${year}-${formattedMonth}-${formattedDay}`;
-    onChange({ target: { name: 'dob', value: selectedDateStr } });
-    setIsOpen(false);
-  };
-
-  const handleToday = () => {
-    const today = new Date();
-    const y = today.getFullYear();
-    const m = String(today.getMonth() + 1).padStart(2, '0');
-    const d = String(today.getDate()).padStart(2, '0');
-    onChange({ target: { name: 'dob', value: `${y}-${m}-${d}` } });
-    setViewDate(today);
-    setIsOpen(false);
-  };
-
-  const handleClear = () => {
-    onChange({ target: { name: 'dob', value: '' } });
-    setIsOpen(false);
-  };
-
-  // Days grid
-  const daysGrid = [];
-  for (let i = 0; i < firstDayOfWeek; i++) {
-    daysGrid.push(null);
-  }
-  for (let d = 1; d <= daysInMonth; d++) {
-    daysGrid.push(d);
-  }
-
-  const selectedDateObj = value ? new Date(value) : null;
-  const selectedYear = selectedDateObj?.getFullYear();
-  const selectedMonth = selectedDateObj?.getMonth();
-  const selectedDay = selectedDateObj?.getDate();
-
-  return (
-    <div className="form-input-group" ref={datePickerRef} style={{ position: 'relative', zIndex: isOpen ? 100 : 1 }}>
-      <label className="form-input-group__label">
-        {label} {required && <span className="required-star">*</span>}
-      </label>
-
-      {/* Input Display Trigger */}
-      <div
-        className={`form-input-group__control custom-date-trigger ${isOpen ? 'custom-date-trigger--open' : ''}`}
-        onClick={() => setIsOpen(!isOpen)}
-        style={{ cursor: 'pointer', display: 'flex', alignItems: 'center' }}
-      >
-        <span style={{ color: value ? '#0b1c30' : 'rgba(67, 70, 85, 0.4)' }}>
-          {value ? value : 'dd/mm/yyyy'}
-        </span>
-      </div>
-
-      <button
-        type="button"
-        className="form-input-group__icon-button"
-        onClick={() => setIsOpen(!isOpen)}
-        style={{ top: '16px', right: '16px' }}
-      >
-        <span className="material-symbols-outlined">calendar_today</span>
-      </button>
-
-      {/* Modern Glassmorphic Calendar Popover */}
-      {isOpen && (
-        <div className="modern-calendar-popover">
-          {/* Header */}
-          <div className="modern-calendar__header">
-            <div className="modern-calendar__title">
-              <select
-                className="modern-calendar__select"
-                value={month}
-                onChange={(e) => setViewDate(new Date(year, parseInt(e.target.value), 1))}
-              >
-                {monthNames.map((name, idx) => (
-                  <option key={idx} value={idx}>{name}</option>
-                ))}
-              </select>
-              <select
-                className="modern-calendar__select"
-                value={year}
-                onChange={(e) => setViewDate(new Date(parseInt(e.target.value), month, 1))}
-              >
-                {Array.from({ length: 80 }, (_, i) => 2026 - i).map((y) => (
-                  <option key={y} value={y}>{y}</option>
-                ))}
-              </select>
-            </div>
-            <div className="modern-calendar__nav">
-              <button type="button" onClick={prevMonth} className="modern-calendar__nav-btn">
-                <span className="material-symbols-outlined">chevron_left</span>
-              </button>
-              <button type="button" onClick={nextMonth} className="modern-calendar__nav-btn">
-                <span className="material-symbols-outlined">chevron_right</span>
-              </button>
-            </div>
-          </div>
-
-          {/* Weekday Labels */}
-          <div className="modern-calendar__weekdays">
-            <span>Su</span><span>Mo</span><span>Tu</span><span>We</span><span>Th</span><span>Fr</span><span>Sa</span>
-          </div>
-
-          {/* Days Grid */}
-          <div className="modern-calendar__days-grid">
-            {daysGrid.map((day, index) => {
-              if (day === null) {
-                return <div key={`empty-${index}`} className="modern-calendar__day modern-calendar__day--empty" />;
-              }
-
-              const isSelected =
-                selectedDateObj &&
-                selectedYear === year &&
-                selectedMonth === month &&
-                selectedDay === day;
-
-              const isToday =
-                new Date().getFullYear() === year &&
-                new Date().getMonth() === month &&
-                new Date().getDate() === day;
-
-              return (
-                <button
-                  key={day}
-                  type="button"
-                  onClick={() => handleSelectDay(day)}
-                  className={`modern-calendar__day ${isSelected ? 'modern-calendar__day--selected' : ''} ${isToday ? 'modern-calendar__day--today' : ''}`}
-                >
-                  {day}
-                </button>
-              );
-            })}
-          </div>
-
-          {/* Footer Actions */}
-          <div className="modern-calendar__footer">
-            <button type="button" onClick={handleClear} className="modern-calendar__footer-btn">
-              Clear
-            </button>
-            <button type="button" onClick={handleToday} className="modern-calendar__footer-btn modern-calendar__footer-btn--primary">
-              Today
-            </button>
-          </div>
-        </div>
-      )}
-    </div>
-  );
-}
-
-// ---------- Custom Modern Dropdown Component ----------
-function ModernDropdown({ value, onChange, label, required, name, placeholder, options, icon }) {
-  const [isOpen, setIsOpen] = useState(false);
-  const dropdownRef = useRef(null);
-
-  // Close popover on outside click
-  useEffect(() => {
-    function handleClickOutside(event) {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
-        setIsOpen(false);
-      }
-    }
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
-  }, []);
-
-  const selectedOption = options.find((opt) => opt.value === value);
-
-  const handleSelect = (optValue) => {
-    onChange({ target: { name, value: optValue } });
-    setIsOpen(false);
-  };
-
-  return (
-    <div
-      className="form-input-group"
-      ref={dropdownRef}
-      style={{ position: 'relative', zIndex: isOpen ? 100 : 1 }}
-    >
-      <label className="form-input-group__label">
-        {label} {required && <span className="required-star">*</span>}
-      </label>
-
-      {/* Trigger Display */}
-      <div
-        className={`form-input-group__control custom-date-trigger ${isOpen ? 'custom-date-trigger--open' : ''}`}
-        onClick={() => setIsOpen(!isOpen)}
-        style={{ cursor: 'pointer', display: 'flex', items: 'center' }}
-      >
-        <span style={{ color: selectedOption ? '#0b1c30' : 'rgba(67, 70, 85, 0.4)' }}>
-          {selectedOption ? selectedOption.label : placeholder}
-        </span>
-      </div>
-
-      <button
-        type="button"
-        className="form-input-group__icon-button"
-        onClick={() => setIsOpen(!isOpen)}
-        style={{ top: '16px', right: '16px' }}
-      >
-        <span className="material-symbols-outlined">
-          {icon || (isOpen ? 'expand_less' : 'expand_more')}
-        </span>
-      </button>
-
-      {/* Modern Popover Menu */}
-      {isOpen && (
-        <div className="modern-dropdown-popover">
-          {options.map((opt) => {
-            const isSelected = value === opt.value;
-            return (
-              <button
-                key={opt.value}
-                type="button"
-                className={`modern-dropdown__item ${isSelected ? 'modern-dropdown__item--selected' : ''}`}
-                onClick={() => handleSelect(opt.value)}
-              >
-                <span>{opt.label}</span>
-                {isSelected && (
-                  <span className="material-symbols-outlined modern-dropdown__check">check</span>
-                )}
-              </button>
-            );
-          })}
-        </div>
-      )}
-    </div>
-  );
-}
 
 function AddDoctor() {
   const navigate = useNavigate();
@@ -513,15 +249,16 @@ function AddDoctor() {
                 </div>
 
                 {/* Date of Birth (Modern Custom Date Picker) */}
-                <ModernDatePicker
+                <GlassDatePicker
                   label="Date of Birth"
                   required
+                  name="dob"
                   value={formData.dob}
                   onChange={handleChange}
                 />
 
                 {/* Gender (Modern Custom Dropdown) */}
-                <ModernDropdown
+                <GlassSelect
                   label="Gender"
                   required
                   name="gender"
@@ -695,7 +432,7 @@ function AddDoctor() {
                     id="password"
                     name="password"
                     type={showPassword ? 'text' : 'password'}
-                    placeholder="••••••••"
+                    placeholder="â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢"
                     required
                     value={formData.password}
                     onChange={handleChange}

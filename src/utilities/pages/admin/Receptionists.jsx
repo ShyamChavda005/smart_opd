@@ -5,6 +5,8 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import AdminLayout from '../../components/admin/AdminLayout';
+import GlassSelect from '../../components/controls/GlassSelect';
+import GlassDatePicker from '../../components/controls/GlassDatePicker';
 import '../../style/admin/Receptionists.css';
 
 function getInitials(name) {
@@ -273,27 +275,19 @@ function Receptionists() {
           <div className="doctors-search-bar__dropdown">
             <div className="doctors-search-bar__dropdown-labels">
               <span className="doctors-search-bar__dropdown-caption">Shift</span>
-              <span className="doctors-search-bar__dropdown-value">
-                {selectedShift === "All" ? "All Shifts" : selectedShift}
-              </span>
+              <GlassSelect
+                variant="bare"
+                value={selectedShift}
+                onChange={(e) => setSelectedShift(e.target.value)}
+                ariaLabel="Filter receptionists by shift"
+              >
+                {shifts.map((shift) => (
+                  <option key={shift} value={shift}>
+                    {shift === "All" ? "All Shifts" : shift}
+                  </option>
+                ))}
+              </GlassSelect>
             </div>
-
-            <select
-              className="doctors-search-bar__select"
-              value={selectedShift}
-              onChange={(e) => setSelectedShift(e.target.value)}
-              aria-label="Filter receptionists by shift"
-            >
-              {shifts.map((shift) => (
-                <option key={shift} value={shift}>
-                  {shift === "All" ? "All Shifts" : shift}
-                </option>
-              ))}
-            </select>
-
-            <span className="material-symbols-outlined doctors-search-bar__arrow">
-              expand_more
-            </span>
           </div>
         </div>
 
@@ -502,31 +496,31 @@ function Receptionists() {
 
                 <div className="receptionist-modal__form-grid">
                   <label>Name<input required value={editForm.name} onChange={(e) => setEditForm({...editForm, name: e.target.value})} /></label>
-                  <label>Date of Birth<input required type="date" value={editForm.dob} onChange={(e) => setEditForm({...editForm, dob: e.target.value})} /></label>
+                  <label>Date of Birth<GlassDatePicker required value={editForm.dob} onChange={(e) => setEditForm({...editForm, dob: e.target.value})} placeholder="Select birth date" ariaLabel="Date of Birth" /></label>
                   <label>Gender
-                    <select required value={editForm.gender} onChange={(e) => setEditForm({...editForm, gender: e.target.value})}>
+                    <GlassSelect required value={editForm.gender} onChange={(e) => setEditForm({...editForm, gender: e.target.value})} placeholder="Select gender" ariaLabel="Gender">
                       <option value="">Select gender</option>
                       <option value="Male">Male</option>
                       <option value="Female">Female</option>
                       <option value="Other">Other</option>
-                    </select>
+                    </GlassSelect>
                   </label>
                   <label>Email<input required type="email" value={editForm.email} onChange={(e) => setEditForm({...editForm, email: e.target.value})} /></label>
                   <label>Contact<input required value={editForm.contact} onChange={(e) => setEditForm({...editForm, contact: e.target.value})} /></label>
                   <label>Shift
-                    <select required value={editForm.shift} onChange={(e) => setEditForm({...editForm, shift: e.target.value})}>
+                    <GlassSelect required value={editForm.shift} onChange={(e) => setEditForm({...editForm, shift: e.target.value})} placeholder="Select shift" ariaLabel="Shift">
                       <option value="">Select shift</option>
                       <option value="Morning">Morning</option>
                       <option value="Afternoon">Afternoon</option>
                       <option value="Evening">Evening</option>
                       <option value="Night">Night</option>
-                    </select>
+                    </GlassSelect>
                   </label>
                   <label>Status
-                    <select value={editForm.status} onChange={(e) => setEditForm({...editForm, status: e.target.value})}>
+                    <GlassSelect value={editForm.status} onChange={(e) => setEditForm({...editForm, status: e.target.value})} ariaLabel="Status">
                       <option value="Active">Active</option>
                       <option value="Inactive">Inactive</option>
-                    </select>
+                    </GlassSelect>
                   </label>
                 </div>
 

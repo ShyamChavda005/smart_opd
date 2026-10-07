@@ -1,16 +1,33 @@
 /* ============================================================
    DoctorAppointments.css – Dedicated Styles for Doctor Appointments
+   Scoped to .doctor-appointments-container to avoid leaking into
+   other role panels.
    ============================================================ */
 
 .doctor-appointments-container {
   width: 100%;
 }
 
-.appointment-item-card {
-  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+/* Row hover: lift the border and add a whisper of elevation */
+.doctor-appointments-container .appointment-item-card {
+  transition:
+    background-color 0.18s ease,
+    box-shadow 0.18s ease,
+    transform 0.18s ease;
 }
 
-.appointment-item-card:hover {
-  border-color: #93c5fd;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+.doctor-appointments-container .appointment-item-card:hover {
+  background-color: #f8fafc;
+  box-shadow: 0 4px 12px -2px rgba(15, 23, 42, 0.05);
+}
+
+/* Respect users who prefer reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .doctor-appointments-container *,
+  .doctor-appointments-container *::before,
+  .doctor-appointments-container *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
 }

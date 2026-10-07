@@ -1,0 +1,647 @@
+/* ============================================================
+   glass-controls.css – Centralized glassmorphism design system
+   for ALL date pickers + dropdowns. Imported once in index.js.
+   Theme: royal blue #004ac6 · navy #0b1c30 · Inter/Hanken.
+   ============================================================ */
+
+:root {
+  --glass-primary: #004ac6;
+  --glass-primary-deep: #003da3;
+  --glass-ink: #0b1c30;
+  --glass-muted: #5b6478;
+  --glass-line: rgba(11, 28, 48, 0.1);
+  --glass-bg: rgba(255, 255, 255, 0.82);
+  --glass-shadow: 0 18px 50px rgba(11, 28, 48, 0.16), 0 2px 8px rgba(11, 28, 48, 0.08);
+  --glass-radius: 14px;
+}
+
+/* ---------- Field label ---------- */
+.glass-field-label {
+  display: block;
+  margin-bottom: 8px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--glass-muted);
+}
+
+.glass-required {
+  color: #dc2626;
+  font-style: normal;
+  margin-left: 2px;
+}
+
+/* ---------- Root layout ---------- */
+.glass-select,
+.glass-date {
+  display: inline-block;
+  vertical-align: middle;
+  min-width: 0;
+  font-family: 'Inter', sans-serif;
+}
+
+.glass-select--block,
+.glass-date {
+  display: block;
+  width: 100%;
+}
+
+.glass-select--disabled,
+.glass-date--disabled {
+  opacity: 0.62;
+}
+
+.glass-select__wrap {
+  position: relative;
+  display: block;
+  width: 100%;
+}
+
+/* ---------- Trigger (closed state) ---------- */
+.glass-trigger {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  min-height: 46px;
+  padding: 10px 12px 10px 14px;
+  border-radius: var(--glass-radius);
+  border: 1px solid rgba(11, 28, 48, 0.12);
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.92), rgba(240, 245, 255, 0.75));
+  box-shadow: 0 1px 2px rgba(11, 28, 48, 0.05), inset 0 1px 0 rgba(255, 255, 255, 0.7);
+  color: var(--glass-ink);
+  font-size: 13.5px;
+  font-weight: 600;
+  text-align: left;
+  cursor: pointer;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, background 0.2s ease, transform 0.12s ease;
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+}
+
+.glass-trigger:hover:not(:disabled) {
+  border-color: rgba(0, 74, 198, 0.45);
+  box-shadow: 0 4px 14px rgba(0, 74, 198, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.8);
+}
+
+.glass-trigger--open,
+.glass-trigger:focus-visible {
+  outline: none;
+  border-color: var(--glass-primary);
+  box-shadow: 0 0 0 4px rgba(0, 74, 198, 0.14), 0 6px 18px rgba(0, 74, 198, 0.14);
+}
+
+.glass-trigger:active:not(:disabled) {
+  transform: scale(0.995);
+}
+
+.glass-trigger:disabled {
+  cursor: not-allowed;
+  background: rgba(241, 245, 249, 0.8);
+}
+
+.glass-trigger--placeholder .glass-trigger__text {
+  color: rgba(91, 100, 120, 0.55);
+  font-weight: 500;
+}
+
+.glass-trigger__text {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.glass-trigger__text--empty {
+  color: rgba(91, 100, 120, 0.55);
+  font-weight: 500;
+}
+
+.glass-trigger__icon {
+  color: var(--glass-primary);
+  font-size: 20px;
+  flex-shrink: 0;
+}
+
+.glass-trigger__iconbox {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 10px;
+  background: rgba(0, 74, 198, 0.1);
+  color: var(--glass-primary);
+  flex-shrink: 0;
+}
+
+.glass-trigger__iconbox .glass-trigger__icon {
+  font-size: 18px;
+}
+
+.glass-trigger__chevron {
+  color: #8b93a7;
+  font-size: 22px;
+  flex-shrink: 0;
+  transition: transform 0.25s ease, color 0.2s ease;
+}
+
+.glass-trigger__chevron--open {
+  transform: rotate(180deg);
+  color: var(--glass-primary);
+}
+
+/* Bare variant (leans on surrounding chrome, e.g. search bars) */
+.glass-select--bare .glass-trigger {
+  min-height: 0;
+  padding: 4px 2px;
+  border: none;
+  background: transparent;
+  box-shadow: none;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  font-weight: 700;
+}
+
+.glass-select--bare .glass-trigger:hover:not(:disabled) {
+  box-shadow: none;
+}
+
+.glass-select--bare .glass-trigger--open,
+.glass-select--bare .glass-trigger:focus-visible {
+  box-shadow: none;
+}
+
+/* Hidden native mirror – keeps required validation working */
+.glass-mirror {
+  position: absolute !important;
+  left: 0;
+  top: 0;
+  width: 1px !important;
+  height: 1px !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+  border: none !important;
+  padding: 0 !important;
+  margin: 0 !important;
+}
+
+/* ---------- Floating panel ---------- */
+.glass-panel {
+  background: var(--glass-bg);
+  backdrop-filter: blur(18px) saturate(1.3);
+  -webkit-backdrop-filter: blur(18px) saturate(1.3);
+  border: 1px solid rgba(255, 255, 255, 0.65);
+  outline: 1px solid var(--glass-line);
+  border-radius: 18px;
+  box-shadow: var(--glass-shadow);
+  padding: 8px;
+  max-height: 264px;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  font-family: 'Inter', sans-serif;
+}
+
+.glass-panel__sheen {
+  pointer-events: none;
+  position: sticky;
+  top: 0;
+  display: block;
+  height: 0;
+}
+
+.glass-pop {
+  animation: glassPop 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+  transform-origin: top center;
+}
+
+.glass-panel--up {
+  transform-origin: bottom center;
+}
+
+@keyframes glassPop {
+  from {
+    opacity: 0;
+    transform: translateY(-6px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* ---------- Options ---------- */
+.glass-option {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  padding: 10px 12px;
+  border: none;
+  border-radius: 12px;
+  background: transparent;
+  color: var(--glass-ink);
+  font-size: 13.5px;
+  font-weight: 600;
+  text-align: left;
+  cursor: pointer;
+  transition: background 0.15s ease, color 0.15s ease, transform 0.12s ease;
+}
+
+.glass-option:hover:not(:disabled),
+.glass-option--active:not(:disabled) {
+  background: rgba(0, 74, 198, 0.08);
+}
+
+.glass-option--selected {
+  background: linear-gradient(90deg, rgba(0, 74, 198, 0.12), rgba(14, 165, 164, 0.1));
+  color: var(--glass-primary-deep);
+  box-shadow: inset 0 0 0 1px rgba(0, 74, 198, 0.22);
+}
+
+.glass-option--disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.glass-option__label {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.glass-option__check {
+  color: var(--glass-primary);
+  font-size: 18px;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+/* ---------- Calendar ---------- */
+.glass-calendar {
+  max-height: none;
+  overflow: visible;
+  padding: 16px;
+  width: 100%;
+}
+
+.glass-cal__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+
+.glass-cal__title {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  border: none;
+  background: rgba(0, 74, 198, 0.07);
+  color: var(--glass-ink);
+  font-size: 14px;
+  font-weight: 800;
+  letter-spacing: 0.01em;
+  padding: 7px 12px;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: background 0.2s ease, box-shadow 0.2s ease;
+}
+
+.glass-cal__title:hover {
+  background: rgba(0, 74, 198, 0.13);
+  box-shadow: inset 0 0 0 1px rgba(0, 74, 198, 0.2);
+}
+
+.glass-cal__year {
+  color: var(--glass-primary);
+}
+
+.glass-cal__caret {
+  font-size: 18px;
+  color: #8b93a7;
+}
+
+.glass-cal__nav {
+  display: flex;
+  gap: 6px;
+}
+
+.glass-cal__navbtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 11px;
+  border: 1px solid var(--glass-line);
+  background: rgba(255, 255, 255, 0.7);
+  color: var(--glass-ink);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.glass-cal__navbtn:hover {
+  border-color: rgba(0, 74, 198, 0.45);
+  color: var(--glass-primary);
+  box-shadow: 0 4px 12px rgba(0, 74, 198, 0.15);
+  transform: translateY(-1px);
+}
+
+.glass-cal__navbtn:active {
+  transform: translateY(0) scale(0.96);
+}
+
+.glass-cal__weekdays {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 2px;
+  margin-bottom: 6px;
+}
+
+.glass-cal__weekdays span {
+  text-align: center;
+  font-size: 10.5px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #8b93a7;
+  padding: 4px 0;
+}
+
+.glass-cal__grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 2px;
+}
+
+.glass-cal__day {
+  position: relative;
+  aspect-ratio: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  border-radius: 50%;
+  background: transparent;
+  color: var(--glass-ink);
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.16s ease, color 0.16s ease, transform 0.12s ease, box-shadow 0.16s ease;
+}
+
+.glass-cal__day:hover:not(:disabled):not(.glass-cal__day--blank) {
+  background: rgba(0, 74, 198, 0.1);
+  color: var(--glass-primary-deep);
+  transform: scale(1.08);
+}
+
+.glass-cal__day:focus-visible {
+  outline: 2px solid var(--glass-primary);
+  outline-offset: 1px;
+}
+
+.glass-cal__day--blank {
+  cursor: default;
+  pointer-events: none;
+}
+
+.glass-cal__day--today {
+  color: var(--glass-primary);
+  font-weight: 800;
+  box-shadow: inset 0 0 0 1.5px rgba(0, 74, 198, 0.55);
+}
+
+.glass-cal__day--selected,
+.glass-cal__day--selected:hover {
+  background: linear-gradient(135deg, #004ac6 0%, #1d4ed8 60%, #0ea5a4 130%);
+  color: #fff;
+  font-weight: 800;
+  box-shadow: 0 6px 16px rgba(0, 74, 198, 0.4);
+  transform: scale(1.05);
+}
+
+.glass-cal__day--disabled {
+  color: #b9c0cf;
+  cursor: not-allowed;
+  text-decoration: line-through;
+  text-decoration-color: rgba(185, 192, 207, 0.6);
+}
+
+.glass-cal__months {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 6px;
+  margin-top: 2px;
+}
+
+.glass-cal__month {
+  border: 1px solid transparent;
+  background: rgba(255, 255, 255, 0.55);
+  border-radius: 12px;
+  padding: 10px 4px;
+  font-size: 12.5px;
+  font-weight: 700;
+  color: var(--glass-ink);
+  cursor: pointer;
+  transition: all 0.18s ease;
+}
+
+.glass-cal__month:hover {
+  background: rgba(0, 74, 198, 0.09);
+  border-color: rgba(0, 74, 198, 0.25);
+}
+
+.glass-cal__month--selected {
+  background: linear-gradient(135deg, #004ac6, #1d4ed8);
+  color: #fff;
+  box-shadow: 0 6px 16px rgba(0, 74, 198, 0.35);
+}
+
+.glass-cal__years {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 6px;
+  max-height: 220px;
+  overflow-y: auto;
+  margin-top: 2px;
+}
+
+.glass-cal__yearbtn {
+  border: 1px solid transparent;
+  background: rgba(255, 255, 255, 0.55);
+  border-radius: 12px;
+  padding: 9px 4px;
+  font-size: 12.5px;
+  font-weight: 700;
+  color: var(--glass-ink);
+  cursor: pointer;
+  transition: all 0.18s ease;
+}
+
+.glass-cal__yearbtn:hover {
+  background: rgba(0, 74, 198, 0.09);
+  border-color: rgba(0, 74, 198, 0.25);
+}
+
+.glass-cal__yearbtn--selected {
+  background: linear-gradient(135deg, #004ac6, #1d4ed8);
+  color: #fff;
+  box-shadow: 0 6px 16px rgba(0, 74, 198, 0.35);
+}
+
+.glass-cal__jumplink {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 8px;
+  border: none;
+  background: none;
+  color: var(--glass-primary);
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  padding: 4px 2px;
+}
+
+.glass-cal__jumplink .material-symbols-outlined {
+  font-size: 16px;
+}
+
+.glass-cal__footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px solid var(--glass-line);
+}
+
+.glass-cal__footbtn {
+  border: none;
+  background: none;
+  color: var(--glass-muted);
+  font-size: 13px;
+  font-weight: 700;
+  padding: 8px 14px;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.glass-cal__footbtn:hover {
+  background: rgba(11, 28, 48, 0.06);
+  color: var(--glass-ink);
+}
+
+.glass-cal__footbtn--primary {
+  background: linear-gradient(135deg, #004ac6, #1d4ed8);
+  color: #fff;
+  box-shadow: 0 6px 16px rgba(0, 74, 198, 0.35);
+}
+
+.glass-cal__footbtn--primary:hover {
+  background: linear-gradient(135deg, #003da3, #1e40af);
+  color: #fff;
+  transform: translateY(-1px);
+}
+
+/* Panel scrollbars */
+.glass-panel::-webkit-scrollbar,
+.glass-cal__years::-webkit-scrollbar {
+  width: 6px;
+}
+
+.glass-panel::-webkit-scrollbar-track,
+.glass-cal__years::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.glass-panel::-webkit-scrollbar-thumb,
+.glass-cal__years::-webkit-scrollbar-thumb {
+  background: rgba(0, 74, 198, 0.25);
+  border-radius: 999px;
+}
+
+/* ---------- Safety-net: any leftover native controls ---------- */
+select:not(.glass-mirror) {
+  appearance: none;
+  -webkit-appearance: none;
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 24 24' fill='none' stroke='%23004ac6' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+  background-size: 18px;
+  padding-right: 36px !important;
+  border-radius: 12px;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+select:not(.glass-mirror):focus {
+  outline: none;
+  border-color: var(--glass-primary) !important;
+  box-shadow: 0 0 0 4px rgba(0, 74, 198, 0.14) !important;
+}
+
+select:not(.glass-mirror) option {
+  background: #fff;
+  color: var(--glass-ink);
+  font-weight: 600;
+  padding: 8px;
+}
+
+input[type='date']:not(.glass-mirror),
+input[type='datetime-local']:not(.glass-mirror),
+input[type='time']:not(.glass-mirror) {
+  position: relative;
+  border-radius: 12px;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  min-height: 46px;
+}
+
+input[type='date']:not(.glass-mirror):focus,
+input[type='datetime-local']:not(.glass-mirror):focus,
+input[type='time']:not(.glass-mirror):focus {
+  outline: none;
+  border-color: var(--glass-primary) !important;
+  box-shadow: 0 0 0 4px rgba(0, 74, 198, 0.14) !important;
+}
+
+input[type='date']:not(.glass-mirror)::-webkit-calendar-picker-indicator,
+input[type='datetime-local']:not(.glass-mirror)::-webkit-calendar-picker-indicator,
+input[type='time']:not(.glass-mirror)::-webkit-calendar-picker-indicator {
+  background-color: rgba(0, 74, 198, 0.1);
+  border-radius: 8px;
+  padding: 4px;
+  cursor: pointer;
+}
+
+@media (max-width: 480px) {
+  .glass-trigger {
+    min-height: 44px;
+    font-size: 13px;
+  }
+
+  .glass-cal__day {
+    font-size: 12px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .glass-pop {
+    animation: none;
+  }
+
+  .glass-trigger,
+  .glass-option,
+  .glass-cal__day,
+  .glass-trigger__chevron {
+    transition: none;
+  }
+}
